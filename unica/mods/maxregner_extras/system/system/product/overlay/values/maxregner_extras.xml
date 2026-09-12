@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="maxregner_aod_ring">#6366F1</color>
+    <color name="maxregner_aod_text">#E5E7EB</color>
+    <dimen name="maxregner_aod_orb_size">120.0dp</dimen>
+</resources>

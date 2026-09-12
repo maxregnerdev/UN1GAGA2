@@ -1,0 +1,17 @@
+system 0 0 755 capabilities=0x0
+system/etc 0 0 755 capabilities=0x0
+system/etc/maxregner 0 0 755 capabilities=0x0
+system/etc/maxregner/aod.json 0 0 644 capabilities=0x0
+system/product 0 0 755 capabilities=0x0
+system/product/fonts 0 0 755 capabilities=0x0
+system/product/fonts/FONT_ASSETS.txt 0 0 644 capabilities=0x0
+system/product/fonts/maxregner_sans.xml 0 0 644 capabilities=0x0
+system/product/fonts/maxregner_sans.ttf 0 0 644 capabilities=0x0
+system/product/overlay 0 0 755 capabilities=0x0
+system/product/overlay/AndroidManifest.xml 0 0 644 capabilities=0x0
+system/product/overlay/drawable 0 0 755 capabilities=0x0
+system/product/overlay/drawable/maxregner_aod_orb.xml 0 0 644 capabilities=0x0
+system/product/overlay/values 0 0 755 capabilities=0x0
+system/product/overlay/values/maxregner_extras.xml 0 0 644 capabilities=0x0
+system/product/overlay/values-night 0 0 755 capabilities=0x0
+system/product/overlay/values-night/maxregner_extras.xml 0 0 644 capabilities=0x0
