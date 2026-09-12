@@ -66,4 +66,8 @@
     <string name="maxregner_sound_summary">Utiliser l'ensemble sonore Maxregner sur tout le système.</string>
     <string name="maxregner_ui_title">Système de design UI Maxregner</string>
     <string name="maxregner_ui_summary">Appliquer la palette, les formes et les jetons de mouvement Maxregner.</string>
+
+    <string name="maxregner_orb_sensitivity_title">Sensibilité gestuelle de l'orb</string>
+    <string name="maxregner_aod_title">Affichage permanent Maxregner</string>
+    <string name="maxregner_aod_summary">Afficher le style d'horloge AOD Orb Maxregner.</string>
 </resources>
