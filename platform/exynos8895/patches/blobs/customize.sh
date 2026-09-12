@@ -1,3 +1,4 @@
+# shellcheck disable=SC2034
 SKIPUNZIP=1
 
 LOG_STEP_IN "- Replacing SoundBooster"

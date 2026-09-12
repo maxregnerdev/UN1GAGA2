@@ -1,3 +1,4 @@
+# shellcheck disable=SC2034
 SKIPUNZIP=1
 
 LOG "- Deleting old vendor blobs"
@@ -11,6 +12,7 @@ EVAL "cp -a \"$MODPATH/file_context-vendor\" \"$WORK_DIR/configs/file_context-ve
 EVAL "cp -a \"$MODPATH/fs_config-vendor\" \"$WORK_DIR/configs/fs_config-vendor\"" || exit 1
 
 LOG "- Creating vendor symlinks"
+# shellcheck disable=SC2034
 while read -r a placeholder f; do
   a=${a#\'}
   a=${a%\'}
