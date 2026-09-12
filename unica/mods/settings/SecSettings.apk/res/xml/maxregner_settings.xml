@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen android:title="@string/maxregner_settings_title" settings:hierarchicalParentFragment="io.mesalabs.unica.settings.UnicaSettingsFragment" settings:topLevelPreferenceKey="top_level_maxregner"
+    xmlns:android="http://schemas.android.com/apk/res/android" xmlns:settings="http://schemas.android.com/apk/res-auto">
+    <com.android.settingslib.widget.LayoutPreference android:layout="@layout/maxregner_settings_logo_layout" android:selectable="false" android:key="maxregner_logo" />
+    <com.samsung.android.settings.widget.SecInsetCategoryPreference />
+    <SecSwitchPreference android:title="@string/maxregner_nav_title" android:key="maxregner_nav" android:summary="@string/maxregner_nav_summary" settings:controller="io.mesalabs.maxregner.settings.MaxregnerNavPreferenceController" />
+    <com.samsung.android.settings.widget.SecInsetCategoryPreference />
+    <SecSwitchPreference android:title="@string/maxregner_sound_title" android:key="maxregner_sound" android:summary="@string/maxregner_sound_summary" settings:controller="io.mesalabs.maxregner.settings.MaxregnerSoundPreferenceController" />
+    <com.samsung.android.settings.widget.SecInsetCategoryPreference />
+    <SecSwitchPreference android:title="@string/maxregner_ui_title" android:key="maxregner_ui" android:summary="@string/maxregner_ui_summary" settings:controller="io.mesalabs.maxregner.settings.MaxregnerUIPreferenceController" />
+    <com.samsung.android.settings.widget.SecInsetCategoryPreference />
+    <SecDropDownPreference android:title="@string/maxregner_orb_sensitivity_title" android:key="maxregner_orb_sensitivity" android:summary="%s" settings:controller="io.mesalabs.maxregner.settings.MaxregnerOrbSensitivityPreferenceController" />
+    <com.samsung.android.settings.widget.SecInsetCategoryPreference />
+    <SecSwitchPreference android:title="@string/maxregner_aod_title" android:key="maxregner_aod" android:summary="@string/maxregner_aod_summary" settings:controller="io.mesalabs.maxregner.settings.MaxregnerAODPreferenceController" />
+</PreferenceScreen>

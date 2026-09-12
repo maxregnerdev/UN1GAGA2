@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner Orb navigation runtime overlay.
+     Applied at boot to advertise the Maxregner navigation surface to the
+     framework and to suppress the legacy 3-button / gesture bar defaults. -->
+<overlay>
+    <!-- Declare the Maxregner navigation mode as available system-wide -->
+    <item target="ro.maxregner.nav.enabled">true</item>
+    <item target="ro.maxregner.nav.mode">orb</item>
+
+    <!-- Hide the legacy navigation bar; the Orb is rendered as an overlay -->
+    <item target="config_showNavigationBar">false</item>
+
+    <!-- Prefer gesture input as the input backend that the Orb sits on top of -->
+    <item target="config_supportsGesturalNavigation">true</item>
+</overlay>

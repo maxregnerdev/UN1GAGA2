@@ -1,0 +1,34 @@
+{
+    "id": "maxregner_sound",
+    "name": "Maxregner Sound Scheme",
+    "version": 1,
+    "description": "System-wide replacement sound scheme for the Maxregner UI.",
+    "assets": {
+        "ui": {
+            "Maxregner_PowerOn.ogg":    { "use": "power_on",    "replace": "PowerOn.ogg" },
+            "Maxregner_PowerOff.ogg":   { "use": "power_off",   "replace": "PowerOff.ogg" },
+            "Maxregner_Tick.ogg":       { "use": "selection_tick" },
+            "Maxregner_Swoosh.ogg":     { "use": "transition" },
+            "Maxregner_OrbMorph.ogg":    { "use": "orb_morph" }
+        },
+        "notifications": {
+            "Maxregner_Notice.ogg":     { "use": "default_notification" }
+        },
+        "ringtones": {
+            "Maxregner_Resonance.ogg":  { "use": "default_ringtone" }
+        },
+        "alarms": {
+            "Maxregner_Alarm.ogg":      { "use": "default_alarm" }
+        }
+    },
+    "props": {
+        "ro.config.ringtone": "Maxregner_Resonance.ogg",
+        "ro.config.notification_sound": "Maxregner_Notice.ogg",
+        "ro.config.alarm_alert": "Maxregner_Alarm.ogg",
+        "ro.config.media_sound": "Maxregner_Resonance.ogg",
+        "ro.config.ringtone_2": "Maxregner_Resonance.ogg",
+        "ro.config.notification_sound_2": "Maxregner_Notice.ogg",
+        "ro.config.power_on": "Maxregner_PowerOn.ogg",
+        "ro.config.power_off": "Maxregner_PowerOff.ogg"
+    }
+}

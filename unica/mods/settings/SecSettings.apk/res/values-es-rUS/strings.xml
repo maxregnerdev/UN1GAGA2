@@ -56,4 +56,18 @@
     <string name="unica_updates_title">Actualizaciones de UN1CA</string>
     <string name="unica_vulkan_summary">¡Esto es inestable y puede causar errores!</string>
     <string name="unica_vulkan_title">Activar renderizado de Vulkan</string>
+
+    <string name="keywords_maxregner_settings">Maxregner navigation sound UI</string>
+    <string name="menu_key_maxregner_top_settings">top_level_maxregner</string>
+    <string name="maxregner_settings_title">Maxregner</string>
+    <string name="maxregner_nav_title">Navegación Orb Maxregner</string>
+    <string name="maxregner_nav_summary">Reemplaza botones y gestos con el orb flotante adaptativo.</string>
+    <string name="maxregner_sound_title">Esquema de sonido Maxregner</string>
+    <string name="maxregner_sound_summary">Usa el conjunto de sonidos Maxregner en todo el sistema.</string>
+    <string name="maxregner_ui_title">Sistema de diseño UI Maxregner</string>
+    <string name="maxregner_ui_summary">Aplica la paleta, formas y tokens de movimiento Maxregner.</string>
+
+    <string name="maxregner_orb_sensitivity_title">Sensibilidad de gestos del orb</string>
+    <string name="maxregner_aod_title">Always-on display de Maxregner</string>
+    <string name="maxregner_aod_summary">Mostrar el estilo de reloj AOD Orb de Maxregner.</string>
 </resources>

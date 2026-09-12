@@ -11,6 +11,7 @@ VERSION_PATCH=0
 # Version name
 ROM_VERSION="${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
 # Codename
+# shellcheck disable=SC2034 # sourced by scripts/internal/gen_config_file.sh and unica/patches/__props/customize.sh
 ROM_CODENAME="Poseidon"
 # Append "+" to version name if commits have been added since the last tag
 LATEST_TAG="$(git describe --tags --abbrev=0 2> /dev/null)"
