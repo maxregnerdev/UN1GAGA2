@@ -66,4 +66,8 @@
     <string name="maxregner_sound_summary">Maxregner-Soundset systemweit verwenden.</string>
     <string name="maxregner_ui_title">Maxregner UI-Designsystem</string>
     <string name="maxregner_ui_summary">Maxregner-Palette, Formen und Motion-Tokens anwenden.</string>
+
+    <string name="maxregner_orb_sensitivity_title">Orb-Gestenempfindlichkeit</string>
+    <string name="maxregner_aod_title">Maxregner Always-On-Display</string>
+    <string name="maxregner_aod_summary">Maxregner-Orb-AOD-Uhrstil anzeigen.</string>
 </resources>

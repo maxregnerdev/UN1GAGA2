@@ -83,10 +83,11 @@ Any form of contribution, suggestions, bug report or feature request for the pro
 - Games FPS unlock toggle
 
 ### Maxregner system:
-- Maxregner Orb navigation — replaces 3-button nav and gestures with a single adaptive floating orb
+- Maxregner Orb navigation — replaces 3-button nav and gestures with a single adaptive floating orb (with adjustable gesture sensitivity)
 - Maxregner sound scheme — system-wide replacement sound set (ringtones, notifications, alarms, boot/power, UI effects)
 - Maxregner UI design system — palette, shape scale, motion tokens and overlays recoded to the Maxregner design language
-- Maxregner settings panel in Settings → UN1CA → Maxregner to toggle each subsystem
+- Maxregner extras — Maxregner Sans font, Maxregner AOD/lockscreen Orb theme, launcher gestures routed through the orb
+- Maxregner settings panel in Settings → UN1CA → Maxregner to toggle and tune each subsystem
 
 \* Requires a valid keybox
 
