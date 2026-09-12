@@ -56,4 +56,14 @@
     <string name="unica_updates_title">Mises à jour UN1CA</string>
     <string name="unica_vulkan_summary">Ceci est instable et pourrait causer des problèmes !</string>
     <string name="unica_vulkan_title">Activer le moteur de rendu Vulkan</string>
+
+    <string name="keywords_maxregner_settings">Maxregner navigation sound UI</string>
+    <string name="menu_key_maxregner_top_settings">top_level_maxregner</string>
+    <string name="maxregner_settings_title">Maxregner</string>
+    <string name="maxregner_nav_title">Navigation Orb Maxregner</string>
+    <string name="maxregner_nav_summary">Remplacer les boutons et gestes par l'orb flottant adaptatif.</string>
+    <string name="maxregner_sound_title">Schéma sonore Maxregner</string>
+    <string name="maxregner_sound_summary">Utiliser l'ensemble sonore Maxregner sur tout le système.</string>
+    <string name="maxregner_ui_title">Système de design UI Maxregner</string>
+    <string name="maxregner_ui_summary">Appliquer la palette, les formes et les jetons de mouvement Maxregner.</string>
 </resources>
