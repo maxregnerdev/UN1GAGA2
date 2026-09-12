@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner UI overlay — color palette (light) -->
+<resources>
+    <!-- Brand / accent -->
+    <color name="sec_color_dialog_blue_button">#3B82F6</color>
+    <color name="sec_color_dialog_red_button">#EF4444</color>
+
+    <!-- Maxregner Orb navigation accent -->
+    <color name="maxregner_orb_color">#6366F1</color>
+    <color name="maxregner_orb_glow">#A5B4FC</color>
+
+    <!-- Surfaces -->
+    <color name="maxregner_surface">#FFFFFF</color>
+    <color name="maxregner_on_surface">#0B1220</color>
+    <color name="maxregner_accent">#8B5CF6</color>
+    <color name="maxregner_brand">#3B82F6</color>
+</resources>

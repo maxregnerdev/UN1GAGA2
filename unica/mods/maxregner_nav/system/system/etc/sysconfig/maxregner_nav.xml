@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Mark the Maxregner Orb as a privileged system navigation component so it
+     is allowed to inject navigation actions (Home/Back/Recents) and render on
+     top of other applications. -->
+<config>
+    <!-- The Maxregner Orb navigation service is trusted for system nav actions -->
+    <allow-association target="com.maxregner.nav" allowed="android" />
+
+    <!-- The orb overlay window may draw over apps to provide navigation -->
+    <app-link package="com.maxregner.nav">
+        <intent action="com.maxregner.nav.action.ORB" />
+    </app-link>
+
+    <!-- Permit the orb to remain alive across system restarts -->
+    <keep-awake-services>
+        <service name="com.maxregner.nav/.OrbService" />
+    </keep-awake-services>
+</config>

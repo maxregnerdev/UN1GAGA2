@@ -1,0 +1,23 @@
+# Maxregner Sound Scheme — Audio Assets
+
+The Maxregner sound scheme replaces the default One UI sound set system-wide.
+The sound selection itself is driven entirely by `customize.sh` (which sets
+`ro.config.*` props), so it is functional as soon as the mod is applied.
+
+The actual `.ogg` audio samples are **binary assets** and are not checked in
+here. Drop them into the matching folders under `system/system/media/audio/`:
+
+| File | Folder | Replaces |
+|------|--------|----------|
+| `Maxregner_PowerOn.ogg`  | `ui/` | boot / power-on sound |
+| `Maxregner_PowerOff.ogg` | `ui/` | shutdown sound |
+| `Maxregner_Tick.ogg`     | `ui/` | selection tick |
+| `Maxregner_Swoosh.ogg`   | `ui/` | transition effect |
+| `Maxregner_OrbMorph.ogg` | `ui/` | Maxregner Orb morph (used by `maxregner_nav`) |
+| `Maxregner_Notice.ogg`   | `notifications/` | default notification |
+| `Maxregner_Resonance.ogg`| `ringtones/` | default ringtone |
+| `Maxregner_Alarm.ogg`    | `alarms/` | default alarm |
+
+Recommended format: Ogg/Vorbis, 44.1 kHz, mono, normalized to ~ -14 LUFS so it
+matches One UI's reference loudness. Each file referenced by a prop above must
+exist or the framework falls back to the stock asset for that slot.

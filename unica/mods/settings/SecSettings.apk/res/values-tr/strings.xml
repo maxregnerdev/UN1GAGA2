@@ -56,4 +56,14 @@
     <string name="unica_updates_title">UN1CA Güncellemeleri</string>
     <string name="unica_vulkan_summary">Stabil değildir ve sorunlara sebep olabilir!</string>
     <string name="unica_vulkan_title">Vulkan işleyicisini etkinleştir</string>
+
+    <string name="keywords_maxregner_settings">Maxregner navigation sound UI</string>
+    <string name="menu_key_maxregner_top_settings">top_level_maxregner</string>
+    <string name="maxregner_settings_title">Maxregner</string>
+    <string name="maxregner_nav_title">Maxregner Orb navigasyonu</string>
+    <string name="maxregner_nav_summary">Düğmeleri ve hareketleri uyarlı yüzen orb ile değiştir.</string>
+    <string name="maxregner_sound_title">Maxregner ses şeması</string>
+    <string name="maxregner_sound_summary">Maxregner ses setini sistem genelinde kullan.</string>
+    <string name="maxregner_ui_title">Maxregner UI tasarım sistemi</string>
+    <string name="maxregner_ui_summary">Maxregner paletini, şekilleri ve hareket tokenlerini uygula.</string>
 </resources>

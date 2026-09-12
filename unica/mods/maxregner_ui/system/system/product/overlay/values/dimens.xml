@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner UI overlay — shape & motion dimensions -->
+<resources>
+    <!-- Maxregner shape scale (dp) -->
+    <dimen name="maxregner_corner_xs">8.0dp</dimen>
+    <dimen name="maxregner_corner_s">12.0dp</dimen>
+    <dimen name="maxregner_corner_m">16.0dp</dimen>
+    <dimen name="maxregner_corner_l">20.0dp</dimen>
+    <dimen name="maxregner_corner_xl">28.0dp</dimen>
+
+    <!-- Maxregner Orb sizing -->
+    <dimen name="maxregner_orb_diameter">56.0dp</dimen>
+    <dimen name="maxregner_orb_margin">24.0dp</dimen>
+
+    <!-- Motion durations (ms) -->
+    <integer name="maxregner_motion_short">150</integer>
+    <integer name="maxregner_motion_medium">280</integer>
+    <integer name="maxregner_motion_long">450</integer>
+</resources>
