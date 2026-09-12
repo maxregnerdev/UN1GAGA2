@@ -34,4 +34,14 @@
     <string name="unica_spoof_settings_title">Configurações de spoof</string>
     <string name="unica_ui_settings_title">Configurações da interface</string>
     <string name="unica_updates_title">Atualizações da UN1CA</string>
+
+    <string name="keywords_maxregner_settings">Maxregner navigation sound UI</string>
+    <string name="menu_key_maxregner_top_settings">top_level_maxregner</string>
+    <string name="maxregner_settings_title">Maxregner</string>
+    <string name="maxregner_nav_title">Navegação Orb Maxregner</string>
+    <string name="maxregner_nav_summary">Substitua botões e gestos pelo orb flutuante adaptativo.</string>
+    <string name="maxregner_sound_title">Esquema de som Maxregner</string>
+    <string name="maxregner_sound_summary">Use o conjunto de sons Maxregner em todo o sistema.</string>
+    <string name="maxregner_ui_title">Sistema de design UI Maxregner</string>
+    <string name="maxregner_ui_summary">Aplique a paleta, formas e tokens de movimento Maxregner.</string>
 </resources>

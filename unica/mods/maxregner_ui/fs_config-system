@@ -1,0 +1,14 @@
+system 0 0 755 capabilities=0x0
+system/etc 0 0 755 capabilities=0x0
+system/etc/maxregner 0 0 755 capabilities=0x0
+system/etc/maxregner/tokens.json 0 0 644 capabilities=0x0
+system/product 0 0 755 capabilities=0x0
+system/product/overlay 0 0 755 capabilities=0x0
+system/product/overlay/AndroidManifest.xml 0 0 644 capabilities=0x0
+system/product/overlay/drawable 0 0 755 capabilities=0x0
+system/product/overlay/drawable/maxregner_orb.xml 0 0 644 capabilities=0x0
+system/product/overlay/values 0 0 755 capabilities=0x0
+system/product/overlay/values/colors.xml 0 0 644 capabilities=0x0
+system/product/overlay/values/dimens.xml 0 0 644 capabilities=0x0
+system/product/overlay/values-night 0 0 755 capabilities=0x0
+system/product/overlay/values-night/colors.xml 0 0 644 capabilities=0x0
