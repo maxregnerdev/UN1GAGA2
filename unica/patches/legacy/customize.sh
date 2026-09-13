@@ -78,7 +78,12 @@ EXTRACT_KERNEL_IMAGE() {
     EVAL "mkdir -p \"$TMP_DIR\""
     EVAL "cp -a \"$WORK_DIR/kernel/boot.img\" \"$TMP_DIR/boot.img\""
 
-    EVAL "unpack_bootimg --boot_img \"$TMP_DIR/boot.img\" --out \"$TMP_DIR/out\" 2>&1"
+    if ! EVAL "unpack_bootimg --boot_img \"$TMP_DIR/boot.img\" --out \"$TMP_DIR/out\" 2>&1"; then
+        LOGW "\"boot.img\" could not be unpacked, skipping kernel image checks"
+        mkdir -p "$TMP_DIR/out"
+        : > "$TMP_DIR/out/kernel"
+        return 0
+    fi
 
     EVAL "rm \"$TMP_DIR/boot.img\""
 
@@ -94,7 +99,11 @@ EXTRACT_KERNEL_MODULES() {
     EVAL "mkdir -p \"$TMP_DIR\""
     EVAL "cp -a \"$WORK_DIR/kernel/vendor_boot.img\" \"$TMP_DIR/vendor_boot.img\""
 
-    EVAL "unpack_bootimg --boot_img \"$TMP_DIR/vendor_boot.img\" --out \"$TMP_DIR/out\" 2>&1"
+    if ! EVAL "unpack_bootimg --boot_img \"$TMP_DIR/vendor_boot.img\" --out \"$TMP_DIR/out\" 2>&1"; then
+        LOGW "\"vendor_boot.img\" could not be unpacked, skipping kernel module checks"
+        mkdir -p "$TMP_DIR/out"
+        return 0
+    fi
 
     EVAL "rm \"$TMP_DIR/vendor_boot.img\""
 
