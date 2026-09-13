@@ -386,16 +386,20 @@ if [ "$TARGET_PLATFORM_SDK_VERSION" -lt "35" ]; then
                 'const v3, 0x7f420888' \
                 'const v3, 0x7f000789'
         fi
-        SMALI_PATCH "system" "system/priv-app/SamsungCamera/SamsungCamera.apk" \
-            "smali_classes3/com/samsung/android/sum/core/filter/EncoderFilter.smali" "replace" \
-            'configCodec(Lcom/samsung/android/sum/core/message/Message;)V' \
-            'const v4, 0x7f420888' \
-            'const v4, 0x7f000789'
-        SMALI_PATCH "system" "system/priv-app/vexfwk_service/vexfwk_service.apk" \
-            "smali/com/samsung/android/sum/core/filter/EncoderFilter.smali" "replace" \
-            'configCodec(Lcom/samsung/android/sum/core/message/Message;)V' \
-            'const v3, 0x7f420888' \
-            'const v3, 0x7f000789'
+        if [ -f "$WORK_DIR/system/system/priv-app/SamsungCamera/SamsungCamera.apk" ]; then
+            SMALI_PATCH "system" "system/priv-app/SamsungCamera/SamsungCamera.apk" \
+                "smali_classes3/com/samsung/android/sum/core/filter/EncoderFilter.smali" "replace" \
+                'configCodec(Lcom/samsung/android/sum/core/message/Message;)V' \
+                'const v4, 0x7f420888' \
+                'const v4, 0x7f000789'
+        fi
+        if [ -f "$WORK_DIR/system/system/priv-app/vexfwk_service/vexfwk_service.apk" ]; then
+            SMALI_PATCH "system" "system/priv-app/vexfwk_service/vexfwk_service.apk" \
+                "smali/com/samsung/android/sum/core/filter/EncoderFilter.smali" "replace" \
+                'configCodec(Lcom/samsung/android/sum/core/message/Message;)V' \
+                'const v3, 0x7f420888' \
+                'const v3, 0x7f000789'
+        fi
     fi
 fi
 
