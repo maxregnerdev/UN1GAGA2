@@ -1,8 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="clock_color">#E2E8F0</color>
-    <color name="clock_big_color">#3B82F6</color>
-    <color name="aod_color">#8B5CF6</color>
-    <color name="notification_icon_color">#3B82F6</color>
+    <color name="clock_big_color">#60A5FA</color>
+    <color name="clock_small_color">#94A3B8</color>
+    <color name="aod_color">#A78BFA</color>
+    <color name="aod_bg_color">#0B1220</color>
+    <color name="aod_text_color">#E2E8F0</color>
+    <color name="aod_icon_color">#A78BFA</color>
+    <color name="aod_notification_color">#60A5FA</color>
+
+    <color name="keyguard_lock_pattern_view_regular_color">#60A5FA</color>
+    <color name="keyguard_lock_pattern_view_error_color">#F87171</color>
+    <color name="keyguard_lock_pattern_view_success_color">#34D399</color>
+    <color name="lock_pattern_view_regular_color">#60A5FA</color>
+    <color name="lock_pattern_view_error_color">#F87171</color>
+    <color name="lock_pattern_view_success_color">#34D399</color>
+    <color name="lockscreen_wallpaper_tint">#330B1220</color>
+    <color name="lockscreen_accent">#818CF8</color>
+
+    <color name="notification_icon_color">#60A5FA</color>
     <color name="notification_text_default_color">#E2E8F0</color>
+    <color name="notification_primary_color">#60A5FA</color>
+    <color name="notification_secondary_color">#94A3B8</color>
+    <color name="notification_background_color">#1E293B</color>
+    <color name="notification_glow_color">#A78BFA</color>
+
+    <color name="maxregner_aod_orb_start">#A78BFA</color>
+    <color name="maxregner_aod_orb_end">#60A5FA</color>
+    <color name="maxregner_aod_orb_ring">#C7D2FE</color>
 </resources>

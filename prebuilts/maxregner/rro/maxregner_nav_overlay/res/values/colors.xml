@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="maxregner_nav_bg">#0B1220</color>
+    <color name="maxregner_nav_pill">#3B82F6</color>
+    <color name="maxregner_nav_pill_inactive">#475569</color>
+    <color name="maxregner_nav_ripple">#3360A5FA</color>
+    <color name="maxregner_nav_gesture_hint">#1F3B82F6</color>
+    <color name="navigation_bar_bg_color">#0B1220</color>
+    <color name="navigation_bar_gesture_color">#3B82F6</color>
+    <color name="navigation_key_button_color">#E2E8F0</color>
+    <color name="navigation_key_button_color_pressed">#3B82F6</color>
+    <color name="navigation_key_button_color_disabled">#475569</color>
+</resources>

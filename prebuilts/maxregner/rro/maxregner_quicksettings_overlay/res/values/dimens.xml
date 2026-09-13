@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="qs_tile_height">64.0dp</dimen>
+    <dimen name="qs_tile_width">64.0dp</dimen>
+    <dimen name="qs_tile_corner_radius">20.0dp</dimen>
+    <dimen name="qs_tile_padding">8.0dp</dimen>
+    <dimen name="qs_tile_icon_size">24.0dp</dimen>
+    <dimen name="qs_tile_text_size">12.0sp</dimen>
+    <dimen name="qs_panel_corner_radius">24.0dp</dimen>
+    <dimen name="qs_panel_padding">12.0dp</dimen>
+    <dimen name="qs_panel_top_padding">16.0dp</dimen>
+    <dimen name="qs_header_height">48.0dp</dimen>
+    <dimen name="qs_header_icon_size">20.0dp</dimen>
+    <dimen name="qs_slider_height">48.0dp</dimen>
+    <dimen name="qs_slider_corner_radius">24.0dp</dimen>
+    <dimen name="qs_slider_thumb_radius">12.0dp</dimen>
+    <dimen name="qs_footer_height">48.0dp</dimen>
+    <dimen name="qs_detail_corner_radius">20.0dp</dimen>
+    <dimen name="maxregner_qs_orb_diameter">56.0dp</dimen>
+    <dimen name="maxregner_qs_blur_strength">0.85</dimen>
+</resources>

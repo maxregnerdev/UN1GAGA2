@@ -1,0 +1,20 @@
+{
+    "id": "maxregner_themes",
+    "version": 2,
+    "name": "Maxregner Theme Profiles",
+    "auto_switch": false,
+    "schedule": {
+        "start_hour": 20,
+        "end_hour": 6
+    },
+    "profiles": {
+        "default": { "accent": "#3B82F6", "secondary": "#8B5CF6", "background": "#0B1220" },
+        "aurora": { "accent": "#8B5CF6", "secondary": "#A78BFA", "background": "#0B1220" },
+        "sunset": { "accent": "#EC4899", "secondary": "#F472B6", "background": "#0B1220" },
+        "ocean": { "accent": "#06B6D4", "secondary": "#22D3EE", "background": "#0B1220" },
+        "forest": { "accent": "#10B981", "secondary": "#34D399", "background": "#0B1220" },
+        "amber": { "accent": "#F59E0B", "secondary": "#FBBF24", "background": "#0B1220" },
+        "crimson": { "accent": "#EF4444", "secondary": "#F87171", "background": "#0B1220" },
+        "graphite": { "accent": "#64748B", "secondary": "#94A3B8", "background": "#0B1220" }
+    }
+}

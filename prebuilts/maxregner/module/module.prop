@@ -1,6 +1,6 @@
 id=maxregner
 name=Maxregner System
-version=1.0.0
-versionCode=1
+version=2.0.0
+versionCode=20
 author=maxregner
-description=Maxregner navigation, sound scheme, UI design system, extras and performance/security profiles. Ships compiled RRO overlay APKs that Magisk mounts systemlessly over the read-only partitions, plus runtime props (resetprop) and real sound/font assets.
+description=Maxregner navigation (Maxregner Orb), sound scheme, full UI design system recode, extras, performance and security profiles. Ships compiled RRO overlay APKs that Magisk mounts systemlessly over the read-only erofs partitions, plus runtime props (resetprop) and real sound/font/animation assets. Safe by design: overlays use only safe resource overrides (no layout/class swaps), boot scripts never abort on failure.

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.maxregner.ui.overlay"
-    android:versionCode="1"
-    android:versionName="1.0">
+    android:versionCode="20"
+    android:versionName="2.0">
+
     <overlay android:targetPackage="android" android:priority="100" android:category="theme" />
     <application android:label="Maxregner UI" android:hasCode="false" android:allowBackup="false" />
 </manifest>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="config_maxregner_icon_pack_enabled">true</bool>
+    <bool name="config_maxregner_icon_themed">true</bool>
+    <bool name="config_maxregner_icon_rounded">true</bool>
+    <bool name="config_maxregner_icon_orb">true</bool>
+    <bool name="config_maxregner_icon_monochrome">true</bool>
+</resources>

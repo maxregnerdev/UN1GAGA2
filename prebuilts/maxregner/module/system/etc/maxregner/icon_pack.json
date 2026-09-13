@@ -1,0 +1,23 @@
+{
+    "id": "maxregner_icons",
+    "version": 2,
+    "name": "Maxregner Icon Pack",
+    "pack": "maxregner",
+    "shape": "rounded_square",
+    "corner_radius_dp": 16,
+    "background": "#1E293B",
+    "foreground": "#3B82F6",
+    "accent": "#8B5CF6",
+    "features": {
+        "themed": true,
+        "rounded": true,
+        "orb": false,
+        "monochrome": true
+    },
+    "sizes": {
+        "default_dp": 48,
+        "launcher_dp": 56,
+        "notification_dp": 24,
+        "big_dp": 48
+    }
+}

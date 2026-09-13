@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="config_close_dialog_when_touch_outside">true</bool>
+    <bool name="config_allow_smooth_scrolling">true</bool>
+    <bool name="config_enable_fading_edge">true</bool>
+    <bool name="config_bluetooth_default_profiles">true</bool>
+    <bool name="config_show_navigation">true</bool>
+    <bool name="config_use_rounded_background">true</bool>
+    <bool name="config_use_dialog_background_corners">true</bool>
+    <bool name="config_window_rounded_corners">true</bool>
+    <bool name="config_material_motion">true</bool>
+    <bool name="config_maxregner_motion_fluid">true</bool>
+    <bool name="config_maxregner_orb_enabled">true</bool>
+    <bool name="config_maxregner_blur_enabled">true</bool>
+    <bool name="config_status_bar_rounded">true</bool>
+</resources>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="notification_background_color">#1E293B</color>
+    <color name="notification_color">#3B82F6</color>
+    <color name="notification_text_color">#E2E8F0</color>
+    <color name="notification_secondary_text_color">#94A3B8</color>
+    <color name="notification_icon_color">#3B82F6</color>
+    <color name="notification_primary_color">#3B82F6</color>
+    <color name="notification_accent_color">#3B82F6</color>
+    <color name="notification_glow_color">#60A5FA</color>
+    <color name="notification_ripple_color">#3360A5FA</color>
+    <color name="notification_panel_bg">#0F172A</color>
+    <color name="notification_scrim_color">#CC0B1220</color>
+    <color name="notification_divider_color">#334155</color>
+    <color name="notification_action_button_color">#3B82F6</color>
+    <color name="notification_action_text_color">#E2E8F0</color>
+    <color name="notification_progress_color">#3B82F6</color>
+    <color name="notification_progress_track">#334155</color>
+    <color name="notification_header_color">#1E293B</color>
+    <color name="notification_header_text_color">#94A3B8</color>
+    <color name="notification_big_text_color">#E2E8F0</color>
+    <color name="notification_big_icon_color">#3B82F6</color>
+    <color name="notification_snooze_color">#8B5CF6</color>
+    <color name="notification_clear_all_color">#3B82F6</color>
+    <color name="notification_settings_color">#94A3B8</color>
+    <color name="maxregner_notif_orb_start">#3B82F6</color>
+    <color name="maxregner_notif_orb_end">#8B5CF6</color>
+</resources>

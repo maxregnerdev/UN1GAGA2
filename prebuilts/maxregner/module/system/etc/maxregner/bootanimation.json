@@ -1,0 +1,19 @@
+{
+    "id": "maxregner_bootanim",
+    "version": 2,
+    "name": "Maxregner Bootanimation",
+    "style": "orb",
+    "background": "#0B1220",
+    "orb": {
+        "start_color": "#3B82F6",
+        "end_color": "#8B5CF6",
+        "ring_color": "#A5B4FC",
+        "diameter_dp": 120,
+        "spin_duration_ms": 2400
+    },
+    "audio": {
+        "sound": true,
+        "sound_file": "Maxregner_PowerOn.ogg"
+    },
+    "loop_count": 1
+}
