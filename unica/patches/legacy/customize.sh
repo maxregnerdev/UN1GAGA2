@@ -78,7 +78,10 @@ EXTRACT_KERNEL_IMAGE() {
     EVAL "mkdir -p \"$TMP_DIR\""
     EVAL "cp -a \"$WORK_DIR/kernel/boot.img\" \"$TMP_DIR/boot.img\""
 
-    if ! EVAL "unpack_bootimg --boot_img \"$TMP_DIR/boot.img\" --out \"$TMP_DIR/out\" 2>&1"; then
+    if python3 "$SRC_DIR/unica/patches/fs/dtbh_bootimg.py" check \
+            --boot_img "$TMP_DIR/boot.img" 2>/dev/null; then
+        EVAL "python3 \"$SRC_DIR/unica/patches/fs/dtbh_bootimg.py\" unpack --boot_img \"$TMP_DIR/boot.img\" --out \"$TMP_DIR/out\""
+    elif ! EVAL "unpack_bootimg --boot_img \"$TMP_DIR/boot.img\" --out \"$TMP_DIR/out\" 2>&1"; then
         LOGW "\"boot.img\" could not be unpacked, skipping kernel image checks"
         mkdir -p "$TMP_DIR/out"
         : > "$TMP_DIR/out/kernel"

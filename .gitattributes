@@ -60,3 +60,7 @@ unica/patches/aios/** -binary text eol=lf
 unica/mods/aios_core/** -binary text eol=lf
 unica/mods/aios_assistant/** -binary text eol=lf
 unica/configs/aios.sh -binary text eol=lf
+
+# Python helpers (e.g. Samsung DTBH legacy boot image unpacker/repacker).
+# Keep as text with LF line endings.
+unica/patches/fs/dtbh_bootimg.py -binary text eol=lf
