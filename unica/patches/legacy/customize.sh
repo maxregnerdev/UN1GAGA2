@@ -123,7 +123,8 @@ BACKPORT_SF_PROPS
 # https://android.googlesource.com/platform/frameworks/opt/telephony/+/42e37234cee15c9f3fcfac0532110abfc8843b99%5E%21/#F0
 if [ "$TARGET_PLATFORM_SDK_VERSION" -lt "36" ]; then
     ADD_TO_WORK_DIR "a73xqxx" "vendor" "bin/secril_config_svc" 0 2000 755 "u:object_r:vendor_secril_config_svc_exec:s0"
-    DECODE_APK "vendor" "overlay/framework-res__auto_generated_rro_vendor.apk"
+    DECODE_APK "vendor" "overlay/framework-res__auto_generated_rro_vendor.apk" || \
+        LOGW "\"overlay/framework-res__auto_generated_rro_vendor.apk\" could not be decoded, using bundled overlay"
     if [ ! -f "$APKTOOL_DIR/vendor/overlay/framework-res__auto_generated_rro_vendor.apk/res/values/integers.xml" ]; then
         EVAL "cp -a \"$MODPATH/overlay/framework-res__auto_generated_rro_vendor.apk\" \"$APKTOOL_DIR/vendor/overlay\""
     elif ! grep -q 'config_num_physical_slots' "$APKTOOL_DIR/vendor/overlay/framework-res__auto_generated_rro_vendor.apk/res/values/integers.xml"; then
