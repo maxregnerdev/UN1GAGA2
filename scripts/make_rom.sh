@@ -3,7 +3,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 # [
-source "$SRC_DIR/scripts/utils/build_utils.sh" || exit 1
+# Defer sourcing build_utils.sh (which triggers the full android-tools
+# toolchain build) until we know we are not on the lightweight Maxregner zip
+# path, which only needs the logging helpers.
+source "$SRC_DIR/scripts/utils/log_utils.sh" || exit 1
 
 FORCE=false
 BUILD_ROM=false
@@ -112,6 +115,10 @@ if $BUILD_MAXREGNER_ZIP; then
     LOG_STEP_OUT
     exit 0
 fi
+
+# Full ROM path: source the heavy build utilities (toolchain gate) now that we
+# know the lightweight Maxregner path is not taken.
+source "$SRC_DIR/scripts/utils/build_utils.sh" || exit 1
 
 if $FORCE; then
     BUILD_ROM=true

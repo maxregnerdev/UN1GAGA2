@@ -14,7 +14,18 @@
 # Defaults: target=dreamlte, output=$OUT_DIR/Maxregner_<version>_<codename>.zip
 
 # [
-source "$SRC_DIR/scripts/utils/build_utils.sh" || exit 1
+# This is a lightweight standalone builder: it only needs the logging helpers
+# and a few core utilities, so it sources log_utils directly instead of
+# build_utils.sh (which would trigger the full android-tools toolchain build).
+source "$SRC_DIR/scripts/utils/log_utils.sh" || exit 1
+
+for _d in find cp mkdir rm chmod zip; do
+    if ! type "$_d" &> /dev/null; then
+        LOGE "Required dependency not found: $_d"
+        exit 1
+    fi
+done
+unset _d
 
 OUTPUT_FILE=""
 TARGET_CODENAME_ARG=""
