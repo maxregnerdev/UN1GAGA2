@@ -1,0 +1,4 @@
+id=aios_assistant
+name=AI OS Assistant
+author=maxregner
+description=AI OS v0.1 assistant subsystem. Configures the on-device assistant wake model, voice response theming and the maxregner sound integration so the assistant uses the Maxregner sound scheme for responses and confirms.

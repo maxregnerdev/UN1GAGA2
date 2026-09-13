@@ -1,0 +1,5 @@
+/system u:object_r:system_file:s0
+/system/system u:object_r:system_file:s0
+/system/system/etc u:object_r:system_file:s0
+/system/system/etc/aios u:object_r:system_file:s0
+/system/system/etc/aios/aios_core\.json u:object_r:system_file:s0

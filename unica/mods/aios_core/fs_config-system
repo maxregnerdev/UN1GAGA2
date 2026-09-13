@@ -1,0 +1,5 @@
+system 0 0 755 capabilities=0x0
+system/system 0 0 755 capabilities=0x0
+system/system/etc 0 0 755 capabilities=0x0
+system/system/etc/aios 0 0 755 capabilities=0x0
+system/system/etc/aios/aios_core.json 0 0 644 capabilities=0x0

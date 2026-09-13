@@ -1,0 +1,22 @@
+{
+    "name": "Aether",
+    "version": "0.1",
+    "wake_word": "hey aether",
+    "voice": "on-device",
+    "continuous_listening": true,
+    "theming": {
+        "accent": "#3B82F6",
+        "surface": "maxregner_ui",
+        "orb": true
+    },
+    "sounds": {
+        "confirm": "Maxregner_Tick",
+        "wake": "Maxregner_OrbMorph",
+        "error": "Maxregner_Swoosh"
+    },
+    "behavior": {
+        "context_aware": true,
+        "proactive": true
+    },
+    "target_device": "dreamlte"
+}

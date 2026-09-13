@@ -1,0 +1,4 @@
+id=aios_core
+name=AI OS Core
+author=maxregner
+description=AI OS v0.1 core subsystem. Registers the on-device AI engine, smart feature flags and the maxregner core integration props so the framework and apps can query AI OS capabilities via ro.aios.* system properties.

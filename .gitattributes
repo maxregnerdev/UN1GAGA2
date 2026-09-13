@@ -52,3 +52,11 @@ prebuilts/maxregner/module/**/*.prop -binary text eol=lf
 prebuilts/maxregner/module/**/*.xml -binary text eol=lf
 prebuilts/maxregner/module/**/*.json -binary text eol=lf
 prebuilts/maxregner/zip/** -binary text eol=lf
+
+# AI OS v0.1 (Aether) incremental ROM distribution.
+# Covers the ROM patches module, core + assistant mods and the version
+# override config so diffs are readable as text.
+unica/patches/aios/** -binary text eol=lf
+unica/mods/aios_core/** -binary text eol=lf
+unica/mods/aios_assistant/** -binary text eol=lf
+unica/configs/aios.sh -binary text eol=lf

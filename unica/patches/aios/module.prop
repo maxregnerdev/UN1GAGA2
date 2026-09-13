@@ -1,0 +1,4 @@
+id=aios
+name=AI OS build properties
+author=maxregner
+description=Adds properties to identify this AI OS v0.1 build, rebrands the OS and registers the AI core subsystems. Runs as an incremental ROM patch during the build.

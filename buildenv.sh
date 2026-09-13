@@ -117,6 +117,8 @@ done < <(find "$SRC_DIR/target" -mindepth 1 -maxdepth 1 -type d -printf "%f\n" |
 while [[ "$1" == "-"* ]]; do
     if [[ "$1" == "--debug" ]]; then
         export DEBUG=true
+    elif [[ "$1" == "--aios" ]]; then
+        export AIOS_BUILD=true
     elif [[ "$1" == "--help" ]] || [[ "$1" == "-h" ]]; then
         _PRINT_USAGE
         return 0
