@@ -2,9 +2,11 @@
 # Copyright (c) 2026 maxregner
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
-# Runtime setprop overrides the read-only build.prop values for the whole boot
-# session without writing the erofs partition. persist.* props persist across
-# reboots through /data. Generated/verified by scripts/build_maxregner_zip.sh.
+# SAFE props only: only ro.maxregner.* and persist.sys.maxregner.* custom
+# namespace props are set at boot. These are read by the Maxregner subsystems
+# and do NOT override any system/framework props, so they cannot crash boot.
+# System props (ro.config.*, ro.sf.*, etc.) are NOT set here to avoid any risk
+# of destabilizing the boot process.
 
 # === Maxregner Navigation (maxregner_nav) ===
 ro.maxregner.nav.enabled=true
@@ -37,21 +39,13 @@ persist.sys.maxregner.nav.orb_spring_stiffness=0.9
 persist.sys.maxregner.nav.orb_pulse_interval_ms=1200
 
 # === Maxregner Sound Scheme (maxregner_sound) ===
-ro.config.ringtone=Maxregner_Resonance.ogg
-ro.config.notification_sound=Maxregner_Notice.ogg
-ro.config.alarm_alert=Maxregner_Alarm.ogg
-ro.config.media_sound=Maxregner_Resonance.ogg
-ro.config.ringtone_2=Maxregner_Resonance.ogg
-ro.config.notification_sound_2=Maxregner_Notice.ogg
-ro.config.power_on=Maxregner_PowerOn.ogg
-ro.config.power_off=Maxregner_PowerOff.ogg
 ro.maxregner.sound.scheme=maxregner
 ro.maxregner.sound.enabled=true
 persist.sys.maxregner.sound.ui_effects=true
 persist.sys.maxregner.sound.orb_morph=true
 persist.sys.maxregner.sound.tick=Maxregner_Tick.ogg
 persist.sys.maxregner.sound.swoosh=Maxregner_Swoosh.ogg
-persist.sys.maxregner.sound.orb_morph=Maxregner_OrbMorph.ogg
+persist.sys.maxregner.sound.orb_morph_file=Maxregner_OrbMorph.ogg
 persist.sys.maxregner.sound.volume_boost=0
 persist.sys.maxregner.sound.bass_boost=2
 persist.sys.maxregner.sound.treble_boost=1

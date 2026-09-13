@@ -12,8 +12,7 @@
 #   - post-fs-data.sh sets every Maxregner prop via resetprop (overrides
 #     read-only build.prop without writing the partition)
 #   - service.sh enables the RRO overlays via `cmd overlay`
-#   - ships real .ogg sound + .ttf font binary assets under system/media and
-#     system/product/fonts
+#   - ships real .ogg sound assets under system/media
 #
 # Usage: build_maxregner_zip.sh [--output <file>] [--target <codename>]
 # Defaults: target=dreamlte, output=$OUT_DIR/Maxregner_<version>_<codename>.zip
@@ -91,8 +90,8 @@ cp -a "$MODULE_SRC/service.sh" "$STAGE_DIR/service.sh"
 cp -a "$MODULE_SRC/maxregner.props" "$STAGE_DIR/maxregner.props"
 chmod 0755 "$STAGE_DIR/post-fs-data.sh" "$STAGE_DIR/service.sh"
 
-# 2. Stage the module system/ tree (config JSONs, init rc, sound/font assets,
-#    overlay config.xml). These are mounted systemlessly by Magisk.
+# 2. Stage the module system/ tree (config JSONs, sound assets).
+#    These are mounted systemlessly by Magisk.
 mkdir -p "$STAGE_DIR/system"
 # shellcheck disable=SC2012
 ( cd "$MODULE_SRC/system" && find . -type f ) | while IFS= read -r f; do
