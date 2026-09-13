@@ -1,0 +1,38 @@
+{
+    "id": "maxregner_orb",
+    "name": "Maxregner Orb",
+    "version": 1,
+    "description": "Adaptive floating navigation orb replacing buttons and gesture pills.",
+    "anchor": {
+        "default_edge": "bottom",
+        "default_margin_dp": 24,
+        "snap_edges": ["bottom", "left", "right"],
+        "movable": true
+    },
+    "appearance": {
+        "base_diameter_dp": 56,
+        "scale_min": 0.78,
+        "scale_max": 1.30,
+        "adaptive_scale": true,
+        "morph_on_context": true
+    },
+    "gestures": {
+        "tap":            { "action": "home" },
+        "hold":          { "action": "recents", "dwell_ms": 180 },
+        "flick_left":    { "action": "back" },
+        "flick_right":   { "action": "back", "mirror": true },
+        "flick_up":      { "action": "notifications" },
+        "flick_down":    { "action": "quick_settings" },
+        "drag":          { "action": "reposition" },
+        "double_tap":    { "action": "one_handed_mode" }
+    },
+    "feedback": {
+        "haptic_on_morph": true,
+        "haptic_on_action": true,
+        "sound_scheme_ref": "maxregner_sound"
+    },
+    "fallback": {
+        "legacy_bar_hidden": true,
+        "gesture_nav_enabled": true
+    }
+}

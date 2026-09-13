@@ -1,0 +1,74 @@
+# Maxregner props (applied at boot via setprop)
+# Copyright (c) 2026 maxregner
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Runtime setprop overrides the read-only build.prop values for the whole boot
+# session without writing the erofs partition. persist.* props persist across
+# reboots through /data. Generated/verified by scripts/build_maxregner_zip.sh.
+
+# --- Maxregner Navigation (maxregner_nav) ---
+ro.maxregner.nav.enabled=true
+ro.maxregner.nav.mode=orb
+ro.maxregner.nav.orb_scale=1.0
+ro.maxregner.nav.orb_adaptive=true
+persist.sys.maxregner.nav.gesture_sensitivity=0.8
+persist.sys.maxregner.nav.haptic_feedback=true
+persist.sys.maxregner.nav.dwell_threshold_ms=180
+persist.sys.maxregner.nav.hide_legacy_bar=true
+ro.maxregner.nav.fallback_gestures=true
+
+# --- Maxregner Sound Scheme (maxregner_sound) ---
+ro.config.ringtone=Maxregner_Resonance.ogg
+ro.config.notification_sound=Maxregner_Notice.ogg
+ro.config.alarm_alert=Maxregner_Alarm.ogg
+ro.config.media_sound=Maxregner_Resonance.ogg
+ro.config.ringtone_2=Maxregner_Resonance.ogg
+ro.config.notification_sound_2=Maxregner_Notice.ogg
+ro.config.power_on=Maxregner_PowerOn.ogg
+ro.config.power_off=Maxregner_PowerOff.ogg
+ro.maxregner.sound.scheme=maxregner
+ro.maxregner.sound.enabled=true
+persist.sys.maxregner.sound.ui_effects=true
+persist.sys.maxregner.sound.orb_morph=true
+persist.sys.maxregner.sound.tick=Maxregner_Tick.ogg
+persist.sys.maxregner.sound.swoosh=Maxregner_Swoosh.ogg
+persist.sys.maxregner.sound.orb_morph=Maxregner_OrbMorph.ogg
+
+# --- Maxregner UI Design System (maxregner_ui) ---
+ro.maxregner.ui.enabled=true
+ro.maxregner.ui.variant=default
+persist.sys.maxregner.ui.accent=#3B82F6
+persist.sys.maxregner.ui.corner_radius=20
+persist.sys.maxregner.ui.motion=fluid
+persist.sys.maxregner.ui.blur_strength=0.9
+
+# --- Maxregner Extras (maxregner_extras) ---
+ro.maxregner.font.family=maxregner_sans
+persist.sys.maxregner.font.enabled=true
+ro.maxregner.aod.enabled=true
+persist.sys.maxregner.aod.theme=orb
+persist.sys.maxregner.lockscreen.accent=#6366F1
+persist.sys.maxregner.launcher.swipe_up=orb_recents
+persist.sys.maxregner.launcher.swipe_down=notifications
+persist.sys.maxregner.launcher.long_press_home=assistant
+persist.sys.maxregner.always_show_time_aod=true
+persist.sys.maxregner.smooth_scroll=true
+persist.sys.maxregner.rounded_corners=28
+
+# --- Maxregner Performance (maxregner_perf) ---
+ro.maxregner.perf.enabled=true
+ro.maxregner.perf.governor=schedutil
+persist.sys.maxregner.perf.high_fps=true
+persist.sys.maxregner.perf.zram_size=2147483648
+persist.sys.maxregner.perf.ksm=true
+persist.sys.maxregner.perf.dash_charging=true
+ro.maxregner.perf.thermal_profile=balanced
+persist.sys.maxregner.perf.background_limit=32
+persist.sys.maxregner.perf.cache_reclaim=aggressive
+
+# --- Maxregner Security (maxregner_security) ---
+ro.maxregner.sec.enabled=true
+persist.sys.maxregner.sec.hardened_init=true
+persist.sys.maxregner.sec.verity_logging=true
+persist.sys.maxregner.sec.lockdown=true
+ro.maxregner.sec.sandbox=strict

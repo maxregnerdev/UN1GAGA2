@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="navigation_bar_height">48.0dp</dimen>
+    <dimen name="navigation_bar_height_landscape">48.0dp</dimen>
+    <dimen name="navigation_bar_frame_height">48.0dp</dimen>
+    <dimen name="navigation_bar_gesture_height">32.0dp</dimen>
+    <dimen name="navigation_bar_gesture_lateral_inset">0.0dp</dimen>
+    <dimen name="navigation_bar_gesture_width">8.0dp</dimen>
+    <dimen name="maxregner_orb_diameter">56.0dp</dimen>
+    <dimen name="maxregner_orb_margin">24.0dp</dimen>
+    <bool name="config_showNavigationBar">true</bool>
+    <bool name="config_navigation_bar_enable">true</bool>
+</resources>

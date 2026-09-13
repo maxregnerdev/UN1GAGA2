@@ -44,5 +44,11 @@ target/t2s/patches/variants/vendor/** binary
 
 # Maxregner flashable zip is text (shell scripts/props/map), not a binary
 # blob. Placed after the prebuilts binary rule and uses -binary so the diff is
-# shown as text.
+# shown as text. Also covers the RRO overlay source trees (XML/manifest) and
+# the Magisk module scaffolding (sh/props/xml/json) so diffs are readable.
+prebuilts/maxregner/rro/** -binary text eol=lf
+prebuilts/maxregner/module/**/*.sh -binary text eol=lf
+prebuilts/maxregner/module/**/*.prop -binary text eol=lf
+prebuilts/maxregner/module/**/*.xml -binary text eol=lf
+prebuilts/maxregner/module/**/*.json -binary text eol=lf
 prebuilts/maxregner/zip/** -binary text eol=lf

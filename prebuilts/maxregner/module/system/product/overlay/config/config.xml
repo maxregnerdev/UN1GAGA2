@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <overlay package="com.maxregner.ui.overlay" enabled="true" />
+    <overlay package="com.maxregner.nav.overlay" enabled="true" />
+    <overlay package="com.maxregner.extras.overlay" enabled="true" />
+</config>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="clock_color">#E2E8F0</color>
+    <color name="clock_big_color">#3B82F6</color>
+    <color name="aod_color">#8B5CF6</color>
+    <color name="keyguard_lock_pattern_view_regular_color">#3B82F6</color>
+    <color name="keyguard_lock_pattern_view_error_color">#EF4444</color>
+    <color name="lock_pattern_view_regular_color">#3B82F6</color>
+    <color name="notification_icon_color">#3B82F6</color>
+    <color name="notification_text_default_color">#E2E8F0</color>
+</resources>
