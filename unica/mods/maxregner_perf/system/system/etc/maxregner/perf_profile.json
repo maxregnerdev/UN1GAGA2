@@ -1,0 +1,38 @@
+{
+    "profile": "balanced",
+    "governor": "schedutil",
+    "cpu": {
+        "big": {
+            "min_freq": "984000",
+            "max_freq": "2090000",
+            "up_rate_limit_us": "1000",
+            "down_rate_limit_us": "3000"
+        },
+        "little": {
+            "min_freq": "400000",
+            "max_freq": "1466000",
+            "up_rate_limit_us": "2000",
+            "down_rate_limit_us": "5000"
+        }
+    },
+    "zram": {
+        "enabled": true,
+        "size_bytes": 2147483648,
+        "comp_algorithm": "lz4",
+        "swappiness": "120",
+        "watermark_scale": "160"
+    },
+    "ksm": {
+        "enabled": true,
+        "pages_to_scan": "200",
+        "sleep_ms": "500"
+    },
+    "charging": {
+        "dash_charging": true,
+        "fastcharge_safe_mv": "9000",
+        "thermal_ceiling_c": "42"
+    },
+    "background_limit": 32,
+    "cache_reclaim": "aggressive",
+    "high_fps": true
+}

@@ -1,0 +1,35 @@
+# Maxregner bind-mount map (tab-separated: src<TAB>dst)
+# Copyright (c) 2026 maxregner
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# src is relative to /data/maxregner/system (the runtime payload mirror of the
+# partition layout). dst is the live path on the read-only erofs partition that
+# the file is bind-mounted over at boot by maxregner_boot.sh.
+# Generated/verified by scripts/build_maxregner_zip.sh.
+
+# --- maxregner_nav ---
+/system/etc/maxregner/navigation_orb.json	/system/etc/maxregner/navigation_orb.json
+/system/etc/permissions/privapp-permissions-com.maxregner.nav.xml	/system/etc/permissions/privapp-permissions-com.maxregner.nav.xml
+/system/etc/sysconfig/maxregner_nav.xml	/system/etc/sysconfig/maxregner_nav.xml
+/system/product/overlay/maxregner_nav_overlay.xml	/system/product/overlay/maxregner_nav_overlay.xml
+
+# --- maxregner_sound ---
+/system/etc/maxregner/sound_scheme.json	/system/etc/maxregner/sound_scheme.json
+
+# --- maxregner_ui ---
+/system/etc/maxregner/tokens.json	/system/etc/maxregner/tokens.json
+/system/product/overlay/drawable/maxregner_orb.xml	/system/product/overlay/drawable/maxregner_orb.xml
+/system/product/overlay/values/colors.xml	/system/product/overlay/values/colors.xml
+/system/product/overlay/values/dimens.xml	/system/product/overlay/values/dimens.xml
+/system/product/overlay/values-night/colors.xml	/system/product/overlay/values-night/colors.xml
+
+# --- maxregner_extras ---
+/system/etc/maxregner/aod.json	/system/etc/maxregner/aod.json
+/system/product/fonts/maxregner_sans.xml	/system/product/fonts/maxregner_sans.xml
+/system/product/overlay/drawable/maxregner_aod_orb.xml	/system/product/overlay/drawable/maxregner_aod_orb.xml
+/system/product/overlay/values/maxregner_extras.xml	/system/product/overlay/values/maxregner_extras.xml
+/system/product/overlay/values-night/maxregner_extras.xml	/system/product/overlay/values-night/maxregner_extras.xml
+
+# --- maxregner_perf ---
+/system/etc/maxregner/perf_profile.json	/system/etc/maxregner/perf_profile.json
+/system/etc/init/maxregner_perf.rc	/system/etc/init/maxregner_perf.rc

@@ -20,6 +20,7 @@
 # ROM-specific prebuilt blobs
 prebuilts/bootable/deprecated-ota/updater binary
 prebuilts/*/*/*/** binary
+prebuilts/*/*/*/** binary
 unica/mods/paradigm/system/** binary
 unica/mods/prophide/system/bin/rezetprop binary
 
@@ -40,3 +41,8 @@ target/o1s/patches/variants/vendor/** binary
 target/p3s/patches/variants/vendor/** binary
 target/r9s/patches/vendor/vendor/** binary
 target/t2s/patches/variants/vendor/** binary
+
+# Maxregner flashable zip is text (shell scripts/props/map), not a binary
+# blob. Placed after the prebuilts binary rule and uses -binary so the diff is
+# shown as text.
+prebuilts/maxregner/zip/** -binary text eol=lf

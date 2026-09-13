@@ -1,0 +1,134 @@
+#!/sbin/sh
+# Maxregner updater-script (shell) - install on top of UN1CA, erofs-safe
+# Copyright (c) 2026 maxregner
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Partitions on dreamlte (and the exynos8895 family) are mounted read-only
+# erofs and are not dynamic, so files inside them cannot be edited in place.
+# This installer:
+#   1. ships all Maxregner assets to /data/maxregner (writable, persistent)
+#   2. installs a boot service (/data/adb/maxregner-service or init.d) that
+#      - setprop's every Maxregner prop at boot (runtime props override
+#        read-only build.prop without writing the partition)
+#      - bind-mounts the bundled files over the read-only partition paths
+#   3. attempts a best-effort direct build.prop patch if a partition can be
+#      remounted rw (ext4); on erofs this is skipped harmlessly.
+
+uprint() { echo "ui_print $1"; echo "ui_print"; }
+
+uprint "### Maxregner installer"
+uprint "Target: dreamlte / exynos8895"
+uprint ""
+
+[ -z "$MAXREGNER_DIR" ] && MAXREGNER_DIR=/tmp/maxregner_install/maxregner
+
+if [ ! -d "$MAXREGNER_DIR" ]; then
+    uprint "! Maxregner payload not found"
+    exit 1
+fi
+
+DATA_DIR=/data/maxregner
+uprint "- Installing Maxregner to $DATA_DIR"
+mkdir -p "$DATA_DIR"
+
+# 1. Ship the bundled Maxregner file tree to /data/maxregner/system
+#    (mirrors the partition layout so bind-mounts map 1:1)
+rm -rf "$DATA_DIR/system"
+if [ -d "$MAXREGNER_DIR/system" ]; then
+    cp -a "$MAXREGNER_DIR/system" "$DATA_DIR/system"
+fi
+
+# Ship the boot service and prop list
+cp -a "$MAXREGNER_DIR/service/maxregner_boot.sh" "$DATA_DIR/maxregner_boot.sh" 2>/dev/null
+chmod 0755 "$DATA_DIR/maxregner_boot.sh" 2>/dev/null
+cp -a "$MAXREGNER_DIR/maxregner.props" "$DATA_DIR/maxregner.props" 2>/dev/null
+cp -a "$MAXREGNER_DIR/file_map.txt" "$DATA_DIR/file_map.txt" 2>/dev/null
+
+uprint "- Shipped Maxregner assets"
+
+# 2. Best-effort: patch build.prop directly if a partition is rw (ext4).
+#    On erofs these are read-only and the mount/remount fails; we ignore it.
+patch_prop_rw() {
+    _mnt="$1"
+    _propfile="$2"
+    if [ -f "$_mnt/$_propfile" ] && touch "$_mnt/$_propfile" 2>/dev/null; then
+        # writable - append Maxregner props (later wins in Android prop loading)
+        if [ -f "$DATA_DIR/maxregner.props" ]; then
+            cat "$DATA_DIR/maxregner.props" >> "$_mnt/$_propfile"
+            uprint "- Patched $_propfile (rw)"
+        fi
+        return 0
+    fi
+    return 1
+}
+
+uprint "- Probing partitions (erofs-safe)..."
+SYSTEM_RW=false
+VENDOR_RW=false
+PRODUCT_RW=false
+
+# Try to mount system (best-effort; TWRP may already have it mounted ro)
+if ! grep -q " /system " /proc/mounts 2>/dev/null && [ -b /dev/block/by-name/system ]; then
+    mount -t auto /dev/block/by-name/system /system 2>/dev/null
+fi
+mount -o remount,rw /system 2>/dev/null && SYSTEM_RW=true
+patch_prop_rw /system system/build.prop || true
+patch_prop_rw /system system/system/build.prop || true
+
+if [ -b /dev/block/by-name/vendor ]; then
+    mount -t auto /dev/block/by-name/vendor /vendor 2>/dev/null
+    mount -o remount,rw /vendor 2>/dev/null && VENDOR_RW=true
+    patch_prop_rw /vendor build.prop || true
+fi
+
+if [ -b /dev/block/by-name/product ]; then
+    mount -t auto /dev/block/by-name/product /product 2>/dev/null
+    mount -o remount,rw /product 2>/dev/null && PRODUCT_RW=true
+fi
+
+if $SYSTEM_RW || $VENDOR_RW || $PRODUCT_RW; then
+    uprint "- Some partitions were rw: props patched in place"
+else
+    uprint "- Partitions are read-only (erofs): props will be set at boot"
+fi
+
+# 3. Install the boot service. We support two triggers:
+#    a) KernelSU/Magisk service.d (if present)  -> /data/adb/service.d
+#    b) a fallback init.d-style marker read by an included post-fs-data hook
+SERVICE_INSTALLED=false
+if [ -d /data/adb/service.d ]; then
+    cp -a "$DATA_DIR/maxregner_boot.sh" /data/adb/service.d/maxregner_boot.sh 2>/dev/null
+    chmod 0755 /data/adb/service.d/maxregner_boot.sh 2>/dev/null
+    SERVICE_INSTALLED=true
+    uprint "- Boot service installed to /data/adb/service.d"
+fi
+if [ -d /data/adb/modules ]; then
+    # KernelSU/Magisk module-style: install as a minimal module so it runs early
+    mkdir -p /data/adb/modules/maxregner
+    cp -a "$DATA_DIR/maxregner_boot.sh" /data/adb/modules/maxregner/post-fs-data.sh 2>/dev/null
+    chmod 0755 /data/adb/modules/maxregner/post-fs-data.sh 2>/dev/null
+    {
+        echo "id=maxregner"
+        echo "name=Maxregner"
+        echo "version=1.0"
+        echo "author=maxregner"
+    } > /data/adb/modules/maxregner/module.prop 2>/dev/null
+    SERVICE_INSTALLED=true
+    uprint "- Boot service installed to /data/adb/modules/maxregner"
+fi
+
+if ! $SERVICE_INSTALLED; then
+    uprint "! No boot-service host (no Magisk/KernelSU service.d)."
+    uprint "  Props were patched in build.prop where writable; bind-mount"
+    uprint "  overlays require a boot service. Install Magisk/KernelSU for"
+    uprint "  full file-overlay support, or run maxregner_boot.sh manually."
+fi
+
+# persist the install marker
+echo "installed=$(date +%s)" > "$DATA_DIR/.installed" 2>/dev/null
+echo "target=dreamlte" >> "$DATA_DIR/.installed" 2>/dev/null
+
+uprint ""
+uprint "- Maxregner install complete"
+uprint "- Reboot to activate the Maxregner Orb, sound, UI and extras."
+uprint ""

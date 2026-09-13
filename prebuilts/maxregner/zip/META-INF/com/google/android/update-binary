@@ -1,0 +1,48 @@
+#!/sbin/sh
+# Maxregner flashable zip - TWRP/update-binary shell shim
+# Copyright (c) 2026 maxregner
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Standard TWRP flashable-zip update-binary: runs the shell updater-script.
+# TWRP invokes this as:  update-binary <outfd> <zip> <target>
+# We repurpose the edify updater-script as a plain shell script so we get
+# full shell access (mount, setprop, bind-mount, etc.) needed to install
+# Maxregner on top of read-only erofs partitions.
+
+OUTFD=$1
+ZIP=$3
+
+# redirect stdout/stderr to the recovery UI fd so output shows in TWRP
+exec 1>>"$OUTFD"
+exec 2>>"$OUTFD"
+
+echo "ui_print" >&1
+echo "ui_print ### Maxregner installer" >&1
+echo "ui_print" >&1
+
+# extract the zip payload to a tmp dir
+TMP=/tmp/maxregner_install
+rm -rf "$TMP"
+mkdir -p "$TMP"
+
+# busybox/unzip may be at /sbin/busybox or in PATH
+UNZIP=$(command -v unzip 2>/dev/null)
+[ -z "$UNZIP" ] && UNZIP=/sbin/busybox
+
+cd /tmp/maxregner_install 2>/dev/null || cd /tmp || exit 1
+"$UNZIP" -o "$ZIP" -d "$TMP" >/dev/null 2>&1
+
+# run the updater-script as a shell script, passing install context
+MAXREGNER_DIR="$TMP/maxregner"
+export MAXREGNER_DIR
+export ZIP
+
+if [ -f "$TMP/META-INF/com/google/android/updater-script" ]; then
+    . "$TMP/META-INF/com/google/android/updater-script"
+else
+    echo "ui_print ! updater-script not found" >&1
+    echo "ui_print" >&1
+    exit 1
+fi
+
+exit $?

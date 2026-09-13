@@ -1,0 +1,6 @@
+system 0 0 755 capabilities=0x0
+system/etc 0 0 755 capabilities=0x0
+system/etc/init 0 0 755 capabilities=0x0
+system/etc/init/maxregner_perf.rc 0 0 644 capabilities=0x0
+system/etc/maxregner 0 0 755 capabilities=0x0
+system/etc/maxregner/perf_profile.json 0 0 644 capabilities=0x0

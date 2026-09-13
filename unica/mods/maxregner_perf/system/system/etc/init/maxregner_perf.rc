@@ -1,0 +1,21 @@
+# Maxregner performance init rc fragment
+# Copyright (c) 2026 maxregner
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Applied at boot by the Maxregner boot service on hosts that execute init rc
+# fragments under /system/etc/init. Tunables are written best-effort: if a
+# sysfs node is absent on a given device the write is ignored.
+
+on post-fs-data
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor schedutil
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor schedutil
+    write /proc/sys/vm/swappiness 120
+    write /proc/sys/vm/watermark_scale_factor 160
+    write /sys/block/zram0/disksize 2147483648
+    write /sys/block/zram0/comp_algorithm lz4
+    write /sys/kernel/mm/ksm/run 1
+    write /sys/kernel/mm/ksm/pages_to_scan 200
+    write /sys/kernel/mm/ksm/sleep_millisecs 500
+
+on boot
+    write /proc/sys/vm/extra_free_kbytes 262144
