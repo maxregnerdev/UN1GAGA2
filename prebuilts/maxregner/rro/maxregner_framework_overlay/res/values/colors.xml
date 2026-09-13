@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Maxregner core accent + theme colors (framework-res scoped) -->
+    <color name="maxregner_accent">#3B82F6</color>
+    <color name="maxregner_accent_secondary">#8B5CF6</color>
+    <color name="maxregner_accent_tertiary">#EC4899</color>
+    <color name="maxregner_accent_disabled">#6082E0</color>
+
+    <color name="maxregner_outline">#475569</color>
+    <color name="maxregner_outline_disabled">#94A3B8</color>
+
+    <!-- Switch -->
+    <color name="maxregner_switch_track_on">#3B82F6</color>
+    <color name="maxregner_switch_track_off">#334155</color>
+
+    <!-- Progress / scrubber -->
+    <color name="maxregner_progress_bg">#1E293B</color>
+    <color name="maxregner_progress_secondary">#6082E0</color>
+
+    <!-- Button -->
+    <color name="maxregner_button_bg">#1E293B</color>
+    <color name="maxregner_button_bg_disabled">#0F172A</color>
+
+    <!-- Spinner -->
+    <color name="maxregner_spinner_bg">#1E293B</color>
+    <color name="maxregner_spinner_bg_pressed">#334155</color>
+    <color name="maxregner_spinner_bg_disabled">#0F172A</color>
+
+    <!-- EditText -->
+    <color name="maxregner_edittext_bg">#0F172A</color>
+    <color name="maxregner_edittext_bg_disabled">#1E293B</color>
+
+    <!-- Theme color tokens (self-sufficient; also overridden by ui overlay) -->
+    <color name="holo_blue_light">#3B82F6</color>
+    <color name="holo_blue_dark">#2563EB</color>
+    <color name="background_device_default_light">#FFFFFF</color>
+    <color name="background_device_default_dark">#0B1220</color>
+    <color name="text_color_primary">#0B1220</color>
+    <color name="text_color_secondary">#475569</color>
+</resources>

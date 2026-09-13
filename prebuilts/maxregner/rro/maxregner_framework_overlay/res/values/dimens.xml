@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Maxregner widget dimensions (framework-res scoped) -->
+    <dimen name="maxregner_widget_radius">16dp</dimen>
+    <dimen name="maxregner_widget_icon_size">24dp</dimen>
+
+    <!-- Switch -->
+    <dimen name="maxregner_switch_track_radius">14dp</dimen>
+    <dimen name="maxregner_switch_thumb_size">20dp</dimen>
+
+    <!-- Scrubber / progress -->
+    <dimen name="maxregner_scrubber_control_size">18dp</dimen>
+    <dimen name="maxregner_progress_radius">12dp</dimen>
+</resources>

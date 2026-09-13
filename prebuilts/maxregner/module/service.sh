@@ -22,7 +22,7 @@ OVERLAY_DIR="$MODDIR/system/product/overlay"
 
 set +e
 
-OVERLAYS="com.maxregner.ui.overlay com.maxregner.nav.overlay com.maxregner.extras.overlay com.maxregner.statusbar.overlay com.maxregner.launcher.overlay com.maxregner.icons.overlay com.maxregner.quicksettings.overlay com.maxregner.notifications.overlay"
+OVERLAYS="com.maxregner.framework.overlay com.maxregner.ui.overlay com.maxregner.nav.overlay com.maxregner.extras.overlay com.maxregner.statusbar.overlay com.maxregner.launcher.overlay com.maxregner.icons.overlay com.maxregner.quicksettings.overlay com.maxregner.notifications.overlay"
 
 # Wait for the overlay service, but never forever. 20s is enough on cold boot.
 i=0

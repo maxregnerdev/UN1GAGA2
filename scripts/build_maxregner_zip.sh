@@ -150,6 +150,7 @@ RRO_OVERLAYS=(
     "maxregner_icons_overlay"
     "maxregner_quicksettings_overlay"
     "maxregner_notifications_overlay"
+    "maxregner_framework_overlay"
 )
 for ov in "${RRO_OVERLAYS[@]}"; do
     LOG "- Compiling RRO $ov"

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Maxregner-styled core themes. Every app using Theme.DeviceDefault
+         or Theme.Material inherits these accent/background/text overrides.
+         Uses literal hex colors (private framework color resources cannot be
+         referenced from an RRO) and only public theme attributes. -->
+    <style name="Theme.DeviceDefault" parent="@android:style/Theme.DeviceDefault">
+        <item name="android:colorAccent">#3B82F6</item>
+        <item name="android:colorPrimary">#2563EB</item>
+        <item name="android:colorPrimaryDark">#2563EB</item>
+        <item name="android:textColorPrimary">#E2E8F0</item>
+        <item name="android:textColorSecondary">#94A3B8</item>
+        <item name="android:windowBackground">#0B1220</item>
+    </style>
+
+    <style name="Theme.DeviceDefault.Light" parent="@android:style/Theme.DeviceDefault.Light">
+        <item name="android:colorAccent">#3B82F6</item>
+        <item name="android:colorPrimary">#2563EB</item>
+        <item name="android:colorPrimaryDark">#2563EB</item>
+        <item name="android:textColorPrimary">#0B1220</item>
+        <item name="android:textColorSecondary">#475569</item>
+        <item name="android:windowBackground">#FFFFFF</item>
+    </style>
+
+    <style name="Theme.Material" parent="@android:style/Theme.Material">
+        <item name="android:colorAccent">#3B82F6</item>
+        <item name="android:colorPrimary">#2563EB</item>
+        <item name="android:colorPrimaryDark">#2563EB</item>
+        <item name="android:textColorPrimary">#E2E8F0</item>
+        <item name="android:textColorSecondary">#94A3B8</item>
+    </style>
+
+    <style name="Theme.Material.Light" parent="@android:style/Theme.Material.Light">
+        <item name="android:colorAccent">#3B82F6</item>
+        <item name="android:colorPrimary">#2563EB</item>
+        <item name="android:colorPrimaryDark">#2563EB</item>
+        <item name="android:textColorPrimary">#0B1220</item>
+        <item name="android:textColorSecondary">#475569</item>
+    </style>
+</resources>

@@ -1,6 +1,6 @@
 id=maxregner
 name=Maxregner System
-version=2.0.1
-versionCode=21
+version=2.1
+versionCode=22
 author=maxregner
 description=Maxregner navigation (Maxregner Orb), sound scheme, full UI design system recode, extras, performance and security profiles. Ships compiled RRO overlay APKs that Magisk mounts systemlessly over the read-only erofs partitions, plus runtime props (resetprop) and real sound assets. Safe by design: only custom-namespace props at boot (no system prop overrides), no layout/class swaps in overlays, no init rc sysfs writes, no font/config.xml replacements that could shadow Samsung system files and bootloop.

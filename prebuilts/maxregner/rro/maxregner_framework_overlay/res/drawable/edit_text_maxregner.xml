@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true" android:state_enabled="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/maxregner_edittext_bg" />
+            <stroke android:width="2dp" android:color="@color/maxregner_accent" />
+            <corners android:radius="@dimen/maxregner_widget_radius" />
+        </shape>
+    </item>
+    <item android:state_enabled="false">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/maxregner_edittext_bg_disabled" />
+            <corners android:radius="@dimen/maxregner_widget_radius" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/maxregner_edittext_bg" />
+            <stroke android:width="2dp" android:color="@color/maxregner_outline" />
+            <corners android:radius="@dimen/maxregner_widget_radius" />
+        </shape>
+    </item>
+</selector>
