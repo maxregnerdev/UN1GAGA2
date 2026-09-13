@@ -39,8 +39,8 @@ EVAL "cp -a \"$WORK_DIR/kernel/$BOOT_FILE\" \"$TMP_DIR/$BOOT_FILE\""
 if MKBOOTIMG_ARGS="$(unpack_bootimg --boot_img "$TMP_DIR/$BOOT_FILE" --out "$TMP_DIR/out" --format mkbootimg 2>&1)"; then :
 else
     LOGW "\"$BOOT_FILE\" could not be unpacked, skipping boot image ramdisk patching"
-    rm -rf "$TMP_DIR"
     PATCH_FSTAB "$WORK_DIR/vendor/etc"
+    rm -rf "$TMP_DIR"
     unset PARTITIONS_LIST BOOT_FILE MKBOOTIMG_ARGS RAMDISK_FILE RAMDISK_FORMAT
     unset -f PATCH_FSTAB
     return 0
