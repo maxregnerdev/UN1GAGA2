@@ -2,16 +2,3 @@
 /system/etc u:object_r:system_file:s0
 /system/etc/maxregner u:object_r:system_file:s0
 /system/etc/maxregner/aod\.json u:object_r:system_file:s0
-/system/product u:object_r:system_file:s0
-/system/product/fonts u:object_r:system_file:s0
-/system/product/fonts/FONT_ASSETS\.txt u:object_r:system_file:s0
-/system/product/fonts/maxregner_sans\.xml u:object_r:system_file:s0
-/system/product/fonts/maxregner_sans\.ttf u:object_r:system_file:s0
-/system/product/overlay u:object_r:system_file:s0
-/system/product/overlay/AndroidManifest\.xml u:object_r:system_file:s0
-/system/product/overlay/drawable u:object_r:system_file:s0
-/system/product/overlay/drawable/maxregner_aod_orb\.xml u:object_r:system_file:s0
-/system/product/overlay/values u:object_r:system_file:s0
-/system/product/overlay/values/maxregner_extras\.xml u:object_r:system_file:s0
-/system/product/overlay/values-night u:object_r:system_file:s0
-/system/product/overlay/values-night/maxregner_extras\.xml u:object_r:system_file:s0

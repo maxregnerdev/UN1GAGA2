@@ -1,0 +1,10 @@
+/product u:object_r:system_file:s0
+/product/overlay u:object_r:system_file:s0
+/product/overlay/AndroidManifest\.xml u:object_r:system_file:s0
+/product/overlay/drawable u:object_r:system_file:s0
+/product/overlay/drawable/maxregner_orb\.xml u:object_r:system_file:s0
+/product/overlay/values u:object_r:system_file:s0
+/product/overlay/values/colors\.xml u:object_r:system_file:s0
+/product/overlay/values/dimens\.xml u:object_r:system_file:s0
+/product/overlay/values-night u:object_r:system_file:s0
+/product/overlay/values-night/colors\.xml u:object_r:system_file:s0

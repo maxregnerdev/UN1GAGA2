@@ -1,0 +1,12 @@
+/product u:object_r:system_file:s0
+/product/fonts u:object_r:system_file:s0
+/product/fonts/FONT_ASSETS\.txt u:object_r:system_file:s0
+/product/fonts/maxregner_sans\.xml u:object_r:system_file:s0
+/product/overlay u:object_r:system_file:s0
+/product/overlay/AndroidManifest\.xml u:object_r:system_file:s0
+/product/overlay/drawable u:object_r:system_file:s0
+/product/overlay/drawable/maxregner_aod_orb\.xml u:object_r:system_file:s0
+/product/overlay/values u:object_r:system_file:s0
+/product/overlay/values/maxregner_extras\.xml u:object_r:system_file:s0
+/product/overlay/values-night u:object_r:system_file:s0
+/product/overlay/values-night/maxregner_extras\.xml u:object_r:system_file:s0

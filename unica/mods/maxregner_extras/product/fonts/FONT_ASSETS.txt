@@ -3,7 +3,7 @@
 The Maxregner Sans typeface is a binary asset and is not checked in here.
 Drop the TrueType binary into this folder:
 
-    system/system/product/fonts/maxregner_sans.ttf
+    product/fonts/maxregner_sans.ttf
 
 Recommended: a geometric sans-serif with a full Latin + extended set,
 hinted, weights 400/500/600/700 normalized. The `maxregner_sans.xml`

@@ -11,7 +11,7 @@ LOG_STEP_IN "- Applying Maxregner extras"
 
 # --- Maxregner Sans font ---
 # Advertise the Maxregner type family system-wide. The actual font binary
-# (maxregner_sans.ttf) lives under system/system/product/fonts/.
+# (maxregner_sans.ttf) lives under product/fonts/.
 SET_PROP "system" "ro.maxregner.font.family" "maxregner_sans"
 SET_PROP "system" "persist.sys.maxregner.font.enabled" "true"
 
