@@ -13,7 +13,7 @@
 .end method
 
 .method private isUnicaFragment(Ljava/lang/String;)Z
-    .locals 3
+    .locals 4
 
     if-nez p1, :cond_0
 
@@ -27,6 +27,14 @@
     invoke-virtual {p1, v0}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
 
     move-result v0
+
+    const-string v3, "io.mesalabs.maxregner.settings"
+
+    invoke-virtual {p1, v3}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+
+    move-result v3
+
+    or-int/2addr v0, v3
 
     const/16 v1, 0x2e
 
