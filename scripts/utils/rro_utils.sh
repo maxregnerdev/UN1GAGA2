@@ -8,8 +8,7 @@
 # (unica/mods/maxregner_overlays) so the same signed overlay APKs are
 # produced in both delivery paths.
 #
-# Requires aapt2, zipalign, apksigner, keytool and java on PATH (provided by
-# the android-tools/signapk build step in external/make.sh).
+# Requires aapt2, zipalign, apksigner, keytool and java on PATH.
 #
 # COMPILE_MAXREGNER_RROS <out_dir> <keystore_dir>
 #   Compiles every overlay declared in MAXREGNER_RRO_OVERLAYS (sourced from
@@ -31,6 +30,42 @@ MAXREGNER_RRO_OVERLAYS=(
     "maxregner_notifications_overlay"
     "maxregner_framework_overlay"
 )
+
+# Resolve the Android SDK / build-tools toolchain onto PATH for the RRO
+# compile/sign steps. The standalone Maxregner zip job already prepends the
+# system build-tools dir to $GITHUB_PATH, but the in-ROM ROM-build job only
+# has $TOOLS_DIR/bin (android-tools build), which ships zipalign but not
+# aapt2/apksigner. Locate aapt2/apksigner across the standard locations and
+# prepend the containing dir to PATH so both delivery paths can compile.
+_MAXREGNER_RRO_RESOLVE_TOOLCHAIN() {
+    if command -v aapt2 >/dev/null 2>&1 && command -v apksigner >/dev/null 2>&1; then
+        return 0
+    fi
+    local _dir _bt
+    local _candidates=(
+        "$TOOLS_DIR/bin"
+        "$ANDROID_HOME/build-tools"/*
+        "$ANDROID_SDK_HOME/build-tools"/*
+        "$ANDROID_SDK/build-tools"/*
+        /usr/lib/android-sdk/build-tools/*
+        /usr/local/lib/android/sdk/build-tools/*
+        /opt/android-sdk/build-tools/*
+    )
+    for _bt in "${_candidates[@]}"; do
+        for _dir in $_bt; do
+            [ -d "$_dir" ] || continue
+            if [ -x "$_dir/aapt2" ] && [ -x "$_dir/apksigner" ]; then
+                case ":$PATH:" in
+                    *":$_dir:"*) ;;
+                    *) PATH="$_dir:$PATH"; export PATH ;;
+                esac
+                return 0
+            fi
+        done
+    done
+    LOGE "aapt2/apksigner not found on PATH or in any Android SDK build-tools dir"
+    return 1
+}
 
 _ENSURE_RRO_KEYSTORE(){
     local KS_DIR="$1"
@@ -75,6 +110,7 @@ PYEOF
 COMPILE_MAXREGNER_RROS(){
     _CHECK_NON_EMPTY_PARAM "OUT_DIR" "$1" || return 1
     _CHECK_NON_EMPTY_PARAM "KEYSTORE_DIR" "$2" || return 1
+    _MAXREGNER_RRO_RESOLVE_TOOLCHAIN || return 1
     local OUT_DIR="$1"
     local KS_DIR="$2"
     local KS ANDJ
