@@ -69,7 +69,6 @@ PRINT_USAGE()
 PREPARE_SCRIPT "$@"
 
 MODULE_SRC="$SRC_DIR/prebuilts/maxregner/module"
-RRO_SRC="$SRC_DIR/prebuilts/maxregner/rro"
 STAGE_DIR="$OUT_DIR/maxregner/$TARGET_CODENAME_ARG/stage"
 KEYSTORE_DIR="$OUT_DIR/maxregner/keystore"
 
@@ -104,78 +103,15 @@ done
 #    aapt2 compile -> link -> zipalign -> apksigner sign -> module
 #    system/product/overlay/<name>.apk (Magisk mounts these over the RO
 #    partition; the OverlayManagerService applies them on boot via service.sh).
+#    The compile/sign logic is shared with the in-ROM build path via
+#    scripts/utils/rro_utils.sh so both delivery paths produce identical
+#    signed overlays.
 OVERLAY_DIR="$STAGE_DIR/system/product/overlay"
 mkdir -p "$OVERLAY_DIR"
 
-# Ensure a signing keystore exists (generated once, reused).
-mkdir -p "$KEYSTORE_DIR"
-KS="$KEYSTORE_DIR/maxregner.keystore"
-if [ ! -f "$KS" ]; then
-    LOG "- Generating Maxregner signing key"
-    keytool -genkeypair -v -keystore "$KS" -alias maxregner \
-        -keyalg RSA -keysize 2048 -validity 10000 \
-        -storepass maxregner -keypass maxregner \
-        -dname "CN=maxregner, O=maxregner, C=US" >/dev/null 2>&1 || {
-        LOGE "Failed to generate signing key"
-        exit 1
-    }
-fi
-
-# Ensure an android.jar framework (-I) is available for aapt2 link.
-ANDJ="$KEYSTORE_DIR/android_29.jar"
-if [ ! -f "$ANDJ" ]; then
-    LOG "- Fetching Android 10 framework jar for RRO compilation"
-    python3 - "$ANDJ" <<'PYEOF' || { LOGE "Failed to fetch android.jar framework"; exit 1; }
-import sys, urllib.request
-url = "https://repo1.maven.org/maven2/org/robolectric/android-all/10-robolectric-5803371/android-all-10-robolectric-5803371.jar"
-try:
-    req = urllib.request.Request(url, headers={"User-Agent": "curl/8"})
-    data = urllib.request.urlopen(req, timeout=120).read()
-    if len(data) < 1000000:
-        raise RuntimeError("download too small")
-    open(sys.argv[1], "wb").write(data)
-    print("framework jar ok")
-except Exception as e:
-    sys.stderr.write("download failed: %s\n" % e)
-    sys.exit(1)
-PYEOF
-fi
-
-RRO_OVERLAYS=(
-    "maxregner_ui_overlay"
-    "maxregner_nav_overlay"
-    "maxregner_extras_overlay"
-    "maxregner_statusbar_overlay"
-    "maxregner_launcher_overlay"
-    "maxregner_icons_overlay"
-    "maxregner_quicksettings_overlay"
-    "maxregner_notifications_overlay"
-    "maxregner_framework_overlay"
-)
-for ov in "${RRO_OVERLAYS[@]}"; do
-    LOG "- Compiling RRO $ov"
-    src="$RRO_SRC/$ov"
-    [ -d "$src/res" ] || { LOGE "RRO source not found: $src"; exit 1; }
-    compiled="$STAGE_DIR/${ov}-compiled.zip"
-    linked="$STAGE_DIR/${ov}-unsigned.apk"
-    aligned="$STAGE_DIR/${ov}-aligned.apk"
-    aapt2 compile --dir "$src/res" -o "$compiled" || { LOGE "aapt2 compile failed: $ov"; exit 1; }
-    aapt2 link -o "$linked" --manifest "$src/AndroidManifest/AndroidManifest.xml" \
-        -I "$ANDJ" "$compiled" || { LOGE "aapt2 link failed: $ov"; exit 1; }
-    zipalign -p -f 4 "$linked" "$aligned" || { LOGE "zipalign failed: $ov"; exit 1; }
-    apksigner sign --ks "$KS" --ks-pass pass:maxregner --key-pass pass:maxregner \
-        --out "$OVERLAY_DIR/$ov.apk" "$aligned" || { LOGE "apksigner failed: $ov"; exit 1; }
-    # apksigner v4 writes a sidecar .idsig; it is not needed for an installed overlay.
-    rm -f "$compiled" "$linked" "$aligned" "$OVERLAY_DIR/$ov.apk.idsig"
-done
-
-# 4. Verify each compiled overlay is a valid overlay APK (sanity guard).
-for ov in "${RRO_OVERLAYS[@]}"; do
-    if ! aapt2 dump badging "$OVERLAY_DIR/$ov.apk" 2>/dev/null | grep -q "^overlay:"; then
-        LOGE "Built overlay is not a valid RRO: $ov"
-        exit 1
-    fi
-done
+# shellcheck disable=SC1091
+source "$SRC_DIR/scripts/utils/rro_utils.sh" || exit 1
+COMPILE_MAXREGNER_RROS "$OVERLAY_DIR" "$KEYSTORE_DIR" || exit 1
 
 # 5. Write build_info.txt so the module self-describes.
 {

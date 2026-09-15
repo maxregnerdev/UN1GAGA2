@@ -1,8 +1,8 @@
 # shellcheck disable=SC2034
 SKIPUNZIP=1
 
-AIOS_VERSION="0.1"
-AIOS_CODENAME="Aether"
+AIOS_VERSION="1.0"
+AIOS_CODENAME="Orion"
 
 # Property identifying the AI OS version
 SET_PROP "system" "ro.aios.version" "$AIOS_VERSION"
@@ -53,13 +53,13 @@ if [ "$(GET_FLOATING_FEATURE_CONFIG "SEC_FLOATING_FEATURE_SETTINGS_CONFIG_BRAND_
 fi
 
 # Rebrand the build display id so the OS identifies as AI OS in Settings.
-SET_PROP "system" "ro.build.display.id" "AIOS-0.1-${TARGET_CODENAME}"
+SET_PROP "system" "ro.build.display.id" "AIOS-1.0-${TARGET_CODENAME}"
 SET_PROP "system" "ro.product.system.name" "aios"
 
 # Register the AI core as a known product feature so the framework exposes
 # the AI subsystem availability to apps querying system features.
 if [ ! "$(GET_FLOATING_FEATURE_CONFIG "SEC_FLOATING_FEATURE_AI_CONFIG_CORE_VERSION")" ]; then
-    SET_FLOATING_FEATURE_CONFIG "SEC_FLOATING_FEATURE_AI_CONFIG_CORE_VERSION" "0.1"
+    SET_FLOATING_FEATURE_CONFIG "SEC_FLOATING_FEATURE_AI_CONFIG_CORE_VERSION" "1.0"
 fi
 
 unset AIOS_VERSION AIOS_CODENAME
