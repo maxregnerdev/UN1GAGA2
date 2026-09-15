@@ -20,6 +20,7 @@
 # ROM-specific prebuilt blobs
 prebuilts/bootable/deprecated-ota/updater binary
 prebuilts/*/*/*/** binary
+prebuilts/*/*/*/** binary
 unica/mods/paradigm/system/** binary
 unica/mods/prophide/system/bin/rezetprop binary
 
@@ -40,3 +41,26 @@ target/o1s/patches/variants/vendor/** binary
 target/p3s/patches/variants/vendor/** binary
 target/r9s/patches/vendor/vendor/** binary
 target/t2s/patches/variants/vendor/** binary
+
+# Maxregner flashable zip is text (shell scripts/props/map), not a binary
+# blob. Placed after the prebuilts binary rule and uses -binary so the diff is
+# shown as text. Also covers the RRO overlay source trees (XML/manifest) and
+# the Magisk module scaffolding (sh/props/xml/json) so diffs are readable.
+prebuilts/maxregner/rro/** -binary text eol=lf
+prebuilts/maxregner/module/**/*.sh -binary text eol=lf
+prebuilts/maxregner/module/**/*.prop -binary text eol=lf
+prebuilts/maxregner/module/**/*.xml -binary text eol=lf
+prebuilts/maxregner/module/**/*.json -binary text eol=lf
+prebuilts/maxregner/zip/** -binary text eol=lf
+
+# AI OS v0.1 (Aether) incremental ROM distribution.
+# Covers the ROM patches module, core + assistant mods and the version
+# override config so diffs are readable as text.
+unica/patches/aios/** -binary text eol=lf
+unica/mods/aios_core/** -binary text eol=lf
+unica/mods/aios_assistant/** -binary text eol=lf
+unica/configs/aios.sh -binary text eol=lf
+
+# Python helpers (e.g. Samsung DTBH legacy boot image unpacker/repacker).
+# Keep as text with LF line endings.
+unica/patches/fs/dtbh_bootimg.py -binary text eol=lf

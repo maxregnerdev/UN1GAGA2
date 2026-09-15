@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Maxregner animation durations (ms) -->
+    <integer name="config_shortAnimTime">200</integer>
+    <integer name="config_mediumAnimTime">350</integer>
+    <integer name="config_longAnimTime">500</integer>
+    <integer name="config_activityShortDur">250</integer>
+    <integer name="config_activityStandardDur">350</integer>
+    <integer name="config_animDefaultDur">300</integer>
+    <integer name="config_maxregner_motion_duration">350</integer>
+    <integer name="config_maxregner_stagger">40</integer>
+    <integer name="config_maxregner_blur_steps">8</integer>
+    <integer name="config_maxregner_orb_anim_duration">300</integer>
+    <integer name="config_maxregner_ripple_duration">250</integer>
+    <integer name="config_navBarLifecycleMode">0</integer>
+    <integer name="config_maxRetriesToGetAccessPoint">3</integer>
+    <integer name="config_alertDialogIconDecor">0</integer>
+    <integer name="config_defaultNightMode">2</integer>
+    <integer name="config_buttonCornerRadius">16</integer>
+</resources>

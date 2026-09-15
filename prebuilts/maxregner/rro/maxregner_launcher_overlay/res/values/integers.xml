@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="config_maxregner_launcher_anim_duration">300</integer>
+    <integer name="config_maxregner_launcher_spring_duration">400</integer>
+    <integer name="config_maxregner_launcher_blur_steps">6</integer>
+    <integer name="config_maxregner_launcher_stagger">30</integer>
+    <integer name="config_maxregner_launcher_page_switch_duration">250</integer>
+    <integer name="config_maxregner_overview_enter_duration">350</integer>
+    <integer name="config_maxregner_overview_exit_duration">250</integer>
+</resources>

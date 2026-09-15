@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="status_bar_height">28.0dp</dimen>
+    <dimen name="status_bar_height_portrait">28.0dp</dimen>
+    <dimen name="status_bar_height_landscape">24.0dp</dimen>
+    <dimen name="status_bar_height_keyguard">28.0dp</dimen>
+    <dimen name="status_bar_icon_size">16.0dp</dimen>
+    <dimen name="status_bar_clock_font_size">14.0sp</dimen>
+    <dimen name="status_bar_icon_padding">2.0dp</dimen>
+    <dimen name="status_bar_padding_start">8.0dp</dimen>
+    <dimen name="status_bar_padding_end">8.0dp</dimen>
+    <dimen name="status_bar_rounded_corner_radius">16.0dp</dimen>
+    <dimen name="maxregner_status_bar_blur_strength">0.8</dimen>
+</resources>

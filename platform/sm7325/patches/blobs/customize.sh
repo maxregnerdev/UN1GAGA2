@@ -68,9 +68,9 @@ DELETE_FROM_WORK_DIR "vendor" "etc/media_codecs_vendor_audio.xml"
 
 XMLS="media_codecs_yupik_iot.xml media_codecs_yupik_v0.xml media_codecs_yupik_v1.xml"
 for f in $XMLS; do
-    EVAL "sed -i \"/media_codecs_google_audio/d\" \"$WORK_DIR/vendor/etc/"$f"\""
-    EVAL "sed -i \"/media_codecs_google_telephony/d\" \"$WORK_DIR/vendor/etc/"$f"\""
-    EVAL "sed -i \"/media_codecs_vendor_audio/d\" \"$WORK_DIR/vendor/etc/"$f"\""
+    EVAL "sed -i \"/media_codecs_google_audio/d\" \"$WORK_DIR/vendor/etc/$f\""
+    EVAL "sed -i \"/media_codecs_google_telephony/d\" \"$WORK_DIR/vendor/etc/$f\""
+    EVAL "sed -i \"/media_codecs_vendor_audio/d\" \"$WORK_DIR/vendor/etc/$f\""
 done
 
 if [ "$TARGET_PLATFORM_SDK_VERSION" -lt "35" ]; then

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="qs_background_color">#0B1220</color>
+    <color name="qs_panel_background">#0F172A</color>
+    <color name="qs_tile_background">#1E293B</color>
+    <color name="qs_tile_active_background">#3B82F6</color>
+    <color name="qs_tile_inactive_background">#1E293B</color>
+    <color name="qs_tile_text_color">#E2E8F0</color>
+    <color name="qs_tile_active_text_color">#FFFFFF</color>
+    <color name="qs_tile_icon_color">#94A3B8</color>
+    <color name="qs_tile_active_icon_color">#FFFFFF</color>
+    <color name="qs_tile_border_color">#475569</color>
+    <color name="qs_detail_background">#1E293B</color>
+    <color name="qs_detail_text_color">#E2E8F0</color>
+    <color name="qs_slider_color">#3B82F6</color>
+    <color name="qs_slider_active_color">#60A5FA</color>
+    <color name="qs_slider_track_color">#334155</color>
+    <color name="qs_slider_thumb_color">#3B82F6</color>
+    <color name="qs_scrim_color">#CC0B1220</color>
+    <color name="qs_header_icon_color">#3B82F6</color>
+    <color name="qs_footer_action_button_color">#3B82F6</color>
+    <color name="qs_footer_text_color">#94A3B8</color>
+    <color name="brightness_slider_color">#3B82F6</color>
+    <color name="brightness_slider_track_color">#334155</color>
+    <color name="maxregner_qs_orb_start">#3B82F6</color>
+    <color name="maxregner_qs_orb_end">#8B5CF6</color>
+</resources>

@@ -1,0 +1,198 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: maxregner
+Date: 2026
+Subject: [PATCH] Introduce MaxregnerPropsHooks
+
+Wires the Maxregner property hooks into the existing SamsungPropsHooks
+onSystemPropertiesGet fallback so the Maxregner sound scheme and safe
+prop overrides are driven by persist.sys.maxregner.* toggles at runtime
+(the toggles exposed in the Maxregner settings page).
+
+Only overrides values when the relevant persist.sys.maxregner.* toggle
+is enabled; otherwise returns null so the default SystemProperties.get
+path is unchanged. Reuses the existing SemSystemProperties.getBoolean
+(only get(String) is hooked, so no recursion).
+---
+diff --git a/smali_classes6/io/mesalabs/maxregner/MaxregnerPropsHooks.smali b/smali_classes6/io/mesalabs/maxregner/MaxregnerPropsHooks.smali
+new file mode 100644
+index 0000000..a057cb5
+--- /dev/null
++++ b/smali_classes6/io/mesalabs/maxregner/MaxregnerPropsHooks.smali
+@@ -0,0 +1,158 @@
++.class public final Lio/mesalabs/maxregner/MaxregnerPropsHooks;
++.super Ljava/lang/Object;
++.source "MaxregnerPropsHooks.java"
++
++
++# static fields
++.field private static final blacklist TAG:Ljava/lang/String; = "MaxregnerPropsHooks"
++
++
++# direct methods
++.method private constructor blacklist <init>()V
++    .locals 0
++
++    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
++
++    return-void
++.end method
++
++.method private static blacklist dlog(Ljava/lang/String;)V
++    .locals 0
++
++    return-void
++.end method
++
++# Returns the override value for the requested prop when a Maxregner
++# persist.sys.maxregner.* toggle is enabled, or null to leave the
++# default SystemProperties.get result untouched.
++.method public static blacklist onSystemPropertiesGet(Ljava/lang/String;)Ljava/lang/String;
++    .locals 4
++
++    # Only act on the sound scheme props; bail to noop otherwise.
++    const-string v0, "ro.config.ringtone"
++    invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++    move-result v0
++    if-nez v0, :cond_chk_2
++    goto :cond_sound
++
++    :cond_chk_2
++    const-string v0, "ro.config.ringtone_2"
++    invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++    move-result v0
++    if-nez v0, :cond_chk_3
++    goto :cond_sound
++
++    :cond_chk_3
++    const-string v0, "ro.config.notification_sound"
++    invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++    move-result v0
++    if-nez v0, :cond_chk_4
++    goto :cond_sound
++
++    :cond_chk_4
++    const-string v0, "ro.config.notification_sound_2"
++    invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++    move-result v0
++    if-nez v0, :cond_chk_5
++    goto :cond_sound
++
++    :cond_chk_5
++    const-string v0, "ro.config.alarm_alert"
++    invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++    move-result v0
++    if-nez v0, :cond_chk_6
++    goto :cond_sound
++
++    :cond_chk_6
++    const-string v0, "ro.config.media_sound"
++    invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++    move-result v0
++    if-nez v0, :cond_chk_7
++    goto :cond_sound
++
++    :cond_chk_7
++    const-string v0, "ro.config.power_on"
++    invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++    move-result v0
++    if-nez v0, :cond_chk_8
++    goto :cond_sound
++
++    :cond_chk_8
++    const-string v0, "ro.config.power_off"
++    invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++    move-result v0
++    if-nez v0, :goto_noop
++
++    :cond_sound
++    # Only override when the Maxregner sound scheme toggle is enabled.
++    const-string v0, "persist.sys.maxregner.sound.enabled"
++    const/4 v1, 0x0
++    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->getBoolean(Ljava/lang/String;Z)Z
++    move-result v0
++    if-eqz v0, :goto_noop
++
++    # Map each requested sound prop to its Maxregner asset.
++    const-string v0, "ro.config.ringtone"
++    invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++    move-result v0
++    if-nez v0, :ret_resonance
++
++    const-string v0, "ro.config.ringtone_2"
++    invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++    move-result v0
++    if-nez v0, :ret_resonance
++
++    const-string v0, "ro.config.media_sound"
++    invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++    move-result v0
++    if-nez v0, :ret_resonance
++
++    const-string v0, "ro.config.notification_sound"
++    invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++    move-result v0
++    if-nez v0, :ret_notice
++
++    const-string v0, "ro.config.notification_sound_2"
++    invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++    move-result v0
++    if-nez v0, :ret_notice
++
++    const-string v0, "ro.config.alarm_alert"
++    invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++    move-result v0
++    if-nez v0, :ret_alarm
++
++    const-string v0, "ro.config.power_on"
++    invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++    move-result v0
++    if-nez v0, :ret_poweron
++
++    const-string v0, "ro.config.power_off"
++    invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++    move-result v0
++    if-nez v0, :ret_poweroff
++
++    :goto_noop
++    const/4 v0, 0x0
++    return-object v0
++
++    :ret_resonance
++    const-string v0, "Maxregner_Resonance.ogg"
++    return-object v0
++
++    :ret_notice
++    const-string v0, "Maxregner_Notice.ogg"
++    return-object v0
++
++    :ret_alarm
++    const-string v0, "Maxregner_Alarm.ogg"
++    return-object v0
++
++    :ret_poweron
++    const-string v0, "Maxregner_PowerOn.ogg"
++    return-object v0
++
++    :ret_poweroff
++    const-string v0, "Maxregner_PowerOff.ogg"
++    return-object v0
++.end method
+diff --git a/smali_classes6/io/mesalabs/unica/SamsungPropsHooks.smali b/smali_classes6/io/mesalabs/unica/SamsungPropsHooks.smali
+index 084b994..0cfb370 100644
+--- a/smali_classes6/io/mesalabs/unica/SamsungPropsHooks.smali
++++ b/smali_classes6/io/mesalabs/unica/SamsungPropsHooks.smali
+@@ -430,6 +430,13 @@
+     invoke-static {p0}, Lio/mesalabs/unica/SamsungPropsHooks;->dlog(Ljava/lang/String;)V
+ 
+     :cond_1
++    if-nez v0, :cond_done
++
++    invoke-static {p0}, Lio/mesalabs/maxregner/MaxregnerPropsHooks;->onSystemPropertiesGet(Ljava/lang/String;)Ljava/lang/String;
++
++    move-result-object v0
++
++    :cond_done
+     return-object v0
+ .end method
+ 
+

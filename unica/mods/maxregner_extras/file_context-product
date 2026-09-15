@@ -1,0 +1,4 @@
+/product u:object_r:system_file:s0
+/product/fonts u:object_r:system_file:s0
+/product/fonts/FONT_ASSETS\.txt u:object_r:system_file:s0
+/product/fonts/maxregner_sans\.xml u:object_r:system_file:s0

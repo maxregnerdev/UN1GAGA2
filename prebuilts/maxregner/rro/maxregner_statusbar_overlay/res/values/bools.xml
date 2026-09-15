@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="config_status_bar_rounded">true</bool>
+    <bool name="config_status_bar_translucent">true</bool>
+    <bool name="config_status_bar_gradient">true</bool>
+    <bool name="config_maxregner_status_bar_clock_centered">false</bool>
+    <bool name="config_maxregner_status_bar_pulse">true</bool>
+    <bool name="config_maxregner_status_bar_blur">true</bool>
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="config_status_bar_pulse_duration">600</integer>
+    <integer name="config_status_bar_transition_duration">200</integer>
+    <integer name="config_status_bar_icon_fade_duration">300</integer>
+    <integer name="config_status_bar_clock_pulse_duration">1200</integer>
+</resources>

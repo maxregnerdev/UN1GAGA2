@@ -61,7 +61,7 @@
     <string name="menu_key_maxregner_top_settings">top_level_maxregner</string>
     <string name="maxregner_settings_title">Maxregner</string>
     <string name="maxregner_nav_title">Navigazione Orb Maxregner</string>
-    <string name="maxregner_nav_summary">Sostituisci pulsanti e gesti con l'orb fluttuante adattivo.</string>
+    <string name="maxregner_nav_summary">"Sostituisci pulsanti e gesti con l'orb fluttuante adattivo."</string>
     <string name="maxregner_sound_title">Schema sonoro Maxregner</string>
     <string name="maxregner_sound_summary">Usa il set di suoni Maxregner a livello di sistema.</string>
     <string name="maxregner_ui_title">Sistema di design UI Maxregner</string>

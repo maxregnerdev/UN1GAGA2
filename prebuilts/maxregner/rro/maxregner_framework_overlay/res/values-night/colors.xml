@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Maxregner night-mode theme colors (framework-res scoped) -->
+    <color name="maxregner_accent">#60A5FA</color>
+    <color name="maxregner_accent_secondary">#A78BFA</color>
+    <color name="maxregner_accent_disabled">#4662A8</color>
+
+    <color name="maxregner_outline">#94A3B8</color>
+    <color name="maxregner_outline_disabled">#475569</color>
+
+    <!-- Switch -->
+    <color name="maxregner_switch_track_on">#3B82F6</color>
+    <color name="maxregner_switch_track_off">#1E293B</color>
+
+    <!-- Progress / scrubber -->
+    <color name="maxregner_progress_bg">#0F172A</color>
+    <color name="maxregner_progress_secondary">#4662A8</color>
+
+    <!-- Button -->
+    <color name="maxregner_button_bg">#1E293B</color>
+    <color name="maxregner_button_bg_disabled">#0B1220</color>
+
+    <!-- Spinner -->
+    <color name="maxregner_spinner_bg">#1E293B</color>
+    <color name="maxregner_spinner_bg_pressed">#334155</color>
+    <color name="maxregner_spinner_bg_disabled">#0B1220</color>
+
+    <!-- EditText -->
+    <color name="maxregner_edittext_bg">#0F172A</color>
+    <color name="maxregner_edittext_bg_disabled">#1E293B</color>
+
+    <!-- Theme color tokens (night) -->
+    <color name="holo_blue_light">#60A5FA</color>
+    <color name="holo_blue_dark">#3B82F6</color>
+    <color name="background_device_default_light">#0B1220</color>
+    <color name="background_device_default_dark">#0B1220</color>
+    <color name="text_color_primary">#E2E8F0</color>
+    <color name="text_color_secondary">#94A3B8</color>
+
+    <!--
+        Maxregner AI OS framework theme tokens (night).
+        Mirrors the values/colors.xml set but tuned for OLED dark surfaces:
+        brighter accents, lighter dividers, elevated dialog backgrounds.
+    -->
+    <color name="colorAccent_device_default_light">#60A5FA</color>
+    <color name="colorAccent_device_default_dark">#60A5FA</color>
+    <color name="colorBackground_device_default_light">#0B1220</color>
+    <color name="colorBackground_device_default_dark">#0B1220</color>
+    <color name="colorForeground_device_default_light">#E2E8F0</color>
+    <color name="colorForeground_device_default_dark">#E2E8F0</color>
+    <color name="colorPrimary_device_default_light">#0F172A</color>
+    <color name="colorPrimary_device_default_dark">#0F172A</color>
+    <color name="colorPrimaryDark_device_default_light">#0B1220</color>
+    <color name="colorPrimaryDark_device_default_dark">#0B1220</color>
+    <color name="colorSurface_device_default_light">#1E293B</color>
+    <color name="colorSurface_device_default_dark">#0F172A</color>
+    <color name="colorOnSurface_device_default_light">#E2E8F0</color>
+    <color name="colorOnSurface_device_default_dark">#E2E8F0</color>
+    <color name="textColorPrimary_device_default_light">#E2E8F0</color>
+    <color name="textColorPrimary_device_default_dark">#E2E8F0</color>
+    <color name="textColorSecondary_device_default_light">#94A3B8</color>
+    <color name="textColorSecondary_device_default_dark">#94A3B8</color>
+    <color name="textColorAlertDialogListItem">#E2E8F0</color>
+    <color name="textColorAlertDialogListItemDark">#E2E8F0</color>
+    <color name="windowBackground_device_default_light">#0B1220</color>
+    <color name="windowBackground_device_default_dark">#0B1220</color>
+    <color name="dialogBackground_device_default_light">#0F172A</color>
+    <color name="dialogBackground_device_default_dark">#0F172A</color>
+    <color name="divider_device_default_light">#1E293B</color>
+    <color name="divider_device_default_dark">#1E293B</color>
+    <color name="popupBackground_device_default_light">#0F172A</color>
+    <color name="popupBackground_device_default_dark">#0F172A</color>
+    <color name="notificationBackground_device_default_light">#0F172A</color>
+    <color name="notificationBackground_device_default_dark">#0F172A</color>
+    <color name="colorEdgeEffect_device_default_light">#60A5FA</color>
+    <color name="colorEdgeEffect_device_default_dark">#60A5FA</color>
+    <color name="selectableItemBackground_device_default">#3360A5FA</color>
+    <color name="selectableItemBackgroundBorderless_device_default">#2660A5FA</color>
+</resources>

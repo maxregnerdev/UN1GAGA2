@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Maxregner corner radii -->
+    <dimen name="config_dialogCornerRadius">20.0dp</dimen>
+    <dimen name="config_buttonCornerRadius">16.0dp</dimen>
+    <dimen name="config_progressBarCornerRadius">16.0dp</dimen>
+    <dimen name="config_alertDialogCornerRadius">20.0dp</dimen>
+    <dimen name="config_buttonCornerSmallRadius">12.0dp</dimen>
+    <dimen name="rounded_corner_radius">20.0dp</dimen>
+    <dimen name="rounded_corner_radius_top">20.0dp</dimen>
+    <dimen name="rounded_corner_radius_bottom">20.0dp</dimen>
+    <dimen name="dialog_corner_radius">20.0dp</dimen>
+    <dimen name="dialog_background_corner_radius">20.0dp</dimen>
+    <dimen name="config_bottomDialogCornerRadius">24.0dp</dimen>
+    <dimen name="config_sheetCornerRadius">24.0dp</dimen>
+
+    <!-- Maxregner paddings -->
+    <dimen name="maxregner_padding_xs">4.0dp</dimen>
+    <dimen name="maxregner_padding_sm">8.0dp</dimen>
+    <dimen name="maxregner_padding_md">16.0dp</dimen>
+    <dimen name="maxregner_padding_lg">24.0dp</dimen>
+    <dimen name="maxregner_padding_xl">32.0dp</dimen>
+    <dimen name="maxregner_padding_xxl">48.0dp</dimen>
+    <dimen name="default_dialog_padding">24.0dp</dimen>
+    <dimen name="default_dialog_padding_horizontal">24.0dp</dimen>
+    <dimen name="alert_dialog_padding_horizontal">24.0dp</dimen>
+
+    <!-- Maxregner elevation -->
+    <dimen name="maxregner_elevation_0">0.0dp</dimen>
+    <dimen name="maxregner_elevation_1">1.0dp</dimen>
+    <dimen name="maxregner_elevation_2">3.0dp</dimen>
+    <dimen name="maxregner_elevation_3">6.0dp</dimen>
+    <dimen name="maxregner_elevation_4">8.0dp</dimen>
+    <dimen name="maxregner_elevation_5">12.0dp</dimen>
+    <dimen name="elevation_level0">0.0dp</dimen>
+    <dimen name="elevation_level1">1.0dp</dimen>
+    <dimen name="elevation_level2">3.0dp</dimen>
+    <dimen name="elevation_level3">6.0dp</dimen>
+
+    <!-- Maxregner typography scale -->
+    <dimen name="maxregner_text_display">40.0sp</dimen>
+    <dimen name="maxregner_text_headline">28.0sp</dimen>
+    <dimen name="maxregner_text_title">20.0sp</dimen>
+    <dimen name="maxregner_text_body">16.0sp</dimen>
+    <dimen name="maxregner_text_label">14.0sp</dimen>
+    <dimen name="maxregner_text_caption">12.0sp</dimen>
+    <dimen name="text_size_headline">28.0sp</dimen>
+    <dimen name="text_size_title">20.0sp</dimen>
+    <dimen name="text_size_body">16.0sp</dimen>
+    <dimen name="text_size_caption">12.0sp</dimen>
+
+    <!-- Misc framework knobs -->
+    <dimen name="config_minScalingScrollFactor">0.3</dimen>
+    <dimen name="config_minScalingSpanFactor">0.3</dimen>
+    <dimen name="config_viewMaxFlingVelocity">8000.0dp</dimen>
+    <dimen name="config_viewMaxFlingScrollSize">32768.0dp</dimen>
+</resources>

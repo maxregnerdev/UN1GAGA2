@@ -1,0 +1,4 @@
+id=maxregner_perf
+name=Maxregner Performance
+author=maxregner
+description=Maxregner performance, power and security profile. Applies a schedutil governor bias, zram/ksm tuning, dash-charging advertising and a hardened sandbox profile.

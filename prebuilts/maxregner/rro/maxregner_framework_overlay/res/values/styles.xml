@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Maxregner widget styles. These override the framework widget styles
+         so every app using Widget.DeviceDefault.* gets maxregner drawables. -->
+
+    <!-- Checkbox -->
+    <style name="Widget.DeviceDefault.CompoundButton.CheckBox" parent="@android:style/Widget.DeviceDefault.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/btn_check_maxregner</item>
+    </style>
+    <style name="Widget.DeviceDefault.Light.CompoundButton.CheckBox" parent="@android:style/Widget.DeviceDefault.Light.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/btn_check_maxregner</item>
+    </style>
+
+    <!-- Radio button -->
+    <style name="Widget.DeviceDefault.CompoundButton.RadioButton" parent="@android:style/Widget.DeviceDefault.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/btn_radio_maxregner</item>
+    </style>
+    <style name="Widget.DeviceDefault.Light.CompoundButton.RadioButton" parent="@android:style/Widget.DeviceDefault.Light.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/btn_radio_maxregner</item>
+    </style>
+
+    <!-- Seek bar -->
+    <style name="Widget.DeviceDefault.SeekBar" parent="@android:style/Widget.DeviceDefault.SeekBar">
+        <item name="android:progressDrawable">@drawable/scrubber_progress_maxregner</item>
+        <item name="android:indeterminateDrawable">@drawable/scrubber_progress_secondary_maxregner</item>
+        <item name="android:thumb">@drawable/scrubber_control_maxregner</item>
+    </style>
+    <style name="Widget.DeviceDefault.Light.SeekBar" parent="@android:style/Widget.DeviceDefault.Light.SeekBar">
+        <item name="android:progressDrawable">@drawable/scrubber_progress_maxregner</item>
+        <item name="android:indeterminateDrawable">@drawable/scrubber_progress_secondary_maxregner</item>
+        <item name="android:thumb">@drawable/scrubber_control_maxregner</item>
+    </style>
+
+    <!-- Progress bar -->
+    <style name="Widget.DeviceDefault.ProgressBar.Horizontal" parent="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_maxregner</item>
+        <item name="android:indeterminateDrawable">@drawable/progress_indeterminate_maxregner</item>
+    </style>
+    <style name="Widget.DeviceDefault.Light.ProgressBar.Horizontal" parent="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_maxregner</item>
+        <item name="android:indeterminateDrawable">@drawable/progress_indeterminate_maxregner</item>
+    </style>
+    <style name="Widget.DeviceDefault.ProgressBar" parent="@android:style/Widget.DeviceDefault.ProgressBar">
+        <item name="android:indeterminateDrawable">@drawable/progress_indeterminate_maxregner</item>
+    </style>
+
+    <!-- Button -->
+    <style name="Widget.DeviceDefault.Button" parent="@android:style/Widget.DeviceDefault.Button">
+        <item name="android:background">@drawable/btn_default_maxregner</item>
+    </style>
+    <style name="Widget.DeviceDefault.Light.Button" parent="@android:style/Widget.DeviceDefault.Light.Button">
+        <item name="android:background">@drawable/btn_default_maxregner</item>
+    </style>
+    <!-- Spinner -->
+    <style name="Widget.DeviceDefault.Spinner" parent="@android:style/Widget.DeviceDefault.Spinner">
+        <item name="android:background">@drawable/spinner_background_maxregner</item>
+    </style>
+
+    <!-- EditText -->
+    <style name="Widget.DeviceDefault.EditText" parent="@android:style/Widget.DeviceDefault.EditText">
+        <item name="android:background">@drawable/edit_text_maxregner</item>
+    </style>
+    <style name="Widget.DeviceDefault.Light.EditText" parent="@android:style/Widget.DeviceDefault.Light.EditText">
+        <item name="android:background">@drawable/edit_text_maxregner</item>
+    </style>
+
+    <!-- Popup window -->
+    <style name="Widget.DeviceDefault.PopupWindow" parent="@android:style/Widget.DeviceDefault.PopupWindow">
+        <item name="android:popupBackground">@drawable/maxregner_popup_background</item>
+        <item name="android:popupElevation">4dp</item>
+    </style>
+</resources>

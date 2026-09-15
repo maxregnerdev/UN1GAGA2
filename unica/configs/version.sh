@@ -6,6 +6,13 @@ VERSION_MAJOR=1
 VERSION_MINOR=1
 VERSION_PATCH=0
 
+# AI OS build override: when AIOS_BUILD=true, source the AI OS config to
+# rebrand the build as AI OS v0.1 (codename Aether) instead of UN1CA.
+if [ "$AIOS_BUILD" = "true" ] && [ -f "$SRC_DIR/unica/configs/aios.sh" ]; then
+    # shellcheck disable=SC1091
+    source "$SRC_DIR/unica/configs/aios.sh"
+fi
+
 # The below variables will be generated automatically
 #
 # Version name

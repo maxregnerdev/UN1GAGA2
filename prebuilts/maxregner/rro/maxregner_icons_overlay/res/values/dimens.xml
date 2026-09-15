@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="app_icon_size">56.0dp</dimen>
+    <dimen name="icon_size_default">48.0dp</dimen>
+    <dimen name="icon_corner_radius">16.0dp</dimen>
+    <dimen name="icon_inset">4.0dp</dimen>
+    <dimen name="icon_padding">8.0dp</dimen>
+    <dimen name="icon_stroke_width">1.0dp</dimen>
+    <dimen name="themed_icon_size">48.0dp</dimen>
+    <dimen name="themed_icon_corner_radius">16.0dp</dimen>
+    <dimen name="maxregner_icon_orb_diameter">48.0dp</dimen>
+    <dimen name="maxregner_icon_blur_radius">4.0dp</dimen>
+</resources>

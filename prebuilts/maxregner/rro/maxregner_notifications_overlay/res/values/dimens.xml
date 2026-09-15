@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="notification_corner_radius">20.0dp</dimen>
+    <dimen name="notification_padding">16.0dp</dimen>
+    <dimen name="notification_padding_top">12.0dp</dimen>
+    <dimen name="notification_padding_bottom">12.0dp</dimen>
+    <dimen name="notification_icon_size">24.0dp</dimen>
+    <dimen name="notification_big_icon_size">48.0dp</dimen>
+    <dimen name="notification_text_size">14.0sp</dimen>
+    <dimen name="notification_title_text_size">16.0sp</dimen>
+    <dimen name="notification_action_button_height">40.0dp</dimen>
+    <dimen name="notification_action_corner_radius">12.0dp</dimen>
+    <dimen name="notification_progress_height">4.0dp</dimen>
+    <dimen name="notification_progress_corner_radius">2.0dp</dimen>
+    <dimen name="notification_divider_height">1.0dp</dimen>
+    <dimen name="notification_panel_corner_radius">24.0dp</dimen>
+    <dimen name="notification_header_height">48.0dp</dimen>
+    <dimen name="notification_max_height">256.0dp</dimen>
+    <dimen name="maxregner_notif_orb_diameter">40.0dp</dimen>
+    <dimen name="maxregner_notif_blur_strength">0.8</dimen>
+</resources>

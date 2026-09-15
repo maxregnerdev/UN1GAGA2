@@ -1,0 +1,22 @@
+{
+    "id": "maxregner_charger",
+    "version": 2,
+    "name": "Maxregner Charger",
+    "visual": {
+        "orb_anim": true,
+        "background": "#0B1220",
+        "orb_start": "#3B82F6",
+        "orb_end": "#8B5CF6"
+    },
+    "audio": {
+        "sound": true,
+        "sound_file": "Maxregner_PowerOn.ogg"
+    },
+    "charging": {
+        "dash": true,
+        "fast_charge": true,
+        "battery_curve": "standard",
+        "temperature_limit_c": 40,
+        "screen_off_while_charging": true
+    }
+}

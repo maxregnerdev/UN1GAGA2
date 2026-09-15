@@ -1,0 +1,4 @@
+id=maxregner_overlays
+name=Maxregner System Overlays
+author=maxregner
+description=Compiles and ships the Maxregner Runtime Resource Overlay (RRO) APKs into the /product/overlay partition so the Maxregner UI, navigation, statusbar, quick settings, notifications, launcher, icons, framework and extras theming is applied at boot by the OverlayManagerService. Built by the same shared compile/sign path as the standalone Maxregner Magisk zip.

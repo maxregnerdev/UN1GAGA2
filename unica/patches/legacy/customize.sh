@@ -78,7 +78,15 @@ EXTRACT_KERNEL_IMAGE() {
     EVAL "mkdir -p \"$TMP_DIR\""
     EVAL "cp -a \"$WORK_DIR/kernel/boot.img\" \"$TMP_DIR/boot.img\""
 
-    EVAL "unpack_bootimg --boot_img \"$TMP_DIR/boot.img\" --out \"$TMP_DIR/out\" 2>&1"
+    if python3 "$SRC_DIR/unica/patches/fs/dtbh_bootimg.py" check \
+            --boot_img "$TMP_DIR/boot.img" 2>/dev/null; then
+        EVAL "python3 \"$SRC_DIR/unica/patches/fs/dtbh_bootimg.py\" unpack --boot_img \"$TMP_DIR/boot.img\" --out \"$TMP_DIR/out\""
+    elif ! EVAL "unpack_bootimg --boot_img \"$TMP_DIR/boot.img\" --out \"$TMP_DIR/out\" 2>&1"; then
+        LOGW "\"boot.img\" could not be unpacked, skipping kernel image checks"
+        mkdir -p "$TMP_DIR/out"
+        : > "$TMP_DIR/out/kernel"
+        return 0
+    fi
 
     EVAL "rm \"$TMP_DIR/boot.img\""
 
@@ -94,7 +102,11 @@ EXTRACT_KERNEL_MODULES() {
     EVAL "mkdir -p \"$TMP_DIR\""
     EVAL "cp -a \"$WORK_DIR/kernel/vendor_boot.img\" \"$TMP_DIR/vendor_boot.img\""
 
-    EVAL "unpack_bootimg --boot_img \"$TMP_DIR/vendor_boot.img\" --out \"$TMP_DIR/out\" 2>&1"
+    if ! EVAL "unpack_bootimg --boot_img \"$TMP_DIR/vendor_boot.img\" --out \"$TMP_DIR/out\" 2>&1"; then
+        LOGW "\"vendor_boot.img\" could not be unpacked, skipping kernel module checks"
+        mkdir -p "$TMP_DIR/out"
+        return 0
+    fi
 
     EVAL "rm \"$TMP_DIR/vendor_boot.img\""
 
@@ -123,7 +135,8 @@ BACKPORT_SF_PROPS
 # https://android.googlesource.com/platform/frameworks/opt/telephony/+/42e37234cee15c9f3fcfac0532110abfc8843b99%5E%21/#F0
 if [ "$TARGET_PLATFORM_SDK_VERSION" -lt "36" ]; then
     ADD_TO_WORK_DIR "a73xqxx" "vendor" "bin/secril_config_svc" 0 2000 755 "u:object_r:vendor_secril_config_svc_exec:s0"
-    DECODE_APK "vendor" "overlay/framework-res__auto_generated_rro_vendor.apk"
+    DECODE_APK "vendor" "overlay/framework-res__auto_generated_rro_vendor.apk" || \
+        LOGW "\"overlay/framework-res__auto_generated_rro_vendor.apk\" could not be decoded, using bundled overlay"
     if [ ! -f "$APKTOOL_DIR/vendor/overlay/framework-res__auto_generated_rro_vendor.apk/res/values/integers.xml" ]; then
         EVAL "cp -a \"$MODPATH/overlay/framework-res__auto_generated_rro_vendor.apk\" \"$APKTOOL_DIR/vendor/overlay\""
     elif ! grep -q 'config_num_physical_slots' "$APKTOOL_DIR/vendor/overlay/framework-res__auto_generated_rro_vendor.apk/res/values/integers.xml"; then
@@ -376,16 +389,20 @@ if [ "$TARGET_PLATFORM_SDK_VERSION" -lt "35" ]; then
                 'const v3, 0x7f420888' \
                 'const v3, 0x7f000789'
         fi
-        SMALI_PATCH "system" "system/priv-app/SamsungCamera/SamsungCamera.apk" \
-            "smali_classes3/com/samsung/android/sum/core/filter/EncoderFilter.smali" "replace" \
-            'configCodec(Lcom/samsung/android/sum/core/message/Message;)V' \
-            'const v4, 0x7f420888' \
-            'const v4, 0x7f000789'
-        SMALI_PATCH "system" "system/priv-app/vexfwk_service/vexfwk_service.apk" \
-            "smali/com/samsung/android/sum/core/filter/EncoderFilter.smali" "replace" \
-            'configCodec(Lcom/samsung/android/sum/core/message/Message;)V' \
-            'const v3, 0x7f420888' \
-            'const v3, 0x7f000789'
+        if [ -f "$WORK_DIR/system/system/priv-app/SamsungCamera/SamsungCamera.apk" ]; then
+            SMALI_PATCH "system" "system/priv-app/SamsungCamera/SamsungCamera.apk" \
+                "smali_classes3/com/samsung/android/sum/core/filter/EncoderFilter.smali" "replace" \
+                'configCodec(Lcom/samsung/android/sum/core/message/Message;)V' \
+                'const v4, 0x7f420888' \
+                'const v4, 0x7f000789'
+        fi
+        if [ -f "$WORK_DIR/system/system/priv-app/vexfwk_service/vexfwk_service.apk" ]; then
+            SMALI_PATCH "system" "system/priv-app/vexfwk_service/vexfwk_service.apk" \
+                "smali/com/samsung/android/sum/core/filter/EncoderFilter.smali" "replace" \
+                'configCodec(Lcom/samsung/android/sum/core/message/Message;)V' \
+                'const v3, 0x7f420888' \
+                'const v3, 0x7f000789'
+        fi
     fi
 fi
 

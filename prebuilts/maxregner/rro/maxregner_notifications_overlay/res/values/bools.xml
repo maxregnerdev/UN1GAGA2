@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="config_maxregner_notif_blur">true</bool>
+    <bool name="config_maxregner_notif_rounded">true</bool>
+    <bool name="config_maxregner_notif_orb">true</bool>
+    <bool name="config_maxregner_notif_glow">true</bool>
+    <bool name="config_maxregner_notif_pulse">true</bool>
+    <bool name="config_notif_translucent">true</bool>
+</resources>

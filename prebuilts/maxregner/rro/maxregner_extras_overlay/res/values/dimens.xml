@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="clock_big_text_size">72.0dp</dimen>
+    <dimen name="clock_small_text_size">28.0dp</dimen>
+    <dimen name="aod_clock_text_size">88.0dp</dimen>
+    <dimen name="aod_orb_diameter">120.0dp</dimen>
+    <dimen name="aod_orb_margin">48.0dp</dimen>
+    <dimen name="aod_orb_glow_radius">24.0dp</dimen>
+    <dimen name="aod_notification_icon_size">28.0dp</dimen>
+    <dimen name="aod_padding_top">96.0dp</dimen>
+    <dimen name="aod_padding_bottom">96.0dp</dimen>
+    <dimen name="lockscreen_clock_text_size">64.0dp</dimen>
+    <dimen name="lockscreen_date_text_size">18.0dp</dimen>
+    <dimen name="lockscreen_notification_icon_size">36.0dp</dimen>
+    <dimen name="lock_pattern_size">320.0dp</dimen>
+    <dimen name="lock_pattern_dot_size">16.0dp</dimen>
+    <dimen name="maxregner_aod_text_size">96.0dp</dimen>
+    <dimen name="maxregner_aod_blur_strength">0.85</dimen>
+    <dimen name="maxregner_aod_glow_spread">32.0dp</dimen>
+</resources>

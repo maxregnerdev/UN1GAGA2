@@ -3,12 +3,16 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 # [
-source "$SRC_DIR/scripts/utils/build_utils.sh" || exit 1
+# Defer sourcing build_utils.sh (which triggers the full android-tools
+# toolchain build) until we know we are not on the lightweight Maxregner zip
+# path, which only needs the logging helpers.
+source "$SRC_DIR/scripts/utils/log_utils.sh" || exit 1
 
 FORCE=false
 BUILD_ROM=false
 BUILD_TARGET_FILES=true
 BUILD_FLASHABLE_ZIP=false
+BUILD_MAXREGNER_ZIP=false
 
 START_TIME="$(date +%s)"
 
@@ -59,6 +63,10 @@ PREPARE_SCRIPT()
         elif [[ "$1" == "--build-rom-zip" ]] || [[ "$1" == "-z" ]]; then
             BUILD_TARGET_FILES=true
             BUILD_FLASHABLE_ZIP=true
+        elif [[ "$1" == "--build-maxregner-zip" ]] || [[ "$1" == "-m" ]]; then
+            BUILD_TARGET_FILES=false
+            BUILD_FLASHABLE_ZIP=false
+            BUILD_MAXREGNER_ZIP=true
         else
             if [[ "$1" == "-"* ]]; then
                 LOGE "Unknown option: $1"
@@ -95,10 +103,22 @@ PRINT_USAGE()
     echo " -f, --force : Force ROM build" >&2
     echo " -x, --no-target-files : Do not build target-files zip" >&2
     echo " -z, --build-rom-zip : Build flashable zip" >&2
+    echo " -m, --build-maxregner-zip : Build standalone Maxregner TWRP zip" >&2
 }
 # ]
 
 PREPARE_SCRIPT "$@"
+
+if $BUILD_MAXREGNER_ZIP; then
+    LOG_STEP_IN true "Building standalone Maxregner zip"
+    "$SRC_DIR/scripts/build_maxregner_zip.sh" --target "$TARGET_CODENAME" || exit 1
+    LOG_STEP_OUT
+    exit 0
+fi
+
+# Full ROM path: source the heavy build utilities (toolchain gate) now that we
+# know the lightweight Maxregner path is not taken.
+source "$SRC_DIR/scripts/utils/build_utils.sh" || exit 1
 
 if $FORCE; then
     BUILD_ROM=true

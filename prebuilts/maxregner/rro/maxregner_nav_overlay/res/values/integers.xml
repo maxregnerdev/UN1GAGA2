@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="config_navBarTransitionDuration">250</integer>
+    <integer name="config_navBarRippleDuration">200</integer>
+    <integer name="config_navBarOrbDuration">300</integer>
+    <integer name="config_navBarGestureDelay">120</integer>
+    <integer name="config_navBarGestureThreshold">48</integer>
+    <integer name="config_navBarDeadZone">12</integer>
+</resources>

@@ -1,0 +1,36 @@
+{
+    "id": "maxregner_lockscreen",
+    "version": 2,
+    "name": "Maxregner Lockscreen",
+    "clock": {
+        "style": "orb",
+        "font_size_dp": 64,
+        "date_font_size_dp": 18,
+        "accent": "#6366F1"
+    },
+    "pattern": {
+        "size_dp": 320,
+        "dot_size_dp": 16,
+        "color_regular": "#3B82F6",
+        "color_error": "#EF4444",
+        "color_success": "#10B981"
+    },
+    "features": {
+        "blur": true,
+        "media_art": true,
+        "shortcuts": true,
+        "fingerprint_rim": true,
+        "face_unlock": true,
+        "charging_info": true,
+        "weather": true,
+        "music_player": true,
+        "dnd_icon": true,
+        "alarm_icon": true
+    },
+    "security": {
+        "auto_lock_sec": 30,
+        "lock_on_boot": true,
+        "screen_pinning": true,
+        "hide_sensitive_notifications": true
+    }
+}

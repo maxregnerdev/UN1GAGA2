@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle"
+    android:useLevel="true">
+    <gradient android:startColor="@color/maxregner_accent" android:endColor="@color/maxregner_accent_secondary" android:angle="0" />
+    <corners android:radius="@dimen/maxregner_progress_radius" />
+</shape>

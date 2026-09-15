@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="status_bar_color">#0B1220</color>
+    <color name="status_bar_color_keyguard">#0B1220</color>
+    <color name="status_bar_color_dark">#0F172A</color>
+    <color name="status_bar_background_color">#0B1220</color>
+    <color name="status_bar_background_color_keyguard">#0B1220</color>
+    <color name="status_bar_icons_color">#3B82F6</color>
+    <color name="status_bar_icons_color_keyguard">#60A5FA</color>
+    <color name="status_bar_icon_color">#3B82F6</color>
+    <color name="status_bar_text_color">#E2E8F0</color>
+    <color name="status_bar_clock_color">#3B82F6</color>
+    <color name="status_bar_battery_color">#10B981</color>
+    <color name="status_bar_battery_low_color">#F59E0B</color>
+    <color name="status_bar_battery_critical_color">#EF4444</color>
+    <color name="status_bar_wifi_color">#3B82F6</color>
+    <color name="status_bar_signal_color">#3B82F6</color>
+    <color name="status_bar_vpn_color">#8B5CF6</color>
+    <color name="status_bar_airplane_color">#F59E0B</color>
+    <color name="status_bar_alarm_color">#F59E0B</color>
+    <color name="status_bar_dnd_color">#8B5CF6</color>
+    <color name="status_bar_speakerphone_color">#3B82F6</color>
+    <color name="status_bar_notification_icon_color">#3B82F6</color>
+    <color name="maxregner_status_bar_orb_start">#3B82F6</color>
+    <color name="maxregner_status_bar_orb_end">#8B5CF6</color>
+</resources>

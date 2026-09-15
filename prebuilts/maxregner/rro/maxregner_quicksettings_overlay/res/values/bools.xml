@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="config_maxregner_qs_blur">true</bool>
+    <bool name="config_maxregner_qs_rounded_tiles">true</bool>
+    <bool name="config_maxregner_qs_orb_tiles">true</bool>
+    <bool name="config_maxregner_qs_translucent">true</bool>
+    <bool name="config_maxregner_qs_pulse">true</bool>
+</resources>
