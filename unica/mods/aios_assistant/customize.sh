@@ -6,8 +6,8 @@ LOG_STEP_IN "- Applying AI OS assistant"
 
 # Assistant identity and wake model
 SET_PROP "system" "ro.aios.assistant.enabled" "true"
-SET_PROP "system" "ro.aios.assistant.name" "Aether"
-SET_PROP "system" "persist.sys.aios.assistant.wake_word" "hey aether"
+SET_PROP "system" "ro.aios.assistant.name" "Orion"
+SET_PROP "system" "persist.sys.aios.assistant.wake_word" "hey orion"
 SET_PROP "system" "persist.sys.aios.assistant.voice" "on-device"
 SET_PROP "system" "persist.sys.aios.assistant.continuous" "true"
 

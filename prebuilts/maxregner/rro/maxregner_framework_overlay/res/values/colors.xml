@@ -37,4 +37,90 @@
     <color name="background_device_default_dark">#0B1220</color>
     <color name="text_color_primary">#0B1220</color>
     <color name="text_color_secondary">#475569</color>
+
+    <!--
+        Maxregner AI OS framework theme tokens.
+        These are the public framework-res color resources consumed by
+        Theme.DeviceDefault (see themes.xml). Overriding them here makes
+        every app that derives from Theme.DeviceDefault inherit the Orion
+        palette system-wide without any per-app smali or RRO.
+    -->
+    <color name="colorAccent_device_default_light">#3B82F6</color>
+    <color name="colorAccent_device_default_dark">#60A5FA</color>
+    <color name="colorBackground_device_default_light">#F8FAFC</color>
+    <color name="colorBackground_device_default_dark">#0B1220</color>
+    <color name="colorForeground_device_default_light">#0B1220</color>
+    <color name="colorForeground_device_default_dark">#E2E8F0</color>
+    <color name="colorForeground_device_default_inverse_light">#FFFFFF</color>
+    <color name="colorForeground_device_default_inverse_dark">#E2E8F0</color>
+    <color name="colorPrimary_device_default_light">#0B1220</color>
+    <color name="colorPrimary_device_default_dark">#0F172A</color>
+    <color name="colorPrimaryDark_device_default_light">#0B1220</color>
+    <color name="colorPrimaryDark_device_default_dark">#0B1220</color>
+    <color name="colorPrimaryVariant_device_default_light">#1E293B</color>
+    <color name="colorPrimaryVariant_device_default_dark">#1E293B</color>
+    <color name="colorSecondary_device_default_light">#8B5CF6</color>
+    <color name="colorSecondary_device_default_dark">#A78BFA</color>
+    <color name="colorSurface_device_default_light">#FFFFFF</color>
+    <color name="colorSurface_device_default_dark">#0F172A</color>
+    <color name="colorOnSurface_device_default_light">#0B1220</color>
+    <color name="colorOnSurface_device_default_dark">#E2E8F0</color>
+    <color name="colorError_device_default_light">#EF4444</color>
+    <color name="colorError_device_default_dark">#F87171</color>
+    <color name="textColorPrimary_device_default_light">#0B1220</color>
+    <color name="textColorPrimary_device_default_dark">#E2E8F0</color>
+    <color name="textColorSecondary_device_default_light">#475569</color>
+    <color name="textColorSecondary_device_default_dark">#94A3B8</color>
+    <color name="textColorPrimaryInverse_device_default">#FFFFFF</color>
+    <color name="textColorSecondaryInverse_device_default">#E2E8F0</color>
+    <color name="textColorTertiary_device_default_light">#64748B</color>
+    <color name="textColorTertiary_device_default_dark">#64748B</color>
+    <color name="textColorHint_device_default_light">#94A3B8</color>
+    <color name="textColorHint_device_default_dark">#64748B</color>
+    <color name="textColorLink_device_default_light">#3B82F6</color>
+    <color name="textColorLink_device_default_dark">#60A5FA</color>
+    <color name="textColorAlertDialogListItem">#0B1220</color>
+    <color name="textColorAlertDialogListItemDark">#E2E8F0</color>
+    <color name="windowBackground_device_default_light">#F8FAFC</color>
+    <color name="windowBackground_device_default_dark">#0B1220</color>
+    <color name="windowBackground_dialog_device_default_light">#FFFFFF</color>
+    <color name="windowBackground_dialog_device_default_dark">#0F172A</color>
+    <color name="dialogBackground_device_default_light">#FFFFFF</color>
+    <color name="dialogBackground_device_default_dark">#0F172A</color>
+    <color name="divider_device_default_light">#E2E8F0</color>
+    <color name="divider_device_default_dark">#1E293B</color>
+    <color name="listDivider_device_default_light">#E2E8F0</color>
+    <color name="listDivider_device_default_dark">#1E293B</color>
+    <color name="gridDivider_device_default_light">#14B1220</color>
+    <color name="gridDivider_device_default_dark">#14334155</color>
+    <color name="scrimBackground_device_default">#B3000000</color>
+    <color name="navigationBarColor_device_default_dark">#0B1220</color>
+    <color name="navigationBarColor_device_default_light">#0B1220</color>
+    <color name="statusBarColor_device_default_dark">#0B1220</color>
+    <color name="statusBarColor_device_default_light">#0B1220</color>
+    <color name="popupBackground_device_default_light">#FFFFFF</color>
+    <color name="popupBackground_device_default_dark">#0F172A</color>
+    <color name="actionModeBackground_device_default_light">#1E293B</color>
+    <color name="actionModeBackground_device_default_dark">#1E293B</color>
+    <color name="notificationBackground_device_default_light">#FFFFFF</color>
+    <color name="notificationBackground_device_default_dark">#0F172A</color>
+    <color name="notification_icon_color_default_light">#3B82F6</color>
+    <color name="notification_icon_color_default_dark">#60A5FA</color>
+    <color name="selectableItemBackgroundBorderless_device_default">#143B82F6</color>
+    <color name="selectableItemBackground_device_default">#1F3B82F6</color>
+    <color name="dialogCornerRadius_device_default">16dp</color>
+    <color name="colorControlNormal_device_default_light">#94A3B8</color>
+    <color name="colorControlNormal_device_default_dark">#64748B</color>
+    <color name="colorControlActivated_device_default">#3B82F6</color>
+    <color name="colorControlHighlight_device_default_light">#1F3B82F6</color>
+    <color name="colorControlHighlight_device_default_dark">#3360A5FA</color>
+    <color name="colorButtonNormal_device_default_light">#1E293B</color>
+    <color name="colorButtonNormal_device_default_dark">#1E293B</color>
+    <color name="colorEdgeEffect_device_default_light">#3B82F6</color>
+    <color name="colorEdgeEffect_device_default_dark">#60A5FA</color>
+    <color name="colorActivated_device_default">#3B82F6</color>
+    <color name="colorLongPressedHighlight_device_default_light">#333B82F6</color>
+    <color name="colorLongPressedHighlight_device_default_dark">#3360A5FA</color>
+    <color name="colorMultiSelectBackgroundControlHighlight_device_default">#1F3B82F6</color>
+    <color name="coloredShadowColor_device_default">#0B1220</color>
 </resources>

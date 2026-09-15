@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        Maxregner AI OS 1.0 Orion system-wide theme.
+
+        Every One UI / Samsung app derives from Theme.DeviceDefault.*
+        (or the Light/Dark variants). By overriding these framework themes
+        here (RRO over framework-res, targetPackage="android"), the entire
+        system UI surface — windows, app bars, dialogs, lists, grids,
+        scrollbars, switches, buttons, preferences — inherits the Orion
+        palette, rounded corners and Maxregner accents in one place, with
+        no per-app smali patches and no firmware dependency.
+
+        Widget-level styling (button/switch/seekbar drawables) lives in
+        styles.xml; this file owns the theme surface.
+    -->
+
+    <!-- Base dark theme (Orion surfaces, dark by default for AMOLED). -->
+    <style name="Theme.DeviceDefault" parent="@android:style/Theme.DeviceDefault">
+        <item name="android:colorAccent">@color/colorAccent_device_default_dark</item>
+        <item name="android:colorAccentSecondary">@color/colorSecondary_device_default_dark</item>
+        <item name="android:colorPrimary">@color/colorPrimary_device_default_dark</item>
+        <item name="android:colorPrimaryDark">@color/colorPrimaryDark_device_default_dark</item>
+        <item name="android:colorPrimaryVariant">@color/colorPrimaryVariant_device_default_dark</item>
+        <item name="android:colorSecondary">@color/colorSecondary_device_default_dark</item>
+        <item name="android:colorError">@color/colorError_device_default_dark</item>
+        <item name="android:colorBackground">@color/colorBackground_device_default_dark</item>
+        <item name="android:colorForeground">@color/colorForeground_device_default_dark</item>
+        <item name="android:colorBackgroundCacheHint">@color/colorBackground_device_default_dark</item>
+        <item name="android:windowBackground">@color/windowBackground_device_default_dark</item>
+        <item name="android:windowBackgroundFallback">@color/windowBackground_device_default_dark</item>
+        <item name="android:colorEdgeEffect">@color/colorEdgeEffect_device_default_dark</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary_device_default_dark</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary_device_default_dark</item>
+        <item name="android:textColorTertiary">@color/textColorTertiary_device_default_dark</item>
+        <item name="android:textColorHint">@color/textColorHint_device_default_dark</item>
+        <item name="android:textColorLink">@color/textColorLink_device_default_dark</item>
+        <item name="android:textColorPrimaryInverse">@color/textColorPrimaryInverse_device_default</item>
+        <item name="android:textColorSecondaryInverse">@color/textColorSecondaryInverse_device_default</item>
+        <item name="android:textColorAlertDialogListItem">@color/textColorAlertDialogListItemDark</item>
+        <item name="android:dialogCornerRadius">@dimen/maxregner_widget_radius</item>
+        <item name="android:dialogTheme">@style/Theme.DeviceDefault.Dialog</item>
+        <item name="android:alertDialogTheme">@style/Theme.DeviceDefault.Dialog.Alert</item>
+        <item name="android:panelBackground">@color/colorSurface_device_default_dark</item>
+        <item name="android:listDivider">@drawable/maxregner_divider</item>
+        <item name="android:divider">@color/divider_device_default_dark</item>
+        <item name="android:dividerVertical">@color/divider_device_default_dark</item>
+        <item name="android:dividerHorizontal">@color/divider_device_default_dark</item>
+        <item name="android:scrollbarThumbHorizontal">@drawable/maxregner_scrollbar_thumb</item>
+        <item name="android:scrollbarThumbVertical">@drawable/maxregner_scrollbar_thumb</item>
+        <item name="android:scrollbarTrackHorizontal">@drawable/maxregner_scrollbar_track</item>
+        <item name="android:scrollbarTrackVertical">@drawable/maxregner_scrollbar_track</item>
+        <item name="android:listChoiceBackgroundIndicator">@drawable/btn_radio_maxregner</item>
+        <item name="android:listChoiceIndicatorMultiple">@drawable/btn_check_maxregner</item>
+        <item name="android:listChoiceIndicatorSingle">@drawable/btn_radio_maxregner</item>
+        <item name="android:activatedBackgroundIndicator">@drawable/maxregner_activated_background</item>
+        <item name="android:selectableItemBackground">@drawable/maxregner_selectable_item_background</item>
+        <item name="android:selectableItemBackgroundBorderless">@drawable/maxregner_selectable_item_background_borderless</item>
+        <item name="android:actionModeBackground">@drawable/maxregner_action_mode_background</item>
+        <item name="android:popupMenuBackground">@drawable/maxregner_popup_background</item>
+        <item name="android:popupWindowStyle">@style/Widget.DeviceDefault.PopupWindow</item>
+        <item name="android:notificationBackgroundColor">@color/notificationBackground_device_default_dark</item>
+        <item name="android:navigationBarColor">@color/navigationBarColor_device_default_dark</item>
+        <item name="android:statusBarColor">@color/statusBarColor_device_default_dark</item>
+    </style>
+
+    <style name="Theme.DeviceDefault.Light" parent="@android:style/Theme.DeviceDefault.Light">
+        <item name="android:colorAccent">@color/colorAccent_device_default_light</item>
+        <item name="android:colorAccentSecondary">@color/colorSecondary_device_default_light</item>
+        <item name="android:colorPrimary">@color/colorPrimary_device_default_light</item>
+        <item name="android:colorPrimaryDark">@color/colorPrimaryDark_device_default_light</item>
+        <item name="android:colorPrimaryVariant">@color/colorPrimaryVariant_device_default_light</item>
+        <item name="android:colorSecondary">@color/colorSecondary_device_default_light</item>
+        <item name="android:colorError">@color/colorError_device_default_light</item>
+        <item name="android:colorBackground">@color/colorBackground_device_default_light</item>
+        <item name="android:colorForeground">@color/colorForeground_device_default_light</item>
+        <item name="android:colorBackgroundCacheHint">@color/colorBackground_device_default_light</item>
+        <item name="android:windowBackground">@color/windowBackground_device_default_light</item>
+        <item name="android:windowBackgroundFallback">@color/windowBackground_device_default_light</item>
+        <item name="android:colorEdgeEffect">@color/colorEdgeEffect_device_default_light</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary_device_default_light</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary_device_default_light</item>
+        <item name="android:textColorTertiary">@color/textColorTertiary_device_default_light</item>
+        <item name="android:textColorHint">@color/textColorHint_device_default_light</item>
+        <item name="android:textColorLink">@color/textColorLink_device_default_light</item>
+        <item name="android:textColorPrimaryInverse">@color/textColorPrimaryInverse_device_default</item>
+        <item name="android:textColorSecondaryInverse">@color/textColorSecondaryInverse_device_default</item>
+        <item name="android:textColorAlertDialogListItem">@color/textColorAlertDialogListItem</item>
+        <item name="android:dialogCornerRadius">@dimen/maxregner_widget_radius</item>
+        <item name="android:dialogTheme">@style/Theme.DeviceDefault.Light.Dialog</item>
+        <item name="android:alertDialogTheme">@style/Theme.DeviceDefault.Light.Dialog.Alert</item>
+        <item name="android:panelBackground">@color/colorSurface_device_default_light</item>
+        <item name="android:listDivider">@drawable/maxregner_divider</item>
+        <item name="android:divider">@color/divider_device_default_light</item>
+        <item name="android:dividerVertical">@color/divider_device_default_light</item>
+        <item name="android:dividerHorizontal">@color/divider_device_default_light</item>
+        <item name="android:scrollbarThumbHorizontal">@drawable/maxregner_scrollbar_thumb</item>
+        <item name="android:scrollbarThumbVertical">@drawable/maxregner_scrollbar_thumb</item>
+        <item name="android:scrollbarTrackHorizontal">@drawable/maxregner_scrollbar_track</item>
+        <item name="android:scrollbarTrackVertical">@drawable/maxregner_scrollbar_track</item>
+        <item name="android:listChoiceBackgroundIndicator">@drawable/btn_radio_maxregner</item>
+        <item name="android:listChoiceIndicatorMultiple">@drawable/btn_check_maxregner</item>
+        <item name="android:listChoiceIndicatorSingle">@drawable/btn_radio_maxregner</item>
+        <item name="android:activatedBackgroundIndicator">@drawable/maxregner_activated_background</item>
+        <item name="android:selectableItemBackground">@drawable/maxregner_selectable_item_background</item>
+        <item name="android:selectableItemBackgroundBorderless">@drawable/maxregner_selectable_item_background_borderless</item>
+        <item name="android:actionModeBackground">@drawable/maxregner_action_mode_background</item>
+        <item name="android:popupMenuBackground">@drawable/maxregner_popup_background</item>
+        <item name="android:popupWindowStyle">@style/Widget.DeviceDefault.PopupWindow</item>
+        <item name="android:notificationBackgroundColor">@color/notificationBackground_device_default_light</item>
+        <item name="android:navigationBarColor">@color/navigationBarColor_device_default_light</item>
+        <item name="android:statusBarColor">@color/statusBarColor_device_default_light</item>
+    </style>
+
+    <style name="Theme.DeviceDefault.Dialog" parent="@android:style/Theme.DeviceDefault.Dialog">
+        <item name="android:windowBackground">@drawable/maxregner_dialog_background</item>
+        <item name="android:colorBackground">@color/dialogBackground_device_default_dark</item>
+        <item name="android:colorAccent">@color/colorAccent_device_default_dark</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary_device_default_dark</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary_device_default_dark</item>
+        <item name="android:dialogCornerRadius">@dimen/maxregner_widget_radius</item>
+    </style>
+
+    <style name="Theme.DeviceDefault.Light.Dialog" parent="@android:style/Theme.DeviceDefault.Light.Dialog">
+        <item name="android:windowBackground">@drawable/maxregner_dialog_background_light</item>
+        <item name="android:colorBackground">@color/dialogBackground_device_default_light</item>
+        <item name="android:colorAccent">@color/colorAccent_device_default_light</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary_device_default_light</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary_device_default_light</item>
+        <item name="android:dialogCornerRadius">@dimen/maxregner_widget_radius</item>
+    </style>
+
+    <style name="Theme.DeviceDefault.Dialog.Alert" parent="@android:style/Theme.DeviceDefault.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/maxregner_dialog_background</item>
+        <item name="android:colorAccent">@color/colorAccent_device_default_dark</item>
+        <item name="android:textColorAlertDialogListItem">@color/textColorAlertDialogListItemDark</item>
+        <item name="android:dialogCornerRadius">@dimen/maxregner_widget_radius</item>
+    </style>
+
+    <style name="Theme.DeviceDefault.Light.Dialog.Alert" parent="@android:style/Theme.DeviceDefault.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/maxregner_dialog_background_light</item>
+        <item name="android:colorAccent">@color/colorAccent_device_default_light</item>
+        <item name="android:textColorAlertDialogListItem">@color/textColorAlertDialogListItem</item>
+        <item name="android:dialogCornerRadius">@dimen/maxregner_widget_radius</item>
+    </style>
+
+    <style name="Theme.DeviceDefault.Settings" parent="@android:style/Theme.DeviceDefault">
+        <item name="android:colorAccent">@color/colorAccent_device_default_dark</item>
+        <item name="android:colorPrimary">@color/colorPrimary_device_default_dark</item>
+        <item name="android:colorBackground">@color/colorBackground_device_default_dark</item>
+        <item name="android:windowBackground">@color/windowBackground_device_default_dark</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary_device_default_dark</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary_device_default_dark</item>
+        <item name="android:preferenceFrameStyle">@style/Widget.DeviceDefault.PreferenceFrame</item>
+    </style>
+
+    <style name="Theme.DeviceDefault.Light.Settings" parent="@android:style/Theme.DeviceDefault.Light">
+        <item name="android:colorAccent">@color/colorAccent_device_default_light</item>
+        <item name="android:colorPrimary">@color/colorPrimary_device_default_light</item>
+        <item name="android:colorBackground">@color/colorBackground_device_default_light</item>
+        <item name="android:windowBackground">@color/windowBackground_device_default_light</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary_device_default_light</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary_device_default_light</item>
+        <item name="android:preferenceFrameStyle">@style/Widget.DeviceDefault.PreferenceFrame</item>
+    </style>
+</resources>

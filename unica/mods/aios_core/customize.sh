@@ -8,7 +8,7 @@ LOG_STEP_IN "- Applying AI OS core"
 # AI engine identity and version
 SET_PROP "system" "ro.aios.core.enabled" "true"
 SET_PROP "system" "ro.aios.core.engine" "maxregner"
-SET_PROP "system" "ro.aios.core.version" "0.1"
+SET_PROP "system" "ro.aios.core.version" "1.0"
 SET_PROP "system" "persist.sys.aios.core.mode" "adaptive"
 
 # Smart feature subsystems

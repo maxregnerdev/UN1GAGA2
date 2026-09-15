@@ -1,7 +1,7 @@
 {
-    "name": "Aether",
-    "version": "0.1",
-    "wake_word": "hey aether",
+    "name": "Orion",
+    "version": "1.0",
+    "wake_word": "hey orion",
     "voice": "on-device",
     "continuous_listening": true,
     "theming": {
