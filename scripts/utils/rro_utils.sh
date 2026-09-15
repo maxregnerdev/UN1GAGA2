@@ -108,8 +108,8 @@ PYEOF
 }
 
 COMPILE_MAXREGNER_RROS(){
-    _CHECK_NON_EMPTY_PARAM "OUT_DIR" "$1" || return 1
-    _CHECK_NON_EMPTY_PARAM "KEYSTORE_DIR" "$2" || return 1
+    if [ -z "$1" ]; then LOGE "OUT_DIR must not be empty"; return 1; fi
+    if [ -z "$2" ]; then LOGE "KEYSTORE_DIR must not be empty"; return 1; fi
     _MAXREGNER_RRO_RESOLVE_TOOLCHAIN || return 1
     local OUT_DIR="$1"
     local KS_DIR="$2"
