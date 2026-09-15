@@ -71,7 +71,7 @@ _ENSURE_RRO_KEYSTORE(){
     local KS_DIR="$1"
     local KS="$KS_DIR/maxregner.keystore"
     if [ ! -f "$KS" ]; then
-        LOG "- Generating Maxregner signing key"
+        LOG "- Generating Maxregner signing key" >&2
         mkdir -p "$KS_DIR"
         keytool -genkeypair -v -keystore "$KS" -alias maxregner \
             -keyalg RSA -keysize 2048 -validity 10000 \
@@ -88,7 +88,7 @@ _ENSURE_RRO_FRAMEWORK_JAR(){
     local KS_DIR="$1"
     local ANDJ="$KS_DIR/android_29.jar"
     if [ ! -f "$ANDJ" ]; then
-        LOG "- Fetching Android 10 framework jar for RRO compilation"
+        LOG "- Fetching Android 10 framework jar for RRO compilation" >&2
         python3 - "$ANDJ" <<'PYEOF' || { LOGE "Failed to fetch android.jar framework"; return 1; }
 import sys, urllib.request
 url = "https://repo1.maven.org/maven2/org/robolectric/android-all/10-robolectric-5803371/android-all-10-robolectric-5803371.jar"
