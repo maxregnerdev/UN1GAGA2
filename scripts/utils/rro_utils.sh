@@ -98,7 +98,7 @@ try:
     if len(data) < 1000000:
         raise RuntimeError("download too small")
     open(sys.argv[1], "wb").write(data)
-    print("framework jar ok")
+    sys.stderr.write("framework jar ok\n")
 except Exception as e:
     sys.stderr.write("download failed: %s\n" % e)
     sys.exit(1)
