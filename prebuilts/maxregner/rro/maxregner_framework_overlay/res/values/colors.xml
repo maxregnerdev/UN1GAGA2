@@ -91,7 +91,7 @@
     <color name="divider_device_default_dark">#1E293B</color>
     <color name="listDivider_device_default_light">#E2E8F0</color>
     <color name="listDivider_device_default_dark">#1E293B</color>
-    <color name="gridDivider_device_default_light">#14B1220</color>
+    <color name="gridDivider_device_default_light">#14B12200</color>
     <color name="gridDivider_device_default_dark">#14334155</color>
     <color name="scrimBackground_device_default">#B3000000</color>
     <color name="navigationBarColor_device_default_dark">#0B1220</color>
@@ -108,7 +108,6 @@
     <color name="notification_icon_color_default_dark">#60A5FA</color>
     <color name="selectableItemBackgroundBorderless_device_default">#143B82F6</color>
     <color name="selectableItemBackground_device_default">#1F3B82F6</color>
-    <color name="dialogCornerRadius_device_default">16dp</color>
     <color name="colorControlNormal_device_default_light">#94A3B8</color>
     <color name="colorControlNormal_device_default_dark">#64748B</color>
     <color name="colorControlActivated_device_default">#3B82F6</color>
