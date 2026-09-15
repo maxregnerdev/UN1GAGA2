@@ -69,11 +69,4 @@
         <item name="android:popupBackground">@drawable/maxregner_popup_background</item>
         <item name="android:popupElevation">4dp</item>
     </style>
-
-    <!-- Preference frame (used by Theme.DeviceDefault.Settings) -->
-    <style name="Widget.DeviceDefault.PreferenceFrame" parent="@android:style/Widget.DeviceDefault.PreferenceFrame">
-        <item name="android:background">@color/colorSurface_device_default_dark</item>
-        <item name="android:divider">@drawable/maxregner_divider</item>
-        <item name="android:dividerHeight">1dp</item>
-    </style>
 </resources>
