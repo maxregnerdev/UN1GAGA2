@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner OS 2.0 unified overlay — integer tunables for all subsystems. -->
+<resources>
+    <!-- Glass. -->
+    <integer name="config_maxBlurredWindows">8</integer>
+    <integer name="config_windowBlurQuality">2</integer>
+
+    <!-- Spatial. -->
+    <integer name="config_spatialLayerCount">4</integer>
+    <integer name="config_parallaxSamplePeriodUs">16666</integer>
+    <integer name="config_maxParallaxWindows">6</integer>
+
+    <!-- Orb v3. -->
+    <integer name="config_orbLongHoldMs">450</integer>
+    <integer name="config_orbIdlePeriodMs">4200</integer>
+    <integer name="config_orbSpringSubsteps">2</integer>
+    <integer name="config_orbRadialSlots">6</integer>
+
+    <!-- Flux. -->
+    <integer name="config_fluxMaxHz">120</integer>
+    <integer name="config_fluxMinHz">10</integer>
+    <integer name="config_fluxIdleHz">24</integer>
+    <integer name="config_fluxIdleWindowMs">500</integer>
+
+    <!-- Aero. -->
+    <integer name="config_aeroStandardMs">300</integer>
+    <integer name="config_aeroEmphasizedMs">450</integer>
+    <integer name="config_aeroOvershootMs">380</integer>
+    <integer name="config_aeroNoisePeriodMs">6000</integer>
+    <integer name="config_aeroNoiseAmplitude">1200</integer>
+
+    <!-- Aura. -->
+    <integer name="config_auraMinKelvin">2500</integer>
+    <integer name="config_auraMaxKelvin">7500</integer>
+    <integer name="config_auraDefaultKelvin">6500</integer>
+    <integer name="config_auraEasePermill">80</integer>
+    <integer name="config_auraSamplePeriodMs">2000</integer>
+
+    <!-- Synth. -->
+    <integer name="config_synthDefaultWave">0</integer>
+    <integer name="config_synthBaseFreqHz">440</integer>
+    <integer name="config_synthHapticDurationMs">40</integer>
+    <integer name="config_synthSampleRateHz">44100</integer>
+
+    <!-- Vault. -->
+    <integer name="config_vaultAutoRevokeMs">7200000</integer>
+    <integer name="config_vaultClipboardCooldownMs">60000</integer>
+    <integer name="config_vaultSensorThresholdPerMin">60</integer>
+
+    <!-- Cloud. -->
+    <integer name="config_cloudBudgetCpuPct">50</integer>
+    <integer name="config_cloudBudgetRamMb">512</integer>
+    <integer name="config_cloudMinChargePct">80</integer>
+    <integer name="config_cloudDeferMs">900000</integer>
+</resources>

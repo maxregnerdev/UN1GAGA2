@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
-# Copyright (c) 2023 Salvo Giangreco
+# Copyright (c) 2025 Salvo Giangreco
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+# Assembles a full (non-incremental) flashable OTA zip from a target-files
+# archive: it converts each partition image to the block-based new.dat layout,
+# emits the dynamic_partitions_op_list, the edify updater-script and the OTA
+# metadata, then packages and signs the result.
+#
 # [
 source "$SRC_DIR/scripts/utils/install_utils.sh" || exit 1
 
@@ -21,6 +26,10 @@ PUBLIC_KEY_PATH+=".x509.pem"
 
 trap 'rm -rf "$TMP_DIR"' EXIT INT
 
+# GENERATE_OP_LIST
+# Writes the dynamic_partitions_op_list file that the updater uses to rebuild
+# the super partition group layout during a full OTA. Aborts when the combined
+# partition sizes exceed the configured group size.
 # https://android.googlesource.com/platform/build/+/refs/tags/android-15.0.0_r1/tools/releasetools/common.py#4042
 GENERATE_OP_LIST()
 {
@@ -28,7 +37,6 @@ GENERATE_OP_LIST()
 
     local SUPER_GROUP_NAME
     local SUPER_GROUP_SIZE
-
     SUPER_GROUP_NAME="$(grep "^super_partition_group" <<< "$BUILD_INFO" | cut -d "=" -f 2 -s)"
     SUPER_GROUP_SIZE="$(grep "^super_${SUPER_GROUP_NAME}_group_size" <<< "$BUILD_INFO" | cut -d "=" -f 2 -s)"
 
@@ -62,6 +70,11 @@ GENERATE_OP_LIST()
     fi
 }
 
+# GENERATE_OTA_METADATA
+# Produces the protobuf metadata.pb and the plain-text metadata file consumed
+# by the recovery verifier.
+# https://android.googlesource.com/platform/build/+/refs/tags/android-15.0.0_r1/tools/releasetools/ota_utils.py#259
+# https://android.googlesource.com/platform/build/+/refs/tags/android-15.0.0_r1/tools/releasetools/ota_utils.py#317
 GENERATE_OTA_METADATA()
 {
     local PROTO_FILE="$SRC_DIR/external/android-tools/vendor/build/tools/releasetools/ota_metadata.proto"
@@ -72,7 +85,6 @@ GENERATE_OTA_METADATA()
     local TIMESTAMP
     local SECURITY_PATCH_LEVEL
     local FINGERPRINT
-
     DEVICE="$(grep "^device" <<< "$BUILD_INFO" | cut -d "=" -f 2 -s)"
     RELEASE="$(grep "^os_version" <<< "$BUILD_INFO" | cut -d "=" -f 2 -s)"
     INCREMENTAL="$(grep "^build_incremental" <<< "$BUILD_INFO" | cut -d "=" -f 2 -s)"
@@ -82,10 +94,8 @@ GENERATE_OTA_METADATA()
 
     mkdir -p "$TMP_DIR/META-INF/com/android"
 
-    # https://android.googlesource.com/platform/build/+/refs/tags/android-15.0.0_r1/tools/releasetools/ota_utils.py#259
     if [ -f "$PROTO_FILE" ]; then
         local MESSAGE
-
         MESSAGE+="type: BLOCK"
         MESSAGE+=", precondition: {device: \\\"$DEVICE\\\"}"
         MESSAGE+=", postcondition: {device: \\\"$DEVICE\\\""
@@ -94,11 +104,9 @@ GENERATE_OTA_METADATA()
         MESSAGE+=", timestamp: $TIMESTAMP"
         MESSAGE+=", sdk_level: \\\"$RELEASE\\\""
         MESSAGE+=", security_patch_level: \\\"$SECURITY_PATCH_LEVEL\\\"}"
-
         EVAL "protoc --encode=build.tools.releasetools.OtaMetadata --proto_path=\"$(dirname "$PROTO_FILE")\" \"$PROTO_FILE\" <<< \"$MESSAGE\" > \"$TMP_DIR/META-INF/com/android/metadata.pb\"" || exit 1
     fi
 
-    # https://android.googlesource.com/platform/build/+/refs/tags/android-15.0.0_r1/tools/releasetools/ota_utils.py#317
     {
         echo "ota-required-cache=0"
         echo "ota-type=BLOCK"
@@ -111,12 +119,50 @@ GENERATE_OTA_METADATA()
     } > "$TMP_DIR/META-INF/com/android/metadata"
 }
 
+# _EMIT_BLOCK_IMAGE_UPDATE <partition> <partition_count>
+# Emits the edify block_image_update call for a single partition, including the
+# error abort and the progress weighting for the system partition.
+_EMIT_BLOCK_IMAGE_UPDATE()
+{
+    local p="$1"
+    local PARTITION_COUNT="$2"
+
+    echo -n 'ui_print("Patching '
+    echo -n "$p image unconditionally..."
+    echo    '");'
+    if [[ "$p" == "system" ]]; then
+        echo -n 'show_progress(0.'
+        echo -n "$(bc -l <<< "9 - $PARTITION_COUNT")"
+        echo    '00000, 0);'
+    else
+        echo    'show_progress(0.100000, 0);'
+    fi
+    echo -n "block_image_update("
+    GET_DEVICE_FROM_MOUNTPOINT "/$p"
+    echo -n ', package_extract_file("'
+    echo -n "$p.transfer.list"
+    echo -n '"), "'
+    echo -n "$p.new.dat"
+    [ -f "$TMP_DIR/$p.new.dat.br" ] && echo -n ".br"
+    echo -n '", "'
+    echo -n "$p.patch.dat"
+    echo    '") ||'
+    echo -n '  abort("'
+    [[ "$p" == "system" ]] && echo -n "E1001" || echo -n "E2001"
+    echo -n ": Failed to update $p image."
+    echo    '");'
+}
+
+# GENERATE_UPDATER_SCRIPT
+# Writes the edify updater-script that recovery executes. It emits assertions,
+# the banner header, the dynamic-partitions metadata assert and one
+# block_image_update call per present partition, followed by the kernel/boot
+# image extractions and the trailing edify.
 GENERATE_UPDATER_SCRIPT()
 {
     local SCRIPT_FILE="$TMP_DIR/META-INF/com/google/android/updater-script"
 
     local PARTITION_COUNT=0
-
     [ -f "$TMP_DIR/vendor.transfer.list" ] && PARTITION_COUNT=$((PARTITION_COUNT + 1))
     [ -f "$TMP_DIR/product.transfer.list" ] && PARTITION_COUNT=$((PARTITION_COUNT + 1))
     [ -f "$TMP_DIR/system_ext.transfer.list" ] && PARTITION_COUNT=$((PARTITION_COUNT + 1))
@@ -127,7 +173,6 @@ GENERATE_UPDATER_SCRIPT()
 
     {
         PRINT_ASSERTIONS "$BUILD_INFO" || exit 1
-
         PRINT_HEADER "$BUILD_INFO" || exit 1
 
         if $TARGET_USE_DYNAMIC_PARTITIONS; then
@@ -147,30 +192,7 @@ GENERATE_UPDATER_SCRIPT()
                 continue
             fi
             $TARGET_USE_DYNAMIC_PARTITIONS && echo -e "\n# Patch partition $p\n"
-            echo -n 'ui_print("Patching '
-            echo -n "$p image unconditionally..."
-            echo    '");'
-            if [[ "$p" == "system" ]]; then
-                echo -n 'show_progress(0.'
-                echo -n "$(bc -l <<< "9 - $PARTITION_COUNT")"
-                echo    '00000, 0);'
-            else
-                echo    'show_progress(0.100000, 0);'
-            fi
-            echo -n "block_image_update("
-            GET_DEVICE_FROM_MOUNTPOINT "/$p"
-            echo -n ', package_extract_file("'
-            echo -n "$p.transfer.list"
-            echo -n '"), "'
-            echo -n "$p.new.dat"
-            [ -f "$TMP_DIR/$p.new.dat.br" ] && echo -n ".br"
-            echo -n '", "'
-            echo -n "$p.patch.dat"
-            echo    '") ||'
-            echo -n '  abort("'
-            [[ "$p" == "system" ]] && echo -n "E1001" || echo -n "E2001"
-            echo -n ": Failed to update $p image."
-            echo    '");'
+            _EMIT_BLOCK_IMAGE_UPDATE "$p" "$PARTITION_COUNT"
         done
         $TARGET_USE_DYNAMIC_PARTITIONS && echo -e "\n# --- End patching dynamic partitions ---\n"
 
@@ -216,7 +238,7 @@ TARGET_ZIP="$1"
 OUTPUT_FILE="$2"
 
 if ! unzip -l "$TARGET_ZIP" | grep -q "build_info.txt" || unzip -l "$TARGET_ZIP" | grep -q "META-INF"; then
-    LOGE "File not valid: ${TARGET_ZIP//$SRC_DIR\//}"
+    LOGE "File not valid: ${TARGET_ZIP//$SRC_DIR//}"
     exit 1
 fi
 

@@ -1,0 +1,101 @@
+{
+    "id": "maxregner_os",
+    "version": 39,
+    "name": "Maxregner OS 2.0",
+    "description": "On-top subsystem layer for Android. Nine firmware-injected subsystems compiled into framework.jar by apktool, activated at boot by ro.maxregner.* flags, with a unified RRO overlay.",
+    "subsystems": {
+        "glass": {
+            "class": "Lio/mesalabs/unica/MaxregnerGlass;",
+            "purpose": "window blur + rounded corners",
+            "props": {
+                "ro.maxregner.glass.enabled": "true",
+                "ro.maxregner.glass.blur_radius": "32",
+                "ro.maxregner.glass.rounded": "true"
+            }
+        },
+        "spatial": {
+            "class": "Lio/mesalabs/unica/MaxregnerSpatial;",
+            "purpose": "depth + gyro parallax",
+            "props": {
+                "ro.maxregner.spatial.enabled": "true",
+                "ro.maxregner.spatial.parallax_amplitude": "0.06",
+                "ro.maxregner.spatial.gyro_driven": "true"
+            }
+        },
+        "orb3": {
+            "class": "Lio/mesalabs/unica/MaxregnerOrb3;",
+            "helper": "Lio/mesalabs/unica/SpringSolver;",
+            "purpose": "fluid orb navigation controller with spring solver + gesture classifier",
+            "props": {
+                "ro.maxregner.orb3.enabled": "true",
+                "ro.maxregner.orb3.spring_stiffness": "0.62",
+                "ro.maxregner.orb3.spring_damping": "0.78",
+                "ro.maxregner.orb3.fluid_morph": "true"
+            }
+        },
+        "flux": {
+            "class": "Lio/mesalabs/unica/MaxregnerFlux;",
+            "purpose": "adaptive refresh-rate engine",
+            "props": {
+                "ro.maxregner.flux.enabled": "true",
+                "ro.maxregner.flux.mode": "2",
+                "ro.maxregner.flux.max_hz": "120",
+                "ro.maxregner.flux.min_hz": "10",
+                "ro.maxregner.flux.idle_hz": "24"
+            }
+        },
+        "aero": {
+            "class": "Lio/mesalabs/unica/MaxregnerAero;",
+            "purpose": "motion engine (easing curves + value noise)",
+            "props": {
+                "ro.maxregner.aero.enabled": "true",
+                "ro.maxregner.aero.motion_scale": "1.0",
+                "ro.maxregner.aero.overshoot": "true"
+            }
+        },
+        "aura": {
+            "class": "Lio/mesalabs/unica/MaxregnerAura;",
+            "purpose": "ambient-light color-temperature engine",
+            "props": {
+                "ro.maxregner.aura.enabled": "true",
+                "ro.maxregner.aura.adaptive_kelvin": "true",
+                "ro.maxregner.aura.min_kelvin": "2500",
+                "ro.maxregner.aura.max_kelvin": "7500"
+            }
+        },
+        "synth": {
+            "class": "Lio/mesalabs/unica/MaxregnerSynth;",
+            "purpose": "audio/haptic synthesis core",
+            "props": {
+                "ro.maxregner.synth.enabled": "true",
+                "ro.maxregner.synth.amplitude": "1.0",
+                "ro.maxregner.synth.haptic_choreo": "true"
+            }
+        },
+        "vault": {
+            "class": "Lio/mesalabs/unica/MaxregnerVault;",
+            "purpose": "privacy policy engine (scope + auto-revoke)",
+            "props": {
+                "ro.maxregner.vault.enabled": "true",
+                "ro.maxregner.vault.auto_revoke": "true",
+                "ro.maxregner.vault.auto_revoke_ms": "7200000",
+                "ro.maxregner.vault.clipboard_guard": "true"
+            }
+        },
+        "cloud": {
+            "class": "Lio/mesalabs/unica/MaxregnerCloud;",
+            "purpose": "on-device ambient-compute coordinator",
+            "props": {
+                "ro.maxregner.cloud.enabled": "true",
+                "ro.maxregner.cloud.budget_cpu_pct": "50",
+                "ro.maxregner.cloud.budget_ram_mb": "512",
+                "ro.maxregner.cloud.min_charge_pct": "80"
+            }
+        }
+    },
+    "toggles": {
+        "ro.maxregner.os.active": "true",
+        "ro.maxregner.os.version": "2",
+        "ro.maxregner.os.build": "39"
+    }
+}

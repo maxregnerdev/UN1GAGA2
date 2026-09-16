@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner Aero overlay — motion duration (ms) config read by the window
+     and transition animators when the Aero engine is active. -->
+<resources>
+    <!-- Standard transition duration (ms). -->
+    <integer name="config_aeroStandardMs">300</integer>
+    <!-- Emphasized transition duration (ms). -->
+    <integer name="config_aeroEmphasizedMs">450</integer>
+    <!-- Overshoot settle duration (ms). -->
+    <integer name="config_aeroOvershootMs">380</integer>
+    <!-- Ambient noise sample period (ms). -->
+    <integer name="config_aeroNoisePeriodMs">6000</integer>
+    <!-- Ambient noise amplitude (1/1000 dp). -->
+    <integer name="config_aeroNoiseAmplitude">1200</integer>
+</resources>

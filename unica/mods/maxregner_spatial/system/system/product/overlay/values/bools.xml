@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner Living Surface overlay — spatial boolean flags. -->
+<resources>
+    <!-- Master switch for the depth/parallax surface model. -->
+    <bool name="config_spatialEnabled">true</bool>
+    <!-- Drive parallax from the gyroscope (false = static depth only). -->
+    <bool name="config_parallaxGyroDriven">true</bool>
+    <!-- Stack recents cards on a recessed Z plane behind apps. -->
+    <bool name="config_recentsDepthEnabled">true</bool>
+</resources>

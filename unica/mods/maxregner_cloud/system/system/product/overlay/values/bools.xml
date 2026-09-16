@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner Cloud overlay — boolean flags. -->
+<resources>
+    <bool name="config_cloudEnabled">true</bool>
+    <!-- Defer low-priority ambient work when not charging. -->
+    <bool name="config_cloudDeferLowPriority">true</bool>
+    <!-- Allow ambient compute while idle but above min charge. -->
+    <bool name="config_cloudAllowIdleCompute">true</bool>
+</resources>

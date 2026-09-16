@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner Flux overlay — integer refresh-rate config read by the
+     SurfaceFlinger arbitrator when the Flux engine is active. -->
+<resources>
+    <!-- Peak refresh rate (Hz). -->
+    <integer name="config_fluxMaxHz">120</integer>
+    <!-- Floor refresh rate (Hz) when content is static. -->
+    <integer name="config_fluxMinHz">10</integer>
+    <!-- Idle refresh rate (Hz) after the idle window elapses. -->
+    <integer name="config_fluxIdleHz">24</integer>
+    <!-- Idle window (ms) before dropping to idle Hz. -->
+    <integer name="config_fluxIdleWindowMs">500</integer>
+</resources>

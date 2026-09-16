@@ -1,0 +1,5 @@
+id=maxregner_aero
+name=Maxregner Aero
+version=v39
+author=maxregner
+description=Real firmware-injected motion engine: adds Lio/mesalabs/unica/MaxregnerAero; to framework.jar with the Maxregner easing curve family (easeStandard cubic, easeEmphasized, easeOvershoot spring), a smoothstep gate, and a seeded value-noise generator for ambient motion that the window/transition animators route through. Compiled into the firmware by apktool.

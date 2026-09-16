@@ -1,0 +1,5 @@
+id=maxregner_spatial
+name=Maxregner Living Surface
+version=v39
+author=maxregner
+description=Real firmware-injected depth + parallax subsystem: adds Lio/mesalabs/unica/MaxregnerSpatial; to framework.jar to compute per-window Z depth and parallax offset from the gyroscope, exposes getDepth()/getParallax() for the window animator, and ships a theme RRO overlay with depth/parallax dimens. Compiled into the firmware by apktool.

@@ -1,0 +1,5 @@
+id=maxregner_aura
+name=Maxregner Aura
+version=v39
+author=maxregner
+description=Real firmware-injected ambient-light color-temperature engine: adds Lio/mesalabs/unica/MaxregnerAura; to framework.jar that maps ambient lux to a target white point in Kelvin (luxToKelvin), eases the current Kelvin toward the target (step), and converts Kelvin to an RGB white-balance triplet (kelvinToRGB) so the display compositor can tint the surface to match room light. Compiled into the firmware by apktool.

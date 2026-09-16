@@ -1,0 +1,261 @@
+From 9d7f24c680a91a9098b453b5a79ac95de670e8a9 Mon Sep 17 00:00:00 2001
+From: maxregner <maxregner@mesalabs.io>
+Date: Wed, 16 Sep 2026 20:06:24 +0000
+Subject: [PATCH] Introduce MaxregnerVault
+
+---
+ .../io/mesalabs/unica/MaxregnerVault.smali    | 242 ++++++++++++++++++
+ 1 file changed, 242 insertions(+)
+ create mode 100644 smali_classes6/io/mesalabs/unica/MaxregnerVault.smali
+
+diff --git a/smali_classes6/io/mesalabs/unica/MaxregnerVault.smali b/smali_classes6/io/mesalabs/unica/MaxregnerVault.smali
+new file mode 100644
+index 0000000..ba4e061
+--- /dev/null
++++ b/smali_classes6/io/mesalabs/unica/MaxregnerVault.smali
+@@ -0,0 +1,242 @@
++.class public final Lio/mesalabs/unica/MaxregnerVault;
++.super Ljava/lang/Object;
++.source "MaxregnerVault.java"
++
++
++# static fields
++.field private static final blacklist TAG:Ljava/lang/String; = "MaxregnerVault"
++
++.field private static final blacklist SCOPE_NONE:I = 0x0
++
++.field private static final blacklist SCOPE_LOCATION:I = 0x1
++
++.field private static final blacklist SCOPE_CAMERA:I = 0x2
++
++.field private static final blacklist SCOPE_MICROPHONE:I = 0x4
++
++.field private static final blacklist SCOPE_CONTACTS:I = 0x8
++
++.field private static final blacklist SCOPE_CLIPBOARD:I = 0x10
++
++.field private static volatile blacklist sEnabled:Z
++
++.field private static volatile blacklist sAutoRevokeMs:J
++
++
++# direct methods
++.method static constructor blacklist <clinit>()V
++    .locals 2
++
++    invoke-static {}, Lio/mesalabs/unica/MaxregnerVault;->readEnabled()Z
++
++    move-result v0
++
++    sput-boolean v0, Lio/mesalabs/unica/MaxregnerVault;->sEnabled:Z
++
++    invoke-static {}, Lio/mesalabs/unica/MaxregnerVault;->readAutoRevokeMs()J
++
++    move-result-wide v0
++
++    sput-wide v0, Lio/mesalabs/unica/MaxregnerVault;->sAutoRevokeMs:J
++
++    return-void
++.end method
++
++.method private constructor blacklist <init>()V
++    .locals 0
++
++    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
++
++    return-void
++.end method
++
++.method private static blacklist readEnabled()Z
++    .locals 2
++
++    const-string v0, "ro.maxregner.vault.enabled"
++
++    const/4 v1, 0x0
++
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->getBoolean(Ljava/lang/String;Z)Z
++
++    move-result v0
++
++    return v0
++.end method
++
++.method private static blacklist readAutoRevokeMs()J
++    .locals 3
++
++    const-string v0, "ro.maxregner.vault.auto_revoke_ms"
++
++    const-wide/32 v1, 0x6ddd00
++
++    invoke-static {v0, v1, v2}, Landroid/os/SystemProperties;->getLong(Ljava/lang/String;J)J
++
++    move-result-wide v0
++
++    return-wide v0
++.end method
++
++.method public static blacklist isEnabled()Z
++    .locals 1
++
++    sget-boolean v0, Lio/mesalabs/unica/MaxregnerVault;->sEnabled:Z
++
++    return v0
++.end method
++
++.method public static blacklist scopeFromString(Ljava/lang/String;)I
++    .locals 1
++
++    sget-boolean v0, Lio/mesalabs/unica/MaxregnerVault;->sEnabled:Z
++
++    if-nez v0, :cond_enabled
++
++    const/4 v0, 0x0
++
++    return v0
++
++    :cond_enabled
++    if-nez p0, :cond_loc
++
++    const/4 v0, 0x0
++
++    return v0
++
++    :cond_loc
++    const-string v0, "location"
++
++    invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++
++    move-result v0
++
++    if-eqz v0, :cond_cam
++
++    const/4 v0, 0x1
++
++    return v0
++
++    :cond_cam
++    const-string v0, "camera"
++
++    invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++
++    move-result v0
++
++    if-eqz v0, :cond_mic
++
++    const/4 v0, 0x2
++
++    return v0
++
++    :cond_mic
++    const-string v0, "microphone"
++
++    invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++
++    move-result v0
++
++    if-eqz v0, :cond_contacts
++
++    const/4 v0, 0x4
++
++    return v0
++
++    :cond_contacts
++    const-string v0, "contacts"
++
++    invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++
++    move-result v0
++
++    if-eqz v0, :cond_clip
++
++    const/16 v0, 0x8
++
++    return v0
++
++    :cond_clip
++    const-string v0, "clipboard"
++
++    invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++
++    move-result v0
++
++    if-eqz v0, :cond_none
++
++    const/16 v0, 0x10
++
++    return v0
++
++    :cond_none
++    const/4 v0, 0x0
++
++    return v0
++.end method
++
++.method public static blacklist shouldAutoRevoke(JJ)Z
++    .locals 4
++
++    sget-boolean v0, Lio/mesalabs/unica/MaxregnerVault;->sEnabled:Z
++
++    if-nez v0, :cond_enabled
++
++    const/4 v0, 0x0
++
++    return v0
++
++    :cond_enabled
++    sub-long v0, p2, p0
++
++    sget-wide v2, Lio/mesalabs/unica/MaxregnerVault;->sAutoRevokeMs:J
++
++    cmp-long v0, v0, v2
++
++    if-lez v0, :cond_keep
++
++    const/4 v0, 0x1
++
++    return v0
++
++    :cond_keep
++    const/4 v0, 0x0
++
++    return v0
++.end method
++
++.method public static blacklist getAutoRevokeMs()J
++    .locals 2
++
++    sget-wide v0, Lio/mesalabs/unica/MaxregnerVault;->sAutoRevokeMs:J
++
++    return-wide v0
++.end method
++
++
++# virtual methods
++.method public blacklist classifySensitivity(II)I
++    .locals 3
++
++    sget-boolean v0, Lio/mesalabs/unica/MaxregnerVault;->sEnabled:Z
++
++    if-nez v0, :cond_enabled
++
++    const/4 v0, 0x0
++
++    return v0
++
++    :cond_enabled
++    and-int v0, p1, p2
++
++    if-eqz v0, :cond_safe
++
++    const/4 v0, 0x1
++
++    return v0
++
++    :cond_safe
++    const/4 v0, 0x0
++
++    return v0
++.end method
+-- 
+2.47.3
+

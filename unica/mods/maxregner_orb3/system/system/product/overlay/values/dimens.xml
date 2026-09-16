@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner Orb v3 overlay — orb geometry + spring defaults read by SystemUI
+     when the v3 orb controller (Lio/mesalabs/unica/MaxregnerOrb3;) is active. -->
+<resources>
+    <!-- Orb base diameter (dp). -->
+    <dimen name="config_orbDiameter">56.0dp</dimen>
+    <!-- Long-hold radial menu radius (dp). -->
+    <dimen name="config_orbRadialRadius">96.0dp</dimen>
+    <!-- Magnetic snap radius (dp) around dock zones. -->
+    <dimen name="config_orbSnapRadius">16.0dp</dimen>
+    <!-- Orb glass blur radius (px) for the floating surface. -->
+    <dimen name="config_orbBlurRadius">24.0px</dimen>
+    <!-- Idle breath animation scale delta. -->
+    <dimen name="config_orbBreathDelta">4.0dp</dimen>
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner Synth overlay — integer audio/haptic config read by the audio
+     and haptic services when the Synth engine is active. -->
+<resources>
+    <!-- Default waveform: 0=sine 1=square 2=triangle. -->
+    <integer name="config_synthDefaultWave">0</integer>
+    <!-- UI sound base frequency (Hz). -->
+    <integer name="config_synthBaseFreqHz">440</integer>
+    <!-- Haptic effect default duration (ms). -->
+    <integer name="config_synthHapticDurationMs">40</integer>
+    <!-- Synth sample rate (Hz). -->
+    <integer name="config_synthSampleRateHz">44100</integer>
+</resources>

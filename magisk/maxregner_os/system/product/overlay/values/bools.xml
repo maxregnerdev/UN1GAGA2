@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner OS 2.0 unified overlay — feature flags for all subsystems. -->
+<resources>
+    <!-- Glass: window blur + rounded corners. -->
+    <bool name="config_windowBlurEnabled">true</bool>
+    <bool name="config_roundedCornerEnabled">true</bool>
+
+    <!-- Spatial: depth + parallax. -->
+    <bool name="config_spatialEnabled">true</bool>
+    <bool name="config_parallaxGyroDriven">true</bool>
+    <bool name="config_recentsDepthEnabled">true</bool>
+
+    <!-- Orb v3: navigation. -->
+    <bool name="config_orbEnabled">true</bool>
+    <bool name="config_orbFluidMorph">true</bool>
+    <bool name="config_orbGestureField">true</bool>
+    <bool name="config_orbIdleBreath">true</bool>
+    <bool name="config_orbHideLegacyBar">true</bool>
+
+    <!-- Flux: adaptive refresh rate. -->
+    <bool name="config_fluxEnabled">true</bool>
+    <bool name="config_fluxContentAware">true</bool>
+    <bool name="config_fluxAllowIdleDrop">true</bool>
+
+    <!-- Aero: motion engine. -->
+    <bool name="config_aeroEnabled">true</bool>
+    <bool name="config_aeroOvershoot">true</bool>
+    <bool name="config_aeroAmbientNoise">true</bool>
+    <bool name="config_aeroFluidMorph">true</bool>
+
+    <!-- Aura: ambient color temperature. -->
+    <bool name="config_auraEnabled">true</bool>
+    <bool name="config_auraAdaptiveKelvin">true</bool>
+    <bool name="config_auraTintCompositor">true</bool>
+
+    <!-- Synth: audio/haptic synthesis. -->
+    <bool name="config_synthEnabled">true</bool>
+    <bool name="config_synthHapticChoreo">true</bool>
+    <bool name="config_synthProceduralSound">true</bool>
+
+    <!-- Vault: privacy policy engine. -->
+    <bool name="config_vaultEnabled">true</bool>
+    <bool name="config_vaultAutoRevoke">true</bool>
+    <bool name="config_vaultClipboardGuard">true</bool>
+    <bool name="config_vaultSensorGuard">true</bool>
+
+    <!-- Cloud: ambient compute coordinator. -->
+    <bool name="config_cloudEnabled">true</bool>
+    <bool name="config_cloudDeferLowPriority">true</bool>
+    <bool name="config_cloudAllowIdleCompute">true</bool>
+</resources>

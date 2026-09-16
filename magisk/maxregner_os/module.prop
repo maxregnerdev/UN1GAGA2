@@ -1,0 +1,6 @@
+id=maxregner_os
+name=Maxregner OS 2.0
+version=v39
+versionCode=39
+author=maxregner
+description=Maxregner OS 2.0 — a real on-top subsystem layer for Android, delivered as a standalone Magisk module. Activates nine firmware-injected subsystems (Glass, Spatial, Orb v3, Flux, Aero, Aura, Synth, Vault, Cloud) by setting the ro.maxregner.* flags their Lio/mesalabs/unica/Maxregner*; helpers read at class-init, and ships a unified RRO overlay. Flash in Magisk Manager. The firmware smali classes are compiled into framework.jar by apktool via the unica/mods/maxregner_* patches.

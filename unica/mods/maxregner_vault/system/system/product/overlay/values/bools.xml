@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner Vault overlay — boolean flags. -->
+<resources>
+    <bool name="config_vaultEnabled">true</bool>
+    <bool name="config_vaultAutoRevoke">true</bool>
+    <bool name="config_vaultClipboardGuard">true</bool>
+    <bool name="config_vaultSensorGuard">true</bool>
+</resources>

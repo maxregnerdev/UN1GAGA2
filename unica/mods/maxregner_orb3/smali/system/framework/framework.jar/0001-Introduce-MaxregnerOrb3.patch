@@ -1,0 +1,739 @@
+From e11a526267941861a42630137d9ba4f91518b618 Mon Sep 17 00:00:00 2001
+From: maxregner <maxregner@mesalabs.io>
+Date: Wed, 16 Sep 2026 19:38:05 +0000
+Subject: [PATCH] Introduce MaxregnerOrb3
+
+---
+ .../io/mesalabs/unica/MaxregnerOrb3.smali     | 551 ++++++++++++++++++
+ .../io/mesalabs/unica/SpringSolver.smali      | 161 +++++
+ 2 files changed, 712 insertions(+)
+ create mode 100644 smali_classes6/io/mesalabs/unica/MaxregnerOrb3.smali
+ create mode 100644 smali_classes6/io/mesalabs/unica/SpringSolver.smali
+
+diff --git a/smali_classes6/io/mesalabs/unica/MaxregnerOrb3.smali b/smali_classes6/io/mesalabs/unica/MaxregnerOrb3.smali
+new file mode 100644
+index 0000000..948870e
+--- /dev/null
++++ b/smali_classes6/io/mesalabs/unica/MaxregnerOrb3.smali
+@@ -0,0 +1,551 @@
++.class public final Lio/mesalabs/unica/MaxregnerOrb3;
++.super Ljava/lang/Object;
++.source "MaxregnerOrb3.java"
++
++
++# static fields
++.field private static final blacklist TAG:Ljava/lang/String; = "MaxregnerOrb3"
++
++.field private static final blacklist GESTURE_NONE:I = 0x0
++
++.field private static final blacklist GESTURE_TAP:I = 0x1
++
++.field private static final blacklist GESTURE_LONG_HOLD:I = 0x2
++
++.field private static final blacklist GESTURE_FLICK:I = 0x3
++
++.field private static final blacklist DOCK_NONE:I = 0x0
++
++.field private static final blacklist DOCK_BOTTOM_START:I = 0x1
++
++.field private static final blacklist DOCK_BOTTOM_CENTER:I = 0x2
++
++.field private static final blacklist DOCK_BOTTOM_END:I = 0x3
++
++.field private static final blacklist DOCK_LEFT:I = 0x4
++
++.field private static final blacklist DOCK_RIGHT:I = 0x5
++
++.field private static volatile blacklist sEnabled:Z
++
++.field private static volatile blacklist sDwellThresholdMs:J
++
++.field private static volatile blacklist sSnapRadiusDp:F
++
++.field private static volatile blacklist sSpringStiffness:F
++
++.field private static volatile blacklist sSpringDamping:F
++
++.field private static volatile blacklist sPressDownTime:J
++
++.field private static volatile blacklist sPressX:F
++
++.field private static volatile blacklist sPressY:F
++
++.field private static volatile blacklist sLastX:F
++
++.field private static volatile blacklist sLastY:F
++
++.field private static volatile blacklist sResolver:Lio/mesalabs/unica/MaxregnerOrb3;
++
++
++# instance fields
++.field private blacklist mSpringX:Lio/mesalabs/unica/SpringSolver;
++
++.field private blacklist mSpringY:Lio/mesalabs/unica/SpringSolver;
++
++.field private blacklist mSpringScale:Lio/mesalabs/unica/SpringSolver;
++
++.field private blacklist mCurrentDock:I
++
++.field private blacklist mMorphTarget:Ljava/lang/String;
++
++
++# direct methods
++.method static constructor blacklist <clinit>()V
++    .locals 2
++
++    invoke-static {}, Lio/mesalabs/unica/MaxregnerOrb3;->readEnabled()Z
++
++    move-result v0
++
++    sput-boolean v0, Lio/mesalabs/unica/MaxregnerOrb3;->sEnabled:Z
++
++    invoke-static {}, Lio/mesalabs/unica/MaxregnerOrb3;->readDwellThreshold()J
++
++    move-result-wide v0
++
++    sput-wide v0, Lio/mesalabs/unica/MaxregnerOrb3;->sDwellThresholdMs:J
++
++    invoke-static {}, Lio/mesalabs/unica/MaxregnerOrb3;->readSnapRadius()F
++
++    move-result v0
++
++    sput v0, Lio/mesalabs/unica/MaxregnerOrb3;->sSnapRadiusDp:F
++
++    invoke-static {}, Lio/mesalabs/unica/MaxregnerOrb3;->readStiffness()F
++
++    move-result v0
++
++    sput v0, Lio/mesalabs/unica/MaxregnerOrb3;->sSpringStiffness:F
++
++    invoke-static {}, Lio/mesalabs/unica/MaxregnerOrb3;->readDamping()F
++
++    move-result v0
++
++    sput v0, Lio/mesalabs/unica/MaxregnerOrb3;->sSpringDamping:F
++
++    return-void
++.end method
++
++.method private constructor blacklist <init>()V
++    .locals 4
++
++    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
++
++    new-instance v0, Lio/mesalabs/unica/SpringSolver;
++
++    sget v1, Lio/mesalabs/unica/MaxregnerOrb3;->sSpringStiffness:F
++
++    sget v2, Lio/mesalabs/unica/MaxregnerOrb3;->sSpringDamping:F
++
++    const/4 v3, 0x0
++
++    invoke-direct {v0, v1, v2, v3}, Lio/mesalabs/unica/SpringSolver;-><init>(FFF)V
++
++    iput-object v0, p0, Lio/mesalabs/unica/MaxregnerOrb3;->mSpringX:Lio/mesalabs/unica/SpringSolver;
++
++    new-instance v0, Lio/mesalabs/unica/SpringSolver;
++
++    invoke-direct {v0, v1, v2, v3}, Lio/mesalabs/unica/SpringSolver;-><init>(FFF)V
++
++    iput-object v0, p0, Lio/mesalabs/unica/MaxregnerOrb3;->mSpringY:Lio/mesalabs/unica/SpringSolver;
++
++    new-instance v0, Lio/mesalabs/unica/SpringSolver;
++
++    const v1, 0x3f4ccccd
++
++    const v2, 0x3f59999a
++
++    invoke-direct {v0, v1, v2, v3}, Lio/mesalabs/unica/SpringSolver;-><init>(FFF)V
++
++    iput-object v0, p0, Lio/mesalabs/unica/MaxregnerOrb3;->mSpringScale:Lio/mesalabs/unica/SpringSolver;
++
++    const/4 v0, 0x2
++
++    iput v0, p0, Lio/mesalabs/unica/MaxregnerOrb3;->mCurrentDock:I
++
++    const-string v0, "home"
++
++    iput-object v0, p0, Lio/mesalabs/unica/MaxregnerOrb3;->mMorphTarget:Ljava/lang/String;
++
++    return-void
++.end method
++
++.method public static blacklist getResolver()Lio/mesalabs/unica/MaxregnerOrb3;
++    .locals 1
++
++    sget-object v0, Lio/mesalabs/unica/MaxregnerOrb3;->sResolver:Lio/mesalabs/unica/MaxregnerOrb3;
++
++    if-nez v0, :cond_done
++
++    new-instance v0, Lio/mesalabs/unica/MaxregnerOrb3;
++
++    invoke-direct {v0}, Lio/mesalabs/unica/MaxregnerOrb3;-><init>()V
++
++    sput-object v0, Lio/mesalabs/unica/MaxregnerOrb3;->sResolver:Lio/mesalabs/unica/MaxregnerOrb3;
++
++    :cond_done
++    sget-object v0, Lio/mesalabs/unica/MaxregnerOrb3;->sResolver:Lio/mesalabs/unica/MaxregnerOrb3;
++
++    return-object v0
++.end method
++
++.method private static blacklist readEnabled()Z
++    .locals 2
++
++    const-string v0, "ro.maxregner.orb3.enabled"
++
++    const/4 v1, 0x0
++
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->getBoolean(Ljava/lang/String;Z)Z
++
++    move-result v0
++
++    return v0
++.end method
++
++.method private static blacklist readDwellThreshold()J
++    .locals 3
++
++    const-string v0, "ro.maxregner.orb3.dwell_threshold_ms"
++
++    const-wide/16 v1, 0xb4
++
++    invoke-static {v0, v1, v2}, Landroid/os/SystemProperties;->getLong(Ljava/lang/String;J)J
++
++    move-result-wide v0
++
++    return-wide v0
++.end method
++
++.method private static blacklist readSnapRadius()F
++    .locals 2
++
++    const-string v0, "ro.maxregner.orb3.snap_radius_dp"
++
++    const v1, 0x41800000
++
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->getFloat(Ljava/lang/String;F)F
++
++    move-result v0
++
++    return v0
++.end method
++
++.method private static blacklist readStiffness()F
++    .locals 2
++
++    const-string v0, "ro.maxregner.orb3.spring_stiffness"
++
++    const v1, 0x3f1eb852
++
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->getFloat(Ljava/lang/String;F)F
++
++    move-result v0
++
++    return v0
++.end method
++
++.method private static blacklist readDamping()F
++    .locals 2
++
++    const-string v0, "ro.maxregner.orb3.spring_damping"
++
++    const v1, 0x3f428f5c
++
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->getFloat(Ljava/lang/String;F)F
++
++    move-result v0
++
++    return v0
++.end method
++
++.method public static blacklist isEnabled()Z
++    .locals 1
++
++    sget-boolean v0, Lio/mesalabs/unica/MaxregnerOrb3;->sEnabled:Z
++
++    return v0
++.end method
++
++.method public static blacklist onPointerDown(FFJ)V
++    .locals 0
++
++    sput p0, Lio/mesalabs/unica/MaxregnerOrb3;->sPressX:F
++
++    sput p1, Lio/mesalabs/unica/MaxregnerOrb3;->sPressY:F
++
++    sput p0, Lio/mesalabs/unica/MaxregnerOrb3;->sLastX:F
++
++    sput p1, Lio/mesalabs/unica/MaxregnerOrb3;->sLastY:F
++
++    sput-wide p2, Lio/mesalabs/unica/MaxregnerOrb3;->sPressDownTime:J
++
++    return-void
++.end method
++
++.method public static blacklist classifyGesture(FFJ)I
++    .locals 5
++
++    sget-boolean v0, Lio/mesalabs/unica/MaxregnerOrb3;->sEnabled:Z
++
++    if-nez v0, :cond_enabled
++
++    const/4 v0, 0x0
++
++    return v0
++
++    :cond_enabled
++    sget v0, Lio/mesalabs/unica/MaxregnerOrb3;->sPressX:F
++
++    sub-float v0, p0, v0
++
++    sget v1, Lio/mesalabs/unica/MaxregnerOrb3;->sPressY:F
++
++    sub-float v1, p1, v1
++
++    mul-float/2addr v0, v0
++
++    mul-float/2addr v1, v1
++
++    add-float/2addr v0, v1
++
++    float-to-double v0, v0
++
++    invoke-static {v0, v1}, Ljava/lang/Math;->sqrt(D)D
++
++    move-result-wide v0
++
++    double-to-float v0, v0
++
++    sget-wide v1, Lio/mesalabs/unica/MaxregnerOrb3;->sPressDownTime:J
++
++    sub-long v1, p2, v1
++
++    const-wide/16 v3, 0x1c2
++
++    cmp-long v3, v1, v3
++
++    if-lez v3, :cond_short
++
++    const v3, 0x3c23d70a
++
++    cmpg-float v3, v0, v3
++
++    if-gez v3, :cond_short
++
++    const/4 v3, 0x2
++
++    return v3
++
++    :cond_short
++    const v3, 0x41a00000
++
++    cmpg-float v3, v0, v3
++
++    if-gez v3, :cond_moved
++
++    const/4 v3, 0x1
++
++    return v3
++
++    :cond_moved
++    const-wide/16 v3, 0x64
++
++    cmp-long v3, v1, v3
++
++    if-gez v3, :cond_flick
++
++    sget v3, Lio/mesalabs/unica/MaxregnerOrb3;->sLastX:F
++
++    sub-float v3, p0, v3
++
++    invoke-static {v3}, Ljava/lang/Math;->abs(F)F
++
++    move-result v3
++
++    sget v4, Lio/mesalabs/unica/MaxregnerOrb3;->sLastY:F
++
++    sub-float v4, p1, v4
++
++    invoke-static {v4}, Ljava/lang/Math;->abs(F)F
++
++    move-result v4
++
++    add-float/2addr v3, v4
++
++    const v4, 0x41f00000
++
++    cmpl-float v3, v3, v4
++
++    if-lez v3, :cond_flick
++
++    const/4 v3, 0x3
++
++    return v3
++
++    :cond_flick
++    const/4 v3, 0x0
++
++    return v3
++.end method
++
++
++# virtual methods
++.method public blacklist resolveDock(FF)I
++    .locals 2
++
++    const v0, 0x42b40000
++
++    cmpl-float v0, p1, v0
++
++    if-lez v0, :cond_bottom
++
++    const v0, 0x42a00000
++
++    cmpg-float v0, p0, v0
++
++    if-gez v0, :cond_left
++
++    const/4 v0, 0x4
++
++    return v0
++
++    :cond_left
++    const v0, 0x43870000
++
++    cmpl-float v0, p0, v0
++
++    if-lez v0, :cond_right
++
++    const/4 v0, 0x5
++
++    return v0
++
++    :cond_right
++    :cond_bottom
++    const v0, 0x43960000
++
++    cmpg-float v0, p0, v0
++
++    if-gez v0, :cond_center
++
++    const/4 v0, 0x1
++
++    return v0
++
++    :cond_center
++    const v0, 0x43af0000
++
++    cmpl-float v0, p0, v0
++
++    if-lez v0, :cond_end
++
++    const/4 v0, 0x3
++
++    return v0
++
++    :cond_end
++    const/4 v0, 0x2
++
++    return v0
++.end method
++
++.method public blacklist morphFor(Ljava/lang/String;)V
++    .locals 2
++
++    const-string v0, "typing"
++
++    invoke-virtual {p1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++
++    move-result v0
++
++    if-eqz v0, :cond_recents
++
++    const-string v0, "back"
++
++    iput-object v0, p0, Lio/mesalabs/unica/MaxregnerOrb3;->mMorphTarget:Ljava/lang/String;
++
++    iget-object v0, p0, Lio/mesalabs/unica/MaxregnerOrb3;->mSpringScale:Lio/mesalabs/unica/SpringSolver;
++
++    const v1, 0x3f800000
++
++    invoke-virtual {v0, v1}, Lio/mesalabs/unica/SpringSolver;->setTarget(F)V
++
++    return-void
++
++    :cond_recents
++    const-string v0, "recents"
++
++    invoke-virtual {p1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++
++    move-result v0
++
++    if-eqz v0, :cond_default
++
++    const-string v0, "recents"
++
++    iput-object v0, p0, Lio/mesalabs/unica/MaxregnerOrb3;->mMorphTarget:Ljava/lang/String;
++
++    iget-object v0, p0, Lio/mesalabs/unica/MaxregnerOrb3;->mSpringScale:Lio/mesalabs/unica/SpringSolver;
++
++    const v1, 0x3fa00000
++
++    invoke-virtual {v0, v1}, Lio/mesalabs/unica/SpringSolver;->setTarget(F)V
++
++    return-void
++
++    :cond_default
++    const-string v0, "home"
++
++    iput-object v0, p0, Lio/mesalabs/unica/MaxregnerOrb3;->mMorphTarget:Ljava/lang/String;
++
++    iget-object v0, p0, Lio/mesalabs/unica/MaxregnerOrb3;->mSpringScale:Lio/mesalabs/unica/SpringSolver;
++
++    const v1, 0x3f800000
++
++    invoke-virtual {v0, v1}, Lio/mesalabs/unica/SpringSolver;->setTarget(F)V
++
++    return-void
++.end method
++
++.method public blacklist step(F)V
++    .locals 1
++
++    iget-object v0, p0, Lio/mesalabs/unica/MaxregnerOrb3;->mSpringX:Lio/mesalabs/unica/SpringSolver;
++
++    invoke-virtual {v0, p1}, Lio/mesalabs/unica/SpringSolver;->step(F)V
++
++    iget-object v0, p0, Lio/mesalabs/unica/MaxregnerOrb3;->mSpringY:Lio/mesalabs/unica/SpringSolver;
++
++    invoke-virtual {v0, p1}, Lio/mesalabs/unica/SpringSolver;->step(F)V
++
++    iget-object v0, p0, Lio/mesalabs/unica/MaxregnerOrb3;->mSpringScale:Lio/mesalabs/unica/SpringSolver;
++
++    invoke-virtual {v0, p1}, Lio/mesalabs/unica/SpringSolver;->step(F)V
++
++    return-void
++.end method
++
++.method public blacklist getOrbX()F
++    .locals 1
++
++    iget-object v0, p0, Lio/mesalabs/unica/MaxregnerOrb3;->mSpringX:Lio/mesalabs/unica/SpringSolver;
++
++    invoke-virtual {v0}, Lio/mesalabs/unica/SpringSolver;->getPosition()F
++
++    move-result v0
++
++    return v0
++.end method
++
++.method public blacklist getOrbY()F
++    .locals 1
++
++    iget-object v0, p0, Lio/mesalabs/unica/MaxregnerOrb3;->mSpringY:Lio/mesalabs/unica/SpringSolver;
++
++    invoke-virtual {v0}, Lio/mesalabs/unica/SpringSolver;->getPosition()F
++
++    move-result v0
++
++    return v0
++.end method
++
++.method public blacklist getOrbScale()F
++    .locals 1
++
++    iget-object v0, p0, Lio/mesalabs/unica/MaxregnerOrb3;->mSpringScale:Lio/mesalabs/unica/SpringSolver;
++
++    invoke-virtual {v0}, Lio/mesalabs/unica/SpringSolver;->getPosition()F
++
++    move-result v0
++
++    return v0
++.end method
++
++.method public blacklist getMorphTarget()Ljava/lang/String;
++    .locals 1
++
++    iget-object v0, p0, Lio/mesalabs/unica/MaxregnerOrb3;->mMorphTarget:Ljava/lang/String;
++
++    return-object v0
++.end method
++
++.method public blacklist getDock()I
++    .locals 1
++
++    iget v0, p0, Lio/mesalabs/unica/MaxregnerOrb3;->mCurrentDock:I
++
++    return v0
++.end method
+diff --git a/smali_classes6/io/mesalabs/unica/SpringSolver.smali b/smali_classes6/io/mesalabs/unica/SpringSolver.smali
+new file mode 100644
+index 0000000..e1685b5
+--- /dev/null
++++ b/smali_classes6/io/mesalabs/unica/SpringSolver.smali
+@@ -0,0 +1,161 @@
++.class public final Lio/mesalabs/unica/SpringSolver;
++.super Ljava/lang/Object;
++.source "SpringSolver.java"
++
++
++# static fields
++.field private static final blacklist TAG:Ljava/lang/String; = "SpringSolver"
++
++
++# instance fields
++.field private blacklist mStiffness:F
++
++.field private blacklist mDamping:F
++
++.field private blacklist mPosition:F
++
++.field private blacklist mVelocity:F
++
++.field private blacklist mTarget:F
++
++
++# direct methods
++.method public constructor blacklist <init>(FFF)V
++    .locals 0
++
++    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
++
++    iput p1, p0, Lio/mesalabs/unica/SpringSolver;->mStiffness:F
++
++    iput p2, p0, Lio/mesalabs/unica/SpringSolver;->mDamping:F
++
++    const/4 p1, 0x0
++
++    iput p1, p0, Lio/mesalabs/unica/SpringSolver;->mPosition:F
++
++    iput p1, p0, Lio/mesalabs/unica/SpringSolver;->mVelocity:F
++
++    iput p1, p0, Lio/mesalabs/unica/SpringSolver;->mTarget:F
++
++    return-void
++.end method
++
++.method public static blacklist createDefault()Lio/mesalabs/unica/SpringSolver;
++    .locals 4
++
++    new-instance v0, Lio/mesalabs/unica/SpringSolver;
++
++    const v1, 0x3f1eb852
++
++    const v2, 0x3f428f5c
++
++    const/4 v3, 0x0
++
++    invoke-direct {v0, v1, v2, v3}, Lio/mesalabs/unica/SpringSolver;-><init>(FFF)V
++
++    return-object v0
++.end method
++
++
++# virtual methods
++.method public blacklist setTarget(F)V
++    .locals 0
++
++    iput p1, p0, Lio/mesalabs/unica/SpringSolver;->mTarget:F
++
++    return-void
++.end method
++
++.method public blacklist getPosition()F
++    .locals 1
++
++    iget v0, p0, Lio/mesalabs/unica/SpringSolver;->mPosition:F
++
++    return v0
++.end method
++
++.method public blacklist getVelocity()F
++    .locals 1
++
++    iget v0, p0, Lio/mesalabs/unica/SpringSolver;->mVelocity:F
++
++    return v0
++.end method
++
++.method public blacklist isAtRest(F)Z
++    .locals 2
++
++    iget v0, p0, Lio/mesalabs/unica/SpringSolver;->mPosition:F
++
++    iget v1, p0, Lio/mesalabs/unica/SpringSolver;->mTarget:F
++
++    sub-float/2addr v0, v1
++
++    invoke-static {v0}, Ljava/lang/Math;->abs(F)F
++
++    move-result v0
++
++    cmpl-float v0, v0, p1
++
++    if-lez v0, :cond_rest
++
++    const/4 v0, 0x0
++
++    return v0
++
++    :cond_rest
++    iget v0, p0, Lio/mesalabs/unica/SpringSolver;->mVelocity:F
++
++    invoke-static {v0}, Ljava/lang/Math;->abs(F)F
++
++    move-result v0
++
++    cmpl-float v0, v0, p1
++
++    if-lez v0, :cond_rest2
++
++    const/4 v0, 0x0
++
++    return v0
++
++    :cond_rest2
++    const/4 v0, 0x1
++
++    return v0
++.end method
++
++.method public blacklist step(F)V
++    .locals 4
++
++    iget v0, p0, Lio/mesalabs/unica/SpringSolver;->mPosition:F
++
++    iget v1, p0, Lio/mesalabs/unica/SpringSolver;->mTarget:F
++
++    sub-float v2, v0, v1
++
++    iget v3, p0, Lio/mesalabs/unica/SpringSolver;->mStiffness:F
++
++    mul-float/2addr v2, v3
++
++    neg-float v2, v2
++
++    iget v3, p0, Lio/mesalabs/unica/SpringSolver;->mVelocity:F
++
++    iget v1, p0, Lio/mesalabs/unica/SpringSolver;->mDamping:F
++
++    mul-float/2addr v3, v1
++
++    sub-float/2addr v2, v3
++
++    iput v2, p0, Lio/mesalabs/unica/SpringSolver;->mVelocity:F
++
++    iget v1, p0, Lio/mesalabs/unica/SpringSolver;->mVelocity:F
++
++    mul-float/2addr v1, p1
++
++    add-float/2addr v0, v1
++
++    iput v0, p0, Lio/mesalabs/unica/SpringSolver;->mPosition:F
++
++    return-void
++.end method
+-- 
+2.47.3
+

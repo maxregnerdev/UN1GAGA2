@@ -1,0 +1,8 @@
+system 0 0 755 capabilities=0x0
+system/product 0 0 755 capabilities=0x0
+system/product/overlay 0 0 755 capabilities=0x0
+system/product/overlay/AndroidManifest.xml 0 0 644 capabilities=0x0
+system/product/overlay/values 0 0 755 capabilities=0x0
+system/product/overlay/values/bools.xml 0 0 644 capabilities=0x0
+system/product/overlay/values/dimens.xml 0 0 644 capabilities=0x0
+system/product/overlay/values/integers.xml 0 0 644 capabilities=0x0

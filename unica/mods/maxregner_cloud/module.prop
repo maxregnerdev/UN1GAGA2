@@ -1,0 +1,5 @@
+id=maxregner_cloud
+name=Maxregner Cloud
+version=v39
+author=maxregner
+description=Real firmware-injected on-device ambient-compute coordinator: adds Lio/mesalabs/unica/MaxregnerCloud; to framework.jar that resolves the device power state (IDLE/CHARGING/BUDGET) via resolveState and gates background compute by priority + CPU/RAM budget via shouldRun so low-priority work only runs when charging or above the min charge and high-priority work always runs. Compiled into the firmware by apktool.

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner Living Surface overlay — depth + parallax dimens read by the
+     window animator and launcher when the spatial layer is on. The smali
+     helper Lio/mesalabs/unica/MaxregnerSpatial; computes per-window Z and
+     parallax from the gyroscope; these are the resource fallbacks. -->
+<resources>
+    <!-- Per-window Z depth (dp) for the stacked surface model. -->
+    <dimen name="config_spatialDepthHome">0.0dp</dimen>
+    <dimen name="config_spatialDepthApp">80.0dp</dimen>
+    <dimen name="config_spatialDepthOrb">160.0dp</dimen>
+    <dimen name="config_spatialDepthRecents">-120.0dp</dimen>
+
+    <!-- Parallax amplitude: max tilt offset (dp) applied per axis. -->
+    <dimen name="config_parallaxAmplitude">6.0dp</dimen>
+    <!-- Parallax settle delay (ms) after the gyro goes idle. -->
+    <dimen name="config_parallaxSettleMs">220</dimen>
+
+    <!-- Recents depth scaling: how much recents cards lift off the surface. -->
+    <dimen name="config_recentsCardLift">24.0dp</dimen>
+    <!-- Shadow radius under stacked windows (dp). -->
+    <dimen name="config_spatialShadowRadius">18.0dp</dimen>
+</resources>

@@ -1,0 +1,5 @@
+id=maxregner_glass
+name=Maxregner Glass
+version=v39
+author=maxregner
+description=Real firmware-injected glass layer: adds Lio/mesalabs/unica/MaxregnerGlass; to framework.jar to force-enable the native window blur renderer and rounded window corners, hooks the blur-disabled gate to respect the maxregner enable flag, and ships a theme RRO overlay. Compiled into the firmware by apktool.

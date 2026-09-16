@@ -7,6 +7,10 @@ set -e
 #[
 source "$SRC_DIR/scripts/utils/module_utils.sh" || exit 1
 
+# APPLY_MODULE <modpath>
+# Reads module.prop, copies the system/product/vendor trees (unless SKIPUNZIP=1),
+# applies the module .prop overrides, runs customize.sh and applies any smali
+# patches found under the module's smali/ directory.
 APPLY_MODULE()
 {
     local MODPATH="$1"
@@ -34,22 +38,8 @@ APPLY_MODULE()
 
     LOG_STEP_IN "- Processing \"$MODNAME\" by @$MODAUTH"
 
-    if ! grep -q "^SKIPUNZIP=1$" "$MODPATH/customize.sh" 2> /dev/null; then
-        if [ -d "$MODPATH/odm" ]; then
-            ADD_TO_WORK_DIR "$MODPATH" "odm" "." 0 0 755 "u:object_r:vendor_file:s0"
-        fi
-        if [ -d "$MODPATH/product" ]; then
-            ADD_TO_WORK_DIR "$MODPATH" "product" "." 0 0 755 "u:object_r:system_file:s0"
-        fi
-        if [ -d "$MODPATH/system" ]; then
-            ADD_TO_WORK_DIR "$MODPATH" "system" "." 0 0 755 "u:object_r:system_file:s0"
-        fi
-        if [ -d "$MODPATH/system_ext" ]; then
-            ADD_TO_WORK_DIR "$MODPATH" "system_ext" "." 0 0 755 "u:object_r:system_file:s0"
-        fi
-        if [ -d "$MODPATH/vendor" ]; then
-            ADD_TO_WORK_DIR "$MODPATH" "vendor" "." 0 2000 755 "u:object_r:vendor_file:s0"
-        fi
+    if ! _SHOULD_SKIP_SYSTEM_TREE "$MODPATH"; then
+        _COPY_MODULE_PARTITIONS "$MODPATH"
     fi
 
     READ_AND_APPLY_PROPS "$MODPATH"
@@ -69,6 +59,36 @@ APPLY_MODULE()
     return 0
 }
 
+_SHOULD_SKIP_SYSTEM_TREE()
+{
+    local MODPATH="$1"
+    grep -q "^SKIPUNZIP=1$" "$MODPATH/customize.sh" 2> /dev/null
+}
+
+_COPY_MODULE_PARTITIONS()
+{
+    local MODPATH="$1"
+
+    if [ -d "$MODPATH/odm" ]; then
+        ADD_TO_WORK_DIR "$MODPATH" "odm" "." 0 0 755 "u:object_r:vendor_file:s0"
+    fi
+    if [ -d "$MODPATH/product" ]; then
+        ADD_TO_WORK_DIR "$MODPATH" "product" "." 0 0 755 "u:object_r:system_file:s0"
+    fi
+    if [ -d "$MODPATH/system" ]; then
+        ADD_TO_WORK_DIR "$MODPATH" "system" "." 0 0 755 "u:object_r:system_file:s0"
+    fi
+    if [ -d "$MODPATH/system_ext" ]; then
+        ADD_TO_WORK_DIR "$MODPATH" "system_ext" "." 0 0 755 "u:object_r:system_file:s0"
+    fi
+    if [ -d "$MODPATH/vendor" ]; then
+        ADD_TO_WORK_DIR "$MODPATH" "vendor" "." 0 2000 755 "u:object_r:vendor_file:s0"
+    fi
+}
+
+# APPLY_SMALI_PATCHES <patches_path> <target>
+# Applies every *.patch file under <patches_path>/<target> to the decoded
+# APK/JAR located at /<partition>/<target> (partition is the first path segment).
 APPLY_SMALI_PATCHES()
 {
     local PATCHES_PATH="$1"
@@ -94,6 +114,9 @@ APPLY_SMALI_PATCHES()
     return 0
 }
 
+# READ_AND_APPLY_PROPS <modpath>
+# Reads every *.prop file at the top level of the module directory and applies
+# each "key=value" line via SET_PROP. Empty values delete the prop.
 READ_AND_APPLY_PROPS()
 {
     local MODPATH="$1"

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner Synth runtime overlay. Targets android (framework-res) at high
+     priority to override the UI sound/haptic config the audio + haptic
+     services read when the Synth engine is active. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.maxregner.synth.overlay"
+    android:versionCode="39"
+    android:versionName="39.0">
+    <overlay android:targetPackage="android" android:priority="9999" android:category="theme" />
+    <application android:label="Maxregner Synth" android:hasCode="false" android:allowBackup="false" />
+</manifest>

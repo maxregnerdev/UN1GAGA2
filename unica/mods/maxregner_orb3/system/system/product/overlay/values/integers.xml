@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner Orb v3 overlay — orb integer config read by SystemUI. -->
+<resources>
+    <!-- Long-hold dwell threshold (ms) before the radial menu expands. -->
+    <integer name="config_orbLongHoldMs">450</integer>
+    <!-- Idle period (ms) before the breath animation starts. -->
+    <integer name="config_orbIdlePeriodMs">4200</integer>
+    <!-- Spring solver iterations per frame (substeps for stability). -->
+    <integer name="config_orbSpringSubsteps">2</integer>
+    <!-- Number of radial menu slots (Back/Home/Recents/Notif/Screenshot/Assistant). -->
+    <integer name="config_orbRadialSlots">6</integer>
+</resources>

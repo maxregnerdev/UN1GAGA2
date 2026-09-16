@@ -11,31 +11,18 @@ CSC=""
 IMEI=""
 LATEST_FIRMWARE=""
 
+# UPDATE_BLOBS
+# Walks the prebuilt blobs directory for the configured device and refreshes
+# every blob from the freshly downloaded/extracted firmware, splitting files
+# larger than 50 MiB into .00/.01 chunks to match the existing on-disk layout.
 UPDATE_BLOBS()
 {
     local BLOBS
     local PREBUILTS_DIR="$SRC_DIR/prebuilts/samsung/$DEVICE"
     local FILE_PATH
+    local CHUNK_SIZE=52428800
 
-    if [ -d "$PREBUILTS_DIR/system" ]; then
-        BLOBS+="$(find "$PREBUILTS_DIR/system" ! -type d)"
-        BLOBS="${BLOBS//$PREBUILTS_DIR/system}"
-    fi
-    if [ -d "$PREBUILTS_DIR/product" ]; then
-        [ "$BLOBS" ] && BLOBS+=$'\n'
-        BLOBS+="$(find "$PREBUILTS_DIR/product" ! -type d)"
-        BLOBS="${BLOBS//$PREBUILTS_DIR\//}"
-    fi
-    if [ -d "$PREBUILTS_DIR/vendor" ]; then
-        [ "$BLOBS" ] && BLOBS+=$'\n'
-        BLOBS+="$(find "$PREBUILTS_DIR/vendor" ! -type d)"
-        BLOBS="${BLOBS//$PREBUILTS_DIR\//}"
-    fi
-    if [ -d "$PREBUILTS_DIR/system_ext" ]; then
-        [ "$BLOBS" ] && BLOBS+=$'\n'
-        BLOBS+="$(find "$PREBUILTS_DIR/system_ext" ! -type d)"
-        BLOBS="${BLOBS//$PREBUILTS_DIR\//}"
-    fi
+    BLOBS="$(_COLLECT_BLOBS_LIST "$PREBUILTS_DIR")"
     BLOBS="$(LC_ALL=C sort <<< "$BLOBS")"
 
     for i in $BLOBS; do
@@ -53,15 +40,35 @@ UPDATE_BLOBS()
         LOG "- Updating prebuilts/samsung/$DEVICE/$i"
 
         if [ ! -L "$FW_DIR/${MODEL}_${CSC}/$i" ] && \
-                [ "$(wc -c "$FW_DIR/${MODEL}_${CSC}/$i" | cut -d " " -f 1)" -gt "52428800" ]; then
+                [ "$(wc -c "$FW_DIR/${MODEL}_${CSC}/$i" | cut -d " " -f 1)" -gt "$CHUNK_SIZE" ]; then
             EVAL "rm \"$FILE_PATH.\"*" || exit 1
-            EVAL "split -d -b 52428800 \"$FW_DIR/${MODEL}_${CSC}/$i\" \"$FILE_PATH.\"" || exit 1
+            EVAL "split -d -b $CHUNK_SIZE \"$FW_DIR/${MODEL}_${CSC}/$i\" \"$FILE_PATH.\"" || exit 1
         else
             EVAL "cp -a \"$FW_DIR/${MODEL}_${CSC}/$i\" \"$FILE_PATH\"" || exit 1
         fi
     done
 
     EVAL "cp -a \"$FW_DIR/${MODEL}_${CSC}/.extracted\" \"$PREBUILTS_DIR/.current\"" || exit 1
+}
+
+_COLLECT_BLOBS_LIST()
+{
+    local PREBUILTS_DIR="$1"
+    local BLOBS=""
+    local PART
+    local SUB
+
+    for PART in "system" "product" "vendor" "system_ext"; do
+        if [ -d "$PREBUILTS_DIR/$PART" ]; then
+            SUB="$(find "$PREBUILTS_DIR/$PART" ! -type d)"
+            SUB="${SUB//$PREBUILTS_DIR\/$PART}"
+            [ "$BLOBS" ] && BLOBS+=$'\n'
+            BLOBS+="$PART$SUB"
+        fi
+    done
+
+    BLOBS="${BLOBS//$PREBUILTS_DIR\//}"
+    echo "$BLOBS"
 }
 # ]
 

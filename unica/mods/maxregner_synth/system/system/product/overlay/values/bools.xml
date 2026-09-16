@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner Synth overlay — boolean flags. -->
+<resources>
+    <bool name="config_synthEnabled">true</bool>
+    <!-- Choreograph haptic envelopes to the synth output. -->
+    <bool name="config_synthHapticChoreo">true</bool>
+    <!-- Procedurally synthesize UI sounds instead of playing samples. -->
+    <bool name="config_synthProceduralSound">true</bool>
+</resources>

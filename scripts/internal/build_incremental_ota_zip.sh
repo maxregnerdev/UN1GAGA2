@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
-# Copyright (c) 2026 Salvo Giangreco
+# Copyright (c) 2025 Salvo Giangreco
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+# Assembles an incremental flashable OTA zip by diffing a source target-files
+# archive against a target target-files archive: it computes per-partition
+# block diffs, verifies source compatibility, emits the dynamic_partitions
+# op_list, the edify updater-script (with range_sha1 verification and cache
+# space guards) and the OTA metadata, then packages and signs the result.
+#
 # [
 source "$SRC_DIR/scripts/utils/install_utils.sh" || exit 1
 
@@ -21,6 +27,10 @@ PUBLIC_KEY_PATH+=".x509.pem"
 
 trap 'rm -rf "$TMP_DIR"' EXIT INT
 
+# CALCULATE_MIN_CACHE_SIZE <prune>
+# Scans the *.max_stashed_size files written by img2sdat and returns the largest
+# value, which is the minimum cache the recovery updater needs for stashing.
+# When <prune> is true (or no files exist) the files are deleted afterwards.
 CALCULATE_MIN_CACHE_SIZE()
 {
     local PRUNE_CACHE_FILES="$1"
@@ -42,6 +52,12 @@ CALCULATE_MIN_CACHE_SIZE()
     echo -n "$MAX"
 }
 
+# GENERATE_OP_LIST
+# Writes the dynamic_partitions_op_list that transforms the source super group
+# layout into the target layout: it removes dropped partitions, moves
+# partitions between groups when the group name changes, shrinks/grows both
+# groups and partitions, then adds new partitions. Aborts when the resulting
+# occupied space exceeds the target group size.
 # https://android.googlesource.com/platform/build/+/refs/tags/android-16.0.0_r4/tools/releasetools/common.py#4067
 GENERATE_OP_LIST()
 {
@@ -51,7 +67,6 @@ GENERATE_OP_LIST()
     local SOURCE_SUPER_GROUP_SIZE
     local TARGET_SUPER_GROUP_NAME
     local TARGET_SUPER_GROUP_SIZE
-
     SOURCE_SUPER_GROUP_NAME="$(grep "^super_partition_group" <<< "$SOURCE_BUILD_INFO" | cut -d "=" -f 2 -s)"
     SOURCE_SUPER_GROUP_SIZE="$(grep "^super_${SOURCE_SUPER_GROUP_NAME}_group_size" <<< "$SOURCE_BUILD_INFO" | cut -d "=" -f 2 -s)"
     TARGET_SUPER_GROUP_NAME="$(grep "^super_partition_group" <<< "$TARGET_BUILD_INFO" | cut -d "=" -f 2 -s)"
@@ -149,6 +164,12 @@ GENERATE_OP_LIST()
     fi
 }
 
+# GENERATE_OTA_METADATA
+# Produces the protobuf metadata.pb (with both precondition and postcondition)
+# and the plain-text metadata file. The precondition carries the source
+# fingerprint/build_incremental so recovery can gate the patch.
+# https://android.googlesource.com/platform/build/+/refs/tags/android-16.0.0_r4/tools/releasetools/ota_utils.py#258
+# https://android.googlesource.com/platform/build/+/refs/tags/android-16.0.0_r4/tools/releasetools/ota_utils.py#313
 GENERATE_OTA_METADATA()
 {
     local PROTO_FILE="$SRC_DIR/external/android-tools/vendor/build/tools/releasetools/ota_metadata.proto"
@@ -161,7 +182,6 @@ GENERATE_OTA_METADATA()
     local SECURITY_PATCH_LEVEL
     local SOURCE_FINGERPRINT
     local TARGET_FINGERPRINT
-
     DEVICE="$(grep "^device" <<< "$TARGET_BUILD_INFO" | cut -d "=" -f 2 -s)"
     RELEASE="$(grep "^os_version" <<< "$TARGET_BUILD_INFO" | cut -d "=" -f 2 -s)"
     SOURCE_INCREMENTAL="$(grep "^build_incremental" <<< "$SOURCE_BUILD_INFO" | cut -d "=" -f 2 -s)"
@@ -173,10 +193,8 @@ GENERATE_OTA_METADATA()
 
     mkdir -p "$TMP_DIR/META-INF/com/android"
 
-    # https://android.googlesource.com/platform/build/+/refs/tags/android-16.0.0_r4/tools/releasetools/ota_utils.py#258
     if [ -f "$PROTO_FILE" ]; then
         local MESSAGE
-
         MESSAGE+="type: BLOCK"
         MESSAGE+=", precondition: {device: \\\"$DEVICE\\\""
         MESSAGE+=", build: \\\"$SOURCE_FINGERPRINT\\\""
@@ -192,7 +210,6 @@ GENERATE_OTA_METADATA()
         EVAL "protoc --encode=build.tools.releasetools.OtaMetadata --proto_path=\"$(dirname "$PROTO_FILE")\" \"$PROTO_FILE\" <<< \"$MESSAGE\" > \"$TMP_DIR/META-INF/com/android/metadata.pb\"" || exit 1
     fi
 
-    # https://android.googlesource.com/platform/build/+/refs/tags/android-16.0.0_r4/tools/releasetools/ota_utils.py#313
     {
         echo "ota-required-cache=$(CALCULATE_MIN_CACHE_SIZE true)"
         echo "ota-type=BLOCK"
@@ -207,12 +224,111 @@ GENERATE_OTA_METADATA()
     } > "$TMP_DIR/META-INF/com/android/metadata"
 }
 
+# _EMIT_VERIFY_BLOCK <partition>
+# Emits the edify range_sha1 / block_image_verify guard that lets recovery patch
+# a partition in place only when its touched source ranges still match the
+# recorded sha1, with a block_image_recover fallback.
+# https://android.googlesource.com/platform/build/+/refs/tags/android-16.0.0_r4/tools/releasetools/common.py#3492
+_EMIT_VERIFY_BLOCK()
+{
+    local p="$1"
+
+    if [ ! -f "$TMP_DIR/$p.touched_src_sha1" ]; then
+        echo -n 'ui_print("Image '
+        echo -n "$p"
+        echo    ' will be patched unconditionally.");'
+    else
+        echo -n "if (range_sha1("
+        GET_DEVICE_FROM_MOUNTPOINT "/$p"
+        echo -n ', "'
+        cat "$TMP_DIR/$p.touched_src_ranges"
+        echo -n '") == "'
+        cat "$TMP_DIR/$p.touched_src_sha1" && rm -f "$TMP_DIR/$p.touched_src_sha1"
+        echo -n '" || block_image_verify('
+        GET_DEVICE_FROM_MOUNTPOINT "/$p"
+        echo -n ', package_extract_file("'
+        echo -n "$p.transfer.list"
+        echo -n '"), "'
+        echo -n "$p.new.dat"
+        echo -n '", "'
+        echo -n "$p.patch.dat"
+        echo    '")) then'
+        echo -n 'ui_print("Verified '
+        echo -n "$p image..."
+        echo    '");'
+        echo    'else'
+        echo -n "ifelse (block_image_recover("
+        GET_DEVICE_FROM_MOUNTPOINT "/$p"
+        echo -n ', "'
+        cat "$TMP_DIR/$p.touched_src_ranges" && rm -f "$TMP_DIR/$p.touched_src_ranges"
+        echo -n ') && block_image_verify('
+        GET_DEVICE_FROM_MOUNTPOINT "/$p"
+        echo -n ', package_extract_file("'
+        echo -n "$p.transfer.list"
+        echo -n '"), "'
+        echo -n "$p.new.dat"
+        echo -n '", "'
+        echo -n "$p.patch.dat"
+        echo -n '"), ui_print("'
+        echo -n "$p recovered successfully."
+        echo -n '"), abort("'
+        [[ "$p" == "system" ]] && echo -n "E1004" || echo -n "E2004"
+        echo -n ": $p partition fails to recover"
+        echo    '"));'
+        echo    "endif;"
+    fi
+}
+
+# _EMIT_BLOCK_IMAGE_UPDATE <partition> <partition_count>
+# Emits the edify block_image_update call for a single partition. The ui_print
+# wording reflects whether a real patch.dat exists (verified patch) or the
+# image is patched unconditionally.
+_EMIT_BLOCK_IMAGE_UPDATE()
+{
+    local p="$1"
+    local PARTITION_COUNT="$2"
+
+    echo -n 'ui_print("Patching '
+    echo -n "$p"
+    if [ -s "$TMP_DIR/$p.patch.dat" ]; then
+        echo -n " image after verification."
+    else
+        echo -n " image unconditionally..."
+    fi
+    echo    '");'
+    if [[ "$p" == "system" ]]; then
+        echo -n 'show_progress(0.'
+        echo -n "$(bc -l <<< "9 - $PARTITION_COUNT")"
+        echo    '00000, 0);'
+    else
+        echo    'show_progress(0.100000, 0);'
+    fi
+    echo -n "block_image_update("
+    GET_DEVICE_FROM_MOUNTPOINT "/$p"
+    echo -n ', package_extract_file("'
+    echo -n "$p.transfer.list"
+    echo -n '"), "'
+    echo -n "$p.new.dat"
+    [ -f "$TMP_DIR/$p.new.dat.br" ] && echo -n ".br"
+    echo -n '", "'
+    echo -n "$p.patch.dat"
+    echo    '") ||'
+    echo -n '  abort("'
+    [[ "$p" == "system" ]] && echo -n "E1001" || echo -n "E2001"
+    echo -n ": Failed to update $p image."
+    echo    '");'
+}
+
+# GENERATE_UPDATER_SCRIPT
+# Writes the edify updater-script: assertions/header, the verify-pass for each
+# patched partition, the cache-space guard, the dynamic-partitions assert, the
+# block_image_update calls (shrunk partitions first under dynamic partitions,
+# then the rest), the kernel/boot extraction and the trailing edify.
 GENERATE_UPDATER_SCRIPT()
 {
     local SCRIPT_FILE="$TMP_DIR/META-INF/com/google/android/updater-script"
 
     local PARTITION_COUNT=0
-
     [ -f "$TMP_DIR/vendor.transfer.list" ] && PARTITION_COUNT=$((PARTITION_COUNT + 1))
     [ -f "$TMP_DIR/product.transfer.list" ] && PARTITION_COUNT=$((PARTITION_COUNT + 1))
     [ -f "$TMP_DIR/system_ext.transfer.list" ] && PARTITION_COUNT=$((PARTITION_COUNT + 1))
@@ -223,7 +339,6 @@ GENERATE_UPDATER_SCRIPT()
 
     {
         PRINT_ASSERTIONS "$TARGET_BUILD_INFO" || exit 1
-
         PRINT_HEADER "$TARGET_BUILD_INFO" || exit 1
 
         # https://android.googlesource.com/platform/build/+/refs/tags/android-16.0.0_r4/tools/releasetools/non_ab_ota.py#397
@@ -233,50 +348,7 @@ GENERATE_UPDATER_SCRIPT()
             if [ ! -f "$TMP_DIR/$p.transfer.list" ]; then
                 continue
             fi
-            if [ ! -f "$TMP_DIR/$p.touched_src_sha1" ]; then
-                echo -n 'ui_print("Image '
-                echo -n "$p"
-                echo    ' will be patched unconditionally.");'
-            else
-                echo -n "if (range_sha1("
-                GET_DEVICE_FROM_MOUNTPOINT "/$p"
-                echo -n ', "'
-                cat "$TMP_DIR/$p.touched_src_ranges"
-                echo -n '") == "'
-                cat "$TMP_DIR/$p.touched_src_sha1" && rm -f "$TMP_DIR/$p.touched_src_sha1"
-                echo -n '" || block_image_verify('
-                GET_DEVICE_FROM_MOUNTPOINT "/$p"
-                echo -n ', package_extract_file("'
-                echo -n "$p.transfer.list"
-                echo -n '"), "'
-                echo -n "$p.new.dat"
-                echo -n '", "'
-                echo -n "$p.patch.dat"
-                echo    '")) then'
-                echo -n 'ui_print("Verified '
-                echo -n "$p image..."
-                echo    '");'
-                echo    'else'
-                echo -n "ifelse (block_image_recover("
-                GET_DEVICE_FROM_MOUNTPOINT "/$p"
-                echo -n ', "'
-                cat "$TMP_DIR/$p.touched_src_ranges" && rm -f "$TMP_DIR/$p.touched_src_ranges"
-                echo -n '") && block_image_verify('
-                GET_DEVICE_FROM_MOUNTPOINT "/$p"
-                echo -n ', package_extract_file("'
-                echo -n "$p.transfer.list"
-                echo -n '"), "'
-                echo -n "$p.new.dat"
-                echo -n '", "'
-                echo -n "$p.patch.dat"
-                echo -n '"), ui_print("'
-                echo -n "$p recovered successfully."
-                echo -n '"), abort("'
-                [[ "$p" == "system" ]] && echo -n "E1004" || echo -n "E2004"
-                echo -n ": $p partition fails to recover"
-                echo    '"));'
-                echo    "endif;"
-            fi
+            _EMIT_VERIFY_BLOCK "$p"
         done
 
         if [ "$(CALCULATE_MIN_CACHE_SIZE false)" -gt "0" ]; then
@@ -299,35 +371,7 @@ GENERATE_UPDATER_SCRIPT()
                 fi
                 if grep -q "Shrink partition $p " "$TMP_DIR/dynamic_partitions_op_list"; then
                     echo -e "\n# Patch partition $p\n"
-                    echo -n 'ui_print("Patching '
-                    echo -n "$p"
-                    if [ -s "$TMP_DIR/$p.patch.dat" ]; then
-                        echo -n " image after verification."
-                    else
-                        echo -n " image unconditionally..."
-                    fi
-                    echo    '");'
-                    if [[ "$p" == "system" ]]; then
-                        echo -n 'show_progress(0.'
-                        echo -n "$(bc -l <<< "9 - $PARTITION_COUNT")"
-                        echo    '00000, 0);'
-                    else
-                        echo    'show_progress(0.100000, 0);'
-                    fi
-                    echo -n "block_image_update("
-                    GET_DEVICE_FROM_MOUNTPOINT "/$p"
-                    echo -n ', package_extract_file("'
-                    echo -n "$p.transfer.list"
-                    echo -n '"), "'
-                    echo -n "$p.new.dat"
-                    [ -f "$TMP_DIR/$p.new.dat.br" ] && echo -n ".br"
-                    echo -n '", "'
-                    echo -n "$p.patch.dat"
-                    echo    '") ||'
-                    echo -n '  abort("'
-                    [[ "$p" == "system" ]] && echo -n "E1001" || echo -n "E2001"
-                    echo -n ": Failed to update $p image."
-                    echo    '");'
+                    _EMIT_BLOCK_IMAGE_UPDATE "$p" "$PARTITION_COUNT"
                 fi
             done
             echo -e "\n# Update dynamic partition metadata\n"
@@ -345,35 +389,7 @@ GENERATE_UPDATER_SCRIPT()
             fi
             if ! $TARGET_USE_DYNAMIC_PARTITIONS || ! grep -q "Shrink partition $p " "$TMP_DIR/dynamic_partitions_op_list"; then
                 $TARGET_USE_DYNAMIC_PARTITIONS && echo -e "\n# Patch partition $p\n"
-                echo -n 'ui_print("Patching '
-                echo -n "$p"
-                if [ -s "$TMP_DIR/$p.patch.dat" ]; then
-                    echo -n " image after verification."
-                else
-                    echo -n " image unconditionally..."
-                fi
-                echo    '");'
-                if [[ "$p" == "system" ]]; then
-                    echo -n 'show_progress(0.'
-                    echo -n "$(bc -l <<< "9 - $PARTITION_COUNT")"
-                    echo    '00000, 0);'
-                else
-                    echo    'show_progress(0.100000, 0);'
-                fi
-                echo -n "block_image_update("
-                GET_DEVICE_FROM_MOUNTPOINT "/$p"
-                echo -n ', package_extract_file("'
-                echo -n "$p.transfer.list"
-                echo -n '"), "'
-                echo -n "$p.new.dat"
-                [ -f "$TMP_DIR/$p.new.dat.br" ] && echo -n ".br"
-                echo -n '", "'
-                echo -n "$p.patch.dat"
-                echo    '") ||'
-                echo -n '  abort("'
-                [[ "$p" == "system" ]] && echo -n "E1001" || echo -n "E2001"
-                echo -n ": Failed to update $p image."
-                echo    '");'
+                _EMIT_BLOCK_IMAGE_UPDATE "$p" "$PARTITION_COUNT"
             fi
         done
         $TARGET_USE_DYNAMIC_PARTITIONS && echo -e "\n# --- End patching dynamic partitions ---\n"
@@ -408,13 +424,15 @@ GENERATE_UPDATER_SCRIPT()
     } > "$SCRIPT_FILE"
 }
 
+# VERIFY_SOURCE_COMPATIBILITY
+# Rejects source/target pairs that cannot be patched incrementally: different
+# devices, or a target security patch level older than the source.
 VERIFY_SOURCE_COMPATIBILITY()
 {
     local SOURCE_DEVICE
     local SOURCE_SPL
     local TARGET_DEVICE
     local TARGET_SPL
-
     SOURCE_DEVICE="$(grep "^device" <<< "$SOURCE_BUILD_INFO" | cut -d "=" -f 2 -s)"
     SOURCE_SPL="$(grep "^security_patch" <<< "$SOURCE_BUILD_INFO" | cut -d "=" -f 2 -s)"
     TARGET_DEVICE="$(grep "^device" <<< "$TARGET_BUILD_INFO" | cut -d "=" -f 2 -s)"
@@ -442,12 +460,12 @@ TARGET_ZIP="$2"
 OUTPUT_FILE="$3"
 
 if ! unzip -l "$SOURCE_ZIP" | grep -q "build_info.txt" || unzip -l "$SOURCE_ZIP" | grep -q "META-INF"; then
-    LOGE "File not valid: ${SOURCE_ZIP//$SRC_DIR\//}"
+    LOGE "File not valid: ${SOURCE_ZIP//$SRC_DIR//}"
     exit 1
 fi
 
 if ! unzip -l "$TARGET_ZIP" | grep -q "build_info.txt" || unzip -l "$TARGET_ZIP" | grep -q "META-INF"; then
-    LOGE "File not valid: ${TARGET_ZIP//$SRC_DIR\//}"
+    LOGE "File not valid: ${TARGET_ZIP//$SRC_DIR//}"
     exit 1
 fi
 

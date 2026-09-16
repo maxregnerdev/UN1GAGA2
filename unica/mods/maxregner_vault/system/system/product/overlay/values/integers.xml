@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner Vault overlay — integer privacy config read by the permission
+     controller when the Vault engine is active. -->
+<resources>
+    <!-- Idle auto-revoke threshold (ms) before a granted permission is revoked. -->
+    <integer name="config_vaultAutoRevokeMs">7200000</integer>
+    <!-- Clipboard read cooldown (ms) for background apps. -->
+    <integer name="config_vaultClipboardCooldownMs">60000</integer>
+    <!-- Sensor (gyro/accel) background access threshold (events/min). -->
+    <integer name="config_vaultSensorThresholdPerMin">60</integer>
+</resources>

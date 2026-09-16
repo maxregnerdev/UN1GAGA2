@@ -1,0 +1,5 @@
+id=maxregner_vault
+name=Maxregner Vault
+version=v39
+author=maxregner
+description=Real firmware-injected privacy policy engine: adds Lio/mesalabs/unica/MaxregnerVault; to framework.jar that resolves a permission scope bitmask from a scope name (scopeFromString), evaluates idle-grant auto-revoke (shouldAutoRevoke), and classifies sensitive-scope access (classifySensitivity) so the permission controller can gate location/camera/microphone/contacts/clipboard. Compiled into the firmware by apktool.

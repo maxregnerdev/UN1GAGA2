@@ -19,16 +19,9 @@ _GET_PARTITION_SIZE()
 
     echo -n "${!PARTITION_SIZE}"
 }
-# ]
 
-# GET_DEVICE_FROM_MOUNTPOINT <mountpoint>
-# Returns the device path for the supplied mountpoint.
-GET_DEVICE_FROM_MOUNTPOINT()
+_RESOLVE_FSTAB_FILE()
 {
-    _CHECK_NON_EMPTY_PARAM "MOUNTPOINT" "$1" || return 1
-
-    local MOUNTPOINT="$1"
-
     local FSTAB_FILE="$SRC_DIR/target/$TARGET_CODENAME/installer/recovery.fstab"
     if [ ! -f "$FSTAB_FILE" ]; then
         if grep -q "TARGET_PLATFORM=" "$SRC_DIR/target/$TARGET_CODENAME/config.sh"; then
@@ -42,14 +35,40 @@ GET_DEVICE_FROM_MOUNTPOINT()
         exit 1
     fi
 
+    echo -n "$FSTAB_FILE"
+}
+
+_RESOLVE_DEVICE_ENTRY()
+{
+    local MOUNTPOINT="$1"
+    local FSTAB_FILE="$2"
+
+    local DEVICE
+    DEVICE="$(grep -w "$MOUNTPOINT" "$FSTAB_FILE")"
+    DEVICE="$(sed "/^#/d" <<< "$DEVICE")"
+    DEVICE="$(head -n 1 <<< "$DEVICE")"
+    DEVICE="$(cut -f 1 <<< "$DEVICE" | cut -d " " -f 1)"
+
+    echo -n "$DEVICE"
+}
+# ]
+
+# GET_DEVICE_FROM_MOUNTPOINT <mountpoint>
+# Returns the device path for the supplied mountpoint.
+GET_DEVICE_FROM_MOUNTPOINT()
+{
+    _CHECK_NON_EMPTY_PARAM "MOUNTPOINT" "$1" || return 1
+
+    local MOUNTPOINT="$1"
+
+    local FSTAB_FILE
+    FSTAB_FILE="$(_RESOLVE_FSTAB_FILE)"
+
     if $TARGET_USE_DYNAMIC_PARTITIONS && IS_VALID_PARTITION_NAME "${MOUNTPOINT/\//}"; then
         echo -n "map_partition(\"${MOUNTPOINT/\//}\")"
     else
         local DEVICE
-        DEVICE="$(grep -w "$MOUNTPOINT" "$FSTAB_FILE")"
-        DEVICE="$(sed "/^#/d" <<< "$DEVICE")"
-        DEVICE="$(head -n 1 <<< "$DEVICE")"
-        DEVICE="$(cut -f 1 <<< "$DEVICE" | cut -d " " -f 1)"
+        DEVICE="$(_RESOLVE_DEVICE_ENTRY "$MOUNTPOINT" "$FSTAB_FILE")"
 
         if [ ! "$DEVICE" ]; then
             if [[ "$MOUNTPOINT" == "/dt" ]]; then
@@ -87,15 +106,15 @@ PRINT_ASSERTIONS()
             echo -n "$i"
             echo -n '" || '
         done
-        echo -n 'abort("E3004: This package is for \"'
+        echo -n 'abort("E3004: This package is for "'
         echo -n "$DEVICE"
-        echo    '\" devices; this is a \"" + getprop("ro.product.device") + "\".");'
+        echo    '" devices; this is a "" + getprop("ro.product.device") + "".");'
     else
         echo -n 'getprop("ro.product.device") == "'
         echo -n "$DEVICE"
-        echo -n '" || abort("E3004: This package is for \"'
+        echo -n '" || abort("E3004: This package is for "'
         echo -n "$DEVICE"
-        echo    '\" devices; this is a \"" + getprop("ro.product.device") + "\".");'
+        echo    '" devices; this is a "" + getprop("ro.product.device") + "".");'
     fi
 
     if [ ! -d "$SRC_DIR/target/$DEVICE" ]; then
