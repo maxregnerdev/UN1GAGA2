@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner Living Surface overlay — spatial integer config read by the
+     window animator when the spatial layer is on. -->
+<resources>
+    <!-- Number of distinct depth layers the animator composites. -->
+    <integer name="config_spatialLayerCount">4</integer>
+    <!-- Gyro sampling period (microseconds) for the sensor listener. -->
+    <integer name="config_parallaxSamplePeriodUs">16666</integer>
+    <!-- Max concurrent parallax-animated windows. -->
+    <integer name="config_maxParallaxWindows">6</integer>
+</resources>

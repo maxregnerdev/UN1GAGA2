@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner Flux overlay — boolean flags. -->
+<resources>
+    <bool name="config_fluxEnabled">true</bool>
+    <!-- Content-aware: lower Hz when the frame delta is small/stable. -->
+    <bool name="config_fluxContentAware">true</bool>
+    <!-- Allow sub-min idle Hz on a fully static surface. -->
+    <bool name="config_fluxAllowIdleDrop">true</bool>
+</resources>

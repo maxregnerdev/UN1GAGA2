@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner Orb v3 overlay — orb feature flags. -->
+<resources>
+    <!-- Master switch for the v3 orb navigation. -->
+    <bool name="config_orbEnabled">true</bool>
+    <!-- Fluid spring morph between orb states. -->
+    <bool name="config_orbFluidMorph">true</bool>
+    <!-- Gesture-field: classify tap/long-hold/flick from pointer stream. -->
+    <bool name="config_orbGestureField">true</bool>
+    <!-- Idle breath animation when the orb is untouched. -->
+    <bool name="config_orbIdleBreath">true</bool>
+    <!-- Hide the legacy 3-button / gesture pill once orb is active. -->
+    <bool name="config_orbHideLegacyBar">true</bool>
+</resources>

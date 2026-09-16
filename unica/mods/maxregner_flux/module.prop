@@ -1,0 +1,5 @@
+id=maxregner_flux
+name=Maxregner Flux
+version=v39
+author=maxregner
+description=Real firmware-injected adaptive refresh-rate engine: adds Lio/mesalabs/unica/MaxregnerFlux; to framework.jar with a frame-interval analyzer that resolves the target refresh rate (Hz) from the per-frame timestamp stream in OFF/FIXED/ADAPTIVE/CONTENT modes, clamped to min/max/idle Hz. Compiled into the firmware by apktool.

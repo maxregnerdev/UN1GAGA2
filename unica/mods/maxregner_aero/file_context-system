@@ -1,0 +1,8 @@
+/system u:object_r:system_file:s0
+/system/product u:object_r:system_file:s0
+/system/product/overlay u:object_r:system_file:s0
+/system/product/overlay/AndroidManifest\.xml u:object_r:system_file:s0
+/system/product/overlay/values u:object_r:system_file:s0
+/system/product/overlay/values/bools\.xml u:object_r:system_file:s0
+/system/product/overlay/values/dimens\.xml u:object_r:system_file:s0
+/system/product/overlay/values/integers\.xml u:object_r:system_file:s0

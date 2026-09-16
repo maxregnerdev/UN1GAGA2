@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner Aura overlay — integer color-temperature config read by the
+     display compositor when the Aura engine is active. -->
+<resources>
+    <!-- Minimum white point (Kelvin) the engine will settle to. -->
+    <integer name="config_auraMinKelvin">2500</integer>
+    <!-- Maximum white point (Kelvin) the engine will settle to. -->
+    <integer name="config_auraMaxKelvin">7500</integer>
+    <!-- Default white point (Kelvin) before the first lux sample. -->
+    <integer name="config_auraDefaultKelvin">6500</integer>
+    <!-- Ease step (1/1000) per frame toward the target Kelvin. -->
+    <integer name="config_auraEasePermill">80</integer>
+    <!-- Sample period (ms) between ambient lux reads. -->
+    <integer name="config_auraSamplePeriodMs">2000</integer>
+</resources>

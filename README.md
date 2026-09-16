@@ -113,6 +113,26 @@ The Maxregner layer has been completely rebuilt to a v2 design language and arch
 
 \* Requires a valid keybox
 
+# Maxregner OS 2.0 (firmware-injected subsystems)
+The Maxregner layer is now also delivered as a set of nine **firmware-injected** subsystems: each adds a real self-contained smali class under `Lio/mesalabs/unica/` to `framework.jar` (compiled in by apktool) plus a per-subsystem RRO overlay, and a standalone Magisk module that activates them at boot via `ro.maxregner.*` flags.
+
+| Subsystem | Class | Purpose |
+| --- | --- | --- |
+| Glass | `MaxregnerGlass` | force-enable native window blur + rounded corners, hook the blur-disable gate |
+| Spatial | `MaxregnerSpatial` | per-window Z depth + gyro parallax for the window animator |
+| Orb v3 | `MaxregnerOrb3` (+ `SpringSolver`) | fluid orb navigation controller — spring physics, gesture classifier, magnetic docks, contextual morph |
+| Flux | `MaxregnerFlux` | adaptive refresh-rate engine — frame-interval analyzer, OFF/FIXED/ADAPTIVE/CONTENT modes |
+| Aero | `MaxregnerAero` | motion engine — easeStandard/easeEmphasized/easeOvershoot curves + smoothstep + seeded value noise |
+| Aura | `MaxregnerAura` | ambient-light color-temperature engine — lux→Kelvin, ease toward target, Kelvin→RGB white balance |
+| Synth | `MaxregnerSynth` | audio/haptic synthesis core — sine/square/triangle generator + haptic envelope choreography |
+| Vault | `MaxregnerVault` | privacy policy engine — scope bitmask, idle-grant auto-revoke, sensitive-scope classification |
+| Cloud | `MaxregnerCloud` | on-device ambient-compute coordinator — power-state resolver + priority/budget gate |
+
+The per-subsystem firmware patches live under `unica/mods/maxregner_*` and the unified standalone Magisk module under `magisk/maxregner_os`. Each patch is verified to apply cleanly (`git apply --check`) so the build aborts loudly if a target device's `framework.jar` differs. Prebuilt artifacts are in `out/`:
+
+- `maxregner_os_v39_magisk.zip` — standalone flashable Magisk module (runtime overlay + boot hooks)
+- `maxregner_os_v39_full_source.zip` — full firmware-injection source bundle (all nine subsystem smali patches + per-subsystem overlays)
+
 # Build system (rebuilt)
 The build pipeline (`scripts/make_rom.sh`) was rebuilt into a clear, staged flow. Each stage is a guarded, logged, abort‑on‑failure block:
 

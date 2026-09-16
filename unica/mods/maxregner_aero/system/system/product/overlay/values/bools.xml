@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner Aero overlay — boolean flags. -->
+<resources>
+    <bool name="config_aeroEnabled">true</bool>
+    <bool name="config_aeroOvershoot">true</bool>
+    <bool name="config_aeroAmbientNoise">true</bool>
+    <bool name="config_aeroFluidMorph">true</bool>
+</resources>

@@ -1,0 +1,352 @@
+From ff961ed6376b6dd4912fb45e3679b54e6f014719 Mon Sep 17 00:00:00 2001
+From: maxregner <maxregner@mesalabs.io>
+Date: Wed, 16 Sep 2026 19:44:37 +0000
+Subject: [PATCH] Introduce MaxregnerAura
+
+---
+ .../io/mesalabs/unica/MaxregnerAura.smali     | 333 ++++++++++++++++++
+ 1 file changed, 333 insertions(+)
+ create mode 100644 smali_classes6/io/mesalabs/unica/MaxregnerAura.smali
+
+diff --git a/smali_classes6/io/mesalabs/unica/MaxregnerAura.smali b/smali_classes6/io/mesalabs/unica/MaxregnerAura.smali
+new file mode 100644
+index 0000000..bb704ed
+--- /dev/null
++++ b/smali_classes6/io/mesalabs/unica/MaxregnerAura.smali
+@@ -0,0 +1,333 @@
++.class public final Lio/mesalabs/unica/MaxregnerAura;
++.super Ljava/lang/Object;
++.source "MaxregnerAura.java"
++
++
++# static fields
++.field private static final blacklist TAG:Ljava/lang/String; = "MaxregnerAura"
++
++.field private static volatile blacklist sEnabled:Z
++
++.field private static volatile blacklist sCurrentLux:F
++
++.field private static volatile blacklist sTargetKelvin:I
++
++.field private static volatile blacklist sCurrentKelvin:I
++
++
++# direct methods
++.method static constructor blacklist <clinit>()V
++    .locals 2
++
++    invoke-static {}, Lio/mesalabs/unica/MaxregnerAura;->readEnabled()Z
++
++    move-result v0
++
++    sput-boolean v0, Lio/mesalabs/unica/MaxregnerAura;->sEnabled:Z
++
++    const/4 v0, 0x0
++
++    sput v0, Lio/mesalabs/unica/MaxregnerAura;->sCurrentLux:F
++
++    const v0, 0x44af0000
++
++    sput v0, Lio/mesalabs/unica/MaxregnerAura;->sTargetKelvin:I
++
++    sput v0, Lio/mesalabs/unica/MaxregnerAura;->sCurrentKelvin:I
++
++    return-void
++.end method
++
++.method private constructor blacklist <init>()V
++    .locals 0
++
++    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
++
++    return-void
++.end method
++
++.method private static blacklist readEnabled()Z
++    .locals 2
++
++    const-string v0, "ro.maxregner.aura.enabled"
++
++    const/4 v1, 0x0
++
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->getBoolean(Ljava/lang/String;Z)Z
++
++    move-result v0
++
++    return v0
++.end method
++
++.method public static blacklist isEnabled()Z
++    .locals 1
++
++    sget-boolean v0, Lio/mesalabs/unica/MaxregnerAura;->sEnabled:Z
++
++    return v0
++.end method
++
++.method public static blacklist onLuxChanged(F)V
++    .locals 1
++
++    sput p0, Lio/mesalabs/unica/MaxregnerAura;->sCurrentLux:F
++
++    sget-boolean v0, Lio/mesalabs/unica/MaxregnerAura;->sEnabled:Z
++
++    if-nez v0, :cond_enabled
++
++    return-void
++
++    :cond_enabled
++    invoke-static {p0}, Lio/mesalabs/unica/MaxregnerAura;->luxToKelvin(F)I
++
++    move-result v0
++
++    sput v0, Lio/mesalabs/unica/MaxregnerAura;->sTargetKelvin:I
++
++    return-void
++.end method
++
++.method private static blacklist luxToKelvin(F)I
++    .locals 1
++
++    const v0, 0x3f066666
++
++    cmpg-float v0, p0, v0
++
++    if-gez v0, :cond_low
++
++    const v0, 0x45fae148
++
++    return v0
++
++    :cond_low
++    const v0, 0x3fc90fdb
++
++    cmpg-float v0, p0, v0
++
++    if-gez v0, :cond_mid
++
++    const v0, 0x44af0000
++
++    return v0
++
++    :cond_mid
++    const v0, 0x442a0000
++
++    return v0
++.end method
++
++.method public static blacklist getTargetKelvin()I
++    .locals 1
++
++    sget v0, Lio/mesalabs/unica/MaxregnerAura;->sTargetKelvin:I
++
++    return v0
++.end method
++
++.method public static blacklist getCurrentKelvin()I
++    .locals 1
++
++    sget v0, Lio/mesalabs/unica/MaxregnerAura;->sCurrentKelvin:I
++
++    return v0
++.end method
++
++
++# virtual methods
++.method public blacklist step(F)V
++    .locals 3
++
++    sget-boolean v0, Lio/mesalabs/unica/MaxregnerAura;->sEnabled:Z
++
++    if-nez v0, :cond_enabled
++
++    return-void
++
++    :cond_enabled
++    sget v0, Lio/mesalabs/unica/MaxregnerAura;->sCurrentKelvin:I
++
++    sget v1, Lio/mesalabs/unica/MaxregnerAura;->sTargetKelvin:I
++
++    sub-int v1, v0, v1
++
++    int-to-float v1, v1
++
++    mul-float/2addr v1, p1
++
++    float-to-int v1, v1
++
++    sub-int/2addr v0, v1
++
++    sput v0, Lio/mesalabs/unica/MaxregnerAura;->sCurrentKelvin:I
++
++    return-void
++.end method
++
++.method public blacklist kelvinToRGB(I[I)V
++    .locals 5
++
++    sget-boolean v0, p0, Lio/mesalabs/unica/MaxregnerAura;->sEnabled:Z
++
++    if-nez v0, :cond_enabled
++
++    const/16 v0, 0xff
++
++    const/4 v1, 0x0
++
++    aput v0, p2, v1
++
++    const/4 v1, 0x1
++
++    aput v0, p2, v1
++
++    const/4 v1, 0x2
++
++    aput v0, p2, v1
++
++    return-void
++
++    :cond_enabled
++    int-to-float v0, p1
++
++    const v1, 0x41200000
++
++    div-float/2addr v0, v1
++
++    const v1, 0x41f00000
++
++    cmpg-float v2, v0, v1
++
++    if-gez v2, :cond_red_hi
++
++    const/4 v1, 0x0
++
++    aput v1, p2, v1
++
++    goto :cond_red_done
++
++    :cond_red_hi
++    const v1, 0x41200000
++
++    const v2, 0x49740000
++
++    const v3, 0x41a00000
++
++    mul-float/2addr v2, v3
++
++    const v3, 0x42480000
++
++    div-float/2addr v2, v3
++
++    div-float/2addr v2, v0
++
++    float-to-int v2, v2
++
++    const/16 v3, 0xff
++
++    invoke-static {v2, v3}, Ljava/lang/Math;->min(II)I
++
++    move-result v2
++
++    const/4 v3, 0x0
++
++    aput v2, p2, v3
++
++    :cond_red_done
++    const v2, 0x42480000
++
++    cmpl-float v2, v0, v2
++
++    if-ltz v2, :cond_green_hi
++
++    const v2, 0x438a0000
++
++    const v3, 0x42700000
++
++    mul-float/2addr v2, v3
++
++    const v3, 0x41200000
++
++    mul-float/2addr v3, v0
++
++    const v4, 0x42700000
++
++    sub-float/2addr v3, v4
++
++    div-float/2addr v2, v3
++
++    float-to-int v2, v2
++
++    const/16 v3, 0xff
++
++    invoke-static {v2, v3}, Ljava/lang/Math;->min(II)I
++
++    move-result v2
++
++    const/4 v3, 0x1
++
++    aput v2, p2, v3
++
++    goto :cond_blue
++
++    :cond_green_hi
++    const v2, 0x42b40000
++
++    const v3, 0x42480000
++
++    div-float/2addr v2, v3
++
++    div-float/2addr v2, v0
++
++    float-to-int v2, v2
++
++    const/16 v3, 0xff
++
++    invoke-static {v2, v3}, Ljava/lang/Math;->min(II)I
++
++    move-result v2
++
++    const/4 v3, 0x1
++
++    aput v2, p2, v3
++
++    :cond_blue
++    const v2, 0x42700000
++
++    cmpl-float v2, v0, v2
++
++    if-gtz v2, :cond_blue_set
++
++    const v2, 0x43800000
++
++    const v3, 0x42700000
++
++    sub-float/2addr v3, v0
++
++    mul-float/2addr v2, v3
++
++    float-to-int v2, v2
++
++    const/16 v3, 0xff
++
++    invoke-static {v2, v3}, Ljava/lang/Math;->min(II)I
++
++    move-result v2
++
++    const/4 v3, 0x2
++
++    aput v2, p2, v3
++
++    return-void
++
++    :cond_blue_set
++    const/16 v2, 0xff
++
++    const/4 v3, 0x2
++
++    aput v2, p2, v3
++
++    return-void
++.end method
+-- 
+2.47.3
+

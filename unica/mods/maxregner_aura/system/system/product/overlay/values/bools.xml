@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner Aura overlay — boolean flags. -->
+<resources>
+    <bool name="config_auraEnabled">true</bool>
+    <bool name="config_auraAdaptiveKelvin">true</bool>
+    <bool name="config_auraTintCompositor">true</bool>
+</resources>

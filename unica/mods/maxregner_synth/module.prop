@@ -1,0 +1,5 @@
+id=maxregner_synth
+name=Maxregner Synth
+version=v39
+author=maxregner
+description=Real firmware-injected audio/haptic synthesis core: adds Lio/mesalabs/unica/MaxregnerSynth; to framework.jar that generates procedural waveform samples (sine/square/triangle) via synth(wave,freq,delta) for the UI sound scheme and computes haptic envelope curves via hapticEnvelope(elapsedMs,durationMs) so haptic effects choreograph to the synth output. Compiled into the firmware by apktool.

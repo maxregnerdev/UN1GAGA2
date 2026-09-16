@@ -1,0 +1,255 @@
+From c2e15d019491c1d0617738a1e7d9c99219d4fb35 Mon Sep 17 00:00:00 2001
+From: maxregner <maxregner@mesalabs.io>
+Date: Wed, 16 Sep 2026 19:45:47 +0000
+Subject: [PATCH] Introduce MaxregnerSynth
+
+---
+ .../io/mesalabs/unica/MaxregnerSynth.smali    | 236 ++++++++++++++++++
+ 1 file changed, 236 insertions(+)
+ create mode 100644 smali_classes6/io/mesalabs/unica/MaxregnerSynth.smali
+
+diff --git a/smali_classes6/io/mesalabs/unica/MaxregnerSynth.smali b/smali_classes6/io/mesalabs/unica/MaxregnerSynth.smali
+new file mode 100644
+index 0000000..0dd8333
+--- /dev/null
++++ b/smali_classes6/io/mesalabs/unica/MaxregnerSynth.smali
+@@ -0,0 +1,236 @@
++.class public final Lio/mesalabs/unica/MaxregnerSynth;
++.super Ljava/lang/Object;
++.source "MaxregnerSynth.java"
++
++
++# static fields
++.field private static final blacklist TAG:Ljava/lang/String; = "MaxregnerSynth"
++
++.field private static final blacklist WAVE_SINE:I = 0x0
++
++.field private static final blacklist WAVE_SQUARE:I = 0x1
++
++.field private static final blacklist WAVE_TRIANGLE:I = 0x2
++
++.field private static volatile blacklist sEnabled:Z
++
++.field private static volatile blacklist sAmplitude:F
++
++.field private static volatile blacklist sPhase:F
++
++
++# direct methods
++.method static constructor blacklist <clinit>()V
++    .locals 1
++
++    invoke-static {}, Lio/mesalabs/unica/MaxregnerSynth;->readEnabled()Z
++
++    move-result v0
++
++    sput-boolean v0, Lio/mesalabs/unica/MaxregnerSynth;->sEnabled:Z
++
++    invoke-static {}, Lio/mesalabs/unica/MaxregnerSynth;->readAmplitude()F
++
++    move-result v0
++
++    sput v0, Lio/mesalabs/unica/MaxregnerSynth;->sAmplitude:F
++
++    const/4 v0, 0x0
++
++    sput v0, Lio/mesalabs/unica/MaxregnerSynth;->sPhase:F
++
++    return-void
++.end method
++
++.method private constructor blacklist <init>()V
++    .locals 0
++
++    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
++
++    return-void
++.end method
++
++.method private static blacklist readEnabled()Z
++    .locals 2
++
++    const-string v0, "ro.maxregner.synth.enabled"
++
++    const/4 v1, 0x0
++
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->getBoolean(Ljava/lang/String;Z)Z
++
++    move-result v0
++
++    return v0
++.end method
++
++.method private static blacklist readAmplitude()F
++    .locals 2
++
++    const-string v0, "ro.maxregner.synth.amplitude"
++
++    const v1, 0x3f800000
++
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->getFloat(Ljava/lang/String;F)F
++
++    move-result v0
++
++    return v0
++.end method
++
++.method public static blacklist isEnabled()Z
++    .locals 1
++
++    sget-boolean v0, Lio/mesalabs/unica/MaxregnerSynth;->sEnabled:Z
++
++    return v0
++.end method
++
++
++# virtual methods
++.method public blacklist synth(IFF)F
++    .locals 4
++
++    sget-boolean v0, Lio/mesalabs/unica/MaxregnerSynth;->sEnabled:Z
++
++    if-nez v0, :cond_enabled
++
++    const/4 v0, 0x0
++
++    return v0
++
++    :cond_enabled
++    sget v0, Lio/mesalabs/unica/MaxregnerSynth;->sPhase:F
++
++    add-float/2addr v0, p2
++
++    sput v0, Lio/mesalabs/unica/MaxregnerSynth;->sPhase:F
++
++    if-nez p1, :cond_square
++
++    float-to-double v0, v0
++
++    const-wide v2, 0x400921fb54442d18L
++
++    invoke-static {v0, v1, v2, v3}, Ljava/lang/Math;->sin(DD)D
++
++    move-result-wide v0
++
++    double-to-float v0, v0
++
++    goto :goto_done
++
++    :cond_square
++    const/4 v1, 0x1
++
++    if-eq p1, v1, :cond_triangle
++
++    float-to-double v0, v0
++
++    const-wide v2, 0x400921fb54442d18L
++
++    invoke-static {v0, v1, v2, v3}, Ljava/lang/Math;->sin(DD)D
++
++    move-result-wide v0
++
++    const-wide/16 v2, 0x0
++
++    cmpg-double v2, v0, v2
++
++    if-gez v2, :cond_sq_pos
++
++    const/high16 v0, -0x40800000
++
++    goto :goto_done
++
++    :cond_sq_pos
++    const/high16 v0, 0x3f800000
++
++    goto :goto_done
++
++    :cond_triangle
++    const v1, 0x400921fb54442d18L
++
++    rem-float/2addr v0, v1
++
++    const v1, 0x3f000000
++
++    div-float/2addr v0, v1
++
++    const/high16 v1, 0x3f800000
++
++    cmpl-float v1, v0, v1
++
++    if-lez v1, :cond_tri_lo
++
++    const/high16 v1, 0x40000000
++
++    sub-float/2addr v0, v1
++
++    :cond_tri_lo
++    const v1, 0x3f800000
++
++    invoke-static {v0}, Ljava/lang/Math;->abs(F)F
++
++    move-result v0
++
++    const/high16 v1, 0x3f800000
++
++    sub-float/2addr v0, v1
++
++    :goto_done
++    mul-float/2addr v0, p2
++
++    sget v1, Lio/mesalabs/unica/MaxregnerSynth;->sAmplitude:F
++
++    mul-float/2addr v0, v1
++
++    return v0
++.end method
++
++.method public blacklist hapticEnvelope(FF)F
++    .locals 2
++
++    sget-boolean v0, Lio/mesalabs/unica/MaxregnerSynth;->sEnabled:Z
++
++    if-nez v0, :cond_enabled
++
++    const/4 v0, 0x0
++
++    return v0
++
++    :cond_enabled
++    const/4 v0, 0x0
++
++    cmpg-float v0, p1, v0
++
++    if-gtz v0, :cond_decay
++
++    const/4 v0, 0x0
++
++    return v0
++
++    :cond_decay
++    cmpg-float v0, p1, p2
++
++    if-gez v0, :cond_tail
++
++    div-float v0, p1, p2
++
++    float-to-double v0, v0
++
++    const-wide v2, 0x400921fb54442d18L
++
++    invoke-static {v0, v1, v2, v3}, Ljava/lang/Math;->sin(DD)D
++
++    move-result-wide v0
++
++    double-to-float v0, v0
++
++    return v0
++
++    :cond_tail
++    const/4 v0, 0x0
++
++    return v0
++.end method
+-- 
+2.47.3
+

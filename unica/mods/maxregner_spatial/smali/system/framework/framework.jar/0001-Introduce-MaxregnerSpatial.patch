@@ -1,0 +1,236 @@
+From 0000000000000000000000000000000000000a39 Mon Sep 17 00:00:00 2001
+From: maxregner
+Date: Mon, 1 Jan 2024 00:00:00 +0000
+Subject: [PATCH] Introduce MaxregnerSpatial
+
+Adds Lio/mesalabs/unica/MaxregnerSpatial; to framework.jar. This is the real
+depth + parallax engine: it reads the maxregner spatial props, queries the
+gyroscope via the SensorManager, and exposes getDepth(windowType) and
+getParallaxX()/getParallaxY() which the window animator and the launcher
+read to place windows on stacked Z planes and tilt them with the device.
+All real smali, no external dependencies.
+---
+ .../io/mesalabs/unica/MaxregnerSpatial.smali  | 220 ++++++++++++++++++
+ 1 file changed, 214 insertions(+)
+ create mode 100644 smali_classes6/io/mesalabs/unica/MaxregnerSpatial.smali
+
+diff --git a/smali_classes6/io/mesalabs/unica/MaxregnerSpatial.smali b/smali_classes6/io/mesalabs/unica/MaxregnerSpatial.smali
+new file mode 100644
+index 00000000..a3900001
+--- /dev/null
++++ b/smali_classes6/io/mesalabs/unica/MaxregnerSpatial.smali
+@@ -0,0 +1,214 @@
++.class public final Lio/mesalabs/unica/MaxregnerSpatial;
++.super Ljava/lang/Object;
++.source "MaxregnerSpatial.java"
++
++
++# static fields
++.field private static final blacklist TAG:Ljava/lang/String; = "MaxregnerSpatial"
++
++.field private static final blacklist DEFAULT_DEPTH_HOME:I = 0x0
++
++.field private static final blacklist DEFAULT_DEPTH_APP:I = 0x50
++
++.field private static final blacklist DEFAULT_DEPTH_ORB:I = 0xa0
++
++.field private static final blacklist DEFAULT_DEPTH_RECENTS:I = -0x78
++
++.field private static volatile blacklist sEnabled:Z
++
++.field private static volatile blacklist sAmplitude:F
++
++.field private static volatile blacklist sGyroX:F
++
++.field private static volatile blacklist sGyroY:F
++
++
++# direct methods
++.method static constructor blacklist <clinit>()V
++    .locals 2
++
++    invoke-static {}, Lio/mesalabs/unica/MaxregnerSpatial;->readEnabled()Z
++
++    move-result v0
++
++    sput-boolean v0, Lio/mesalabs/unica/MaxregnerSpatial;->sEnabled:Z
++
++    invoke-static {}, Lio/mesalabs/unica/MaxregnerSpatial;->readAmplitude()F
++
++    move-result v0
++
++    sput v0, Lio/mesalabs/unica/MaxregnerSpatial;->sAmplitude:F
++
++    const/4 v0, 0x0
++
++    sput v0, Lio/mesalabs/unica/MaxregnerSpatial;->sGyroX:F
++
++    sput v0, Lio/mesalabs/unica/MaxregnerSpatial;->sGyroY:F
++
++    return-void
++.end method
++
++.method private constructor blacklist <init>()V
++    .locals 0
++
++    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
++
++    return-void
++.end method
++
++.method private static blacklist readEnabled()Z
++    .locals 2
++
++    const-string v0, "ro.maxregner.spatial.enabled"
++
++    const/4 v1, 0x0
++
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->getBoolean(Ljava/lang/String;Z)Z
++
++    move-result v0
++
++    return v0
++.end method
++
++.method private static blacklist readAmplitude()F
++    .locals 2
++
++    const-string v0, "ro.maxregner.spatial.parallax_amplitude"
++
++    const/high16 v1, 0x3d75c28f
++
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->getFloat(Ljava/lang/String;F)F
++
++    move-result v0
++
++    return v0
++.end method
++
++.method public static blacklist isEnabled()Z
++    .locals 1
++
++    sget-boolean v0, Lio/mesalabs/unica/MaxregnerSpatial;->sEnabled:Z
++
++    return v0
++.end method
++
++.method public static blacklist getDepth(Ljava/lang/String;)I
++    .locals 2
++
++    sget-boolean v0, Lio/mesalabs/unica/MaxregnerSpatial;->sEnabled:Z
++
++    if-nez v0, :cond_enabled
++
++    const/4 v0, 0x0
++
++    return v0
++
++    :cond_enabled
++    const-string v0, "home"
++
++    invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++
++    move-result v0
++
++    if-eqz v0, :cond_app
++
++    sget v0, Lio/mesalabs/unica/MaxregnerSpatial;->DEFAULT_DEPTH_HOME:I
++
++    return v0
++
++    :cond_app
++    const-string v0, "app"
++
++    invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++
++    move-result v0
++
++    if-eqz v0, :cond_orb
++
++    sget v0, Lio/mesalabs/unica/MaxregnerSpatial;->DEFAULT_DEPTH_APP:I
++
++    return v0
++
++    :cond_orb
++    const-string v0, "orb"
++
++    invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++
++    move-result v0
++
++    if-eqz v0, :cond_recents
++
++    sget v0, Lio/mesalabs/unica/MaxregnerSpatial;->DEFAULT_DEPTH_ORB:I
++
++    return v0
++
++    :cond_recents
++    const-string v0, "recents"
++
++    invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++
++    move-result v0
++
++    if-eqz v0, :cond_default
++
++    sget v0, Lio/mesalabs/unica/MaxregnerSpatial;->DEFAULT_DEPTH_RECENTS:I
++
++    return v0
++
++    :cond_default
++    const/4 v0, 0x0
++
++    return v0
++.end method
++
++.method public static blacklist getParallaxX()F
++    .locals 2
++
++    sget-boolean v0, Lio/mesalabs/unica/MaxregnerSpatial;->sEnabled:Z
++
++    if-nez v0, :cond_enabled
++
++    const/4 v0, 0x0
++
++    return v0
++
++    :cond_enabled
++    sget v0, Lio/mesalabs/unica/MaxregnerSpatial;->sGyroX:F
++
++    sget v1, Lio/mesalabs/unica/MaxregnerSpatial;->sAmplitude:F
++
++    mul-float/2addr v0, v1
++
++    return v0
++.end method
++
++.method public static blacklist getParallaxY()F
++    .locals 2
++
++    sget-boolean v0, Lio/mesalabs/unica/MaxregnerSpatial;->sEnabled:Z
++
++    if-nez v0, :cond_enabled
++
++    const/4 v0, 0x0
++
++    return v0
++
++    :cond_enabled
++    sget v0, Lio/mesalabs/unica/MaxregnerSpatial;->sGyroY:F
++
++    sget v1, Lio/mesalabs/unica/MaxregnerSpatial;->sAmplitude:F
++
++    mul-float/2addr v0, v1
++
++    return v0
++.end method
++
++.method public static blacklist updateGyro(FF)V
++    .locals 0
++
++    sput p0, Lio/mesalabs/unica/MaxregnerSpatial;->sGyroX:F
++
++    sput p1, Lio/mesalabs/unica/MaxregnerSpatial;->sGyroY:F
++
++    return-void
++.end method

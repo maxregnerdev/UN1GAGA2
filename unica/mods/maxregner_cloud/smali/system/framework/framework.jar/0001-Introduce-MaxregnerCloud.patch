@@ -1,0 +1,271 @@
+From 632e4ac712cf0f1b95cea6aeb76c42dc9aca8c99 Mon Sep 17 00:00:00 2001
+From: maxregner <maxregner@mesalabs.io>
+Date: Wed, 16 Sep 2026 19:48:24 +0000
+Subject: [PATCH] Introduce MaxregnerCloud
+
+---
+ .../io/mesalabs/unica/MaxregnerCloud.smali    | 252 ++++++++++++++++++
+ 1 file changed, 252 insertions(+)
+ create mode 100644 smali_classes6/io/mesalabs/unica/MaxregnerCloud.smali
+
+diff --git a/smali_classes6/io/mesalabs/unica/MaxregnerCloud.smali b/smali_classes6/io/mesalabs/unica/MaxregnerCloud.smali
+new file mode 100644
+index 0000000..e4284a5
+--- /dev/null
++++ b/smali_classes6/io/mesalabs/unica/MaxregnerCloud.smali
+@@ -0,0 +1,252 @@
++.class public final Lio/mesalabs/unica/MaxregnerCloud;
++.super Ljava/lang/Object;
++.source "MaxregnerCloud.java"
++
++
++# static fields
++.field private static final blacklist TAG:Ljava/lang/String; = "MaxregnerCloud"
++
++.field private static final blacklist PRIORITY_LOW:I = 0x0
++
++.field private static final blacklist PRIORITY_DEFAULT:I = 0x1
++
++.field private static final blacklist PRIORITY_HIGH:I = 0x2
++
++.field private static final blacklist STATE_IDLE:I = 0x0
++
++.field private static final blacklist STATE_CHARGING:I = 0x1
++
++.field private static final blacklist STATE_BUDGET:I = 0x2
++
++.field private static volatile blacklist sEnabled:Z
++
++.field private static volatile blacklist sBudgetCpu:I
++
++.field private static volatile blacklist sBudgetRamMb:I
++
++.field private static volatile blacklist sMinChargePct:I
++
++
++# direct methods
++.method static constructor blacklist <clinit>()V
++    .locals 1
++
++    invoke-static {}, Lio/mesalabs/unica/MaxregnerCloud;->readEnabled()Z
++
++    move-result v0
++
++    sput-boolean v0, Lio/mesalabs/unica/MaxregnerCloud;->sEnabled:Z
++
++    invoke-static {}, Lio/mesalabs/unica/MaxregnerCloud;->readBudgetCpu()I
++
++    move-result v0
++
++    sput v0, Lio/mesalabs/unica/MaxregnerCloud;->sBudgetCpu:I
++
++    invoke-static {}, Lio/mesalabs/unica/MaxregnerCloud;->readBudgetRam()I
++
++    move-result v0
++
++    sput v0, Lio/mesalabs/unica/MaxregnerCloud;->sBudgetRamMb:I
++
++    invoke-static {}, Lio/mesalabs/unica/MaxregnerCloud;->readMinCharge()I
++
++    move-result v0
++
++    sput v0, Lio/mesalabs/unica/MaxregnerCloud;->sMinChargePct:I
++
++    return-void
++.end method
++
++.method private constructor blacklist <init>()V
++    .locals 0
++
++    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
++
++    return-void
++.end method
++
++.method private static blacklist readEnabled()Z
++    .locals 2
++
++    const-string v0, "ro.maxregner.cloud.enabled"
++
++    const/4 v1, 0x0
++
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->getBoolean(Ljava/lang/String;Z)Z
++
++    move-result v0
++
++    return v0
++.end method
++
++.method private static blacklist readBudgetCpu()I
++    .locals 2
++
++    const-string v0, "ro.maxregner.cloud.budget_cpu_pct"
++
++    const/16 v1, 0x32
++
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->getInt(Ljava/lang/String;I)I
++
++    move-result v0
++
++    return v0
++.end method
++
++.method private static blacklist readBudgetRam()I
++    .locals 2
++
++    const-string v0, "ro.maxregner.cloud.budget_ram_mb"
++
++    const/16 v1, 0x200
++
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->getInt(Ljava/lang/String;I)I
++
++    move-result v0
++
++    return v0
++.end method
++
++.method private static blacklist readMinCharge()I
++    .locals 2
++
++    const-string v0, "ro.maxregner.cloud.min_charge_pct"
++
++    const/16 v1, 0x50
++
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->getInt(Ljava/lang/String;I)I
++
++    move-result v0
++
++    return v0
++.end method
++
++.method public static blacklist isEnabled()Z
++    .locals 1
++
++    sget-boolean v0, Lio/mesalabs/unica/MaxregnerCloud;->sEnabled:Z
++
++    return v0
++.end method
++
++
++# virtual methods
++.method public blacklist resolveState(ZII)I
++    .locals 2
++
++    sget-boolean v0, Lio/mesalabs/unica/MaxregnerCloud;->sEnabled:Z
++
++    if-nez v0, :cond_enabled
++
++    const/4 v0, 0x1
++
++    return v0
++
++    :cond_enabled
++    if-eqz p1, :cond_budget
++
++    const/4 v0, 0x1
++
++    return v0
++
++    :cond_budget
++    sget v0, Lio/mesalabs/unica/MaxregnerCloud;->sMinChargePct:I
++
++    if-lt p2, v0, :cond_idle
++
++    const/4 v0, 0x2
++
++    return v0
++
++    :cond_idle
++    const/4 v0, 0x0
++
++    return v0
++.end method
++
++.method public blacklist shouldRun(IIII)Z
++    .locals 3
++
++    sget-boolean v0, Lio/mesalabs/unica/MaxregnerCloud;->sEnabled:Z
++
++    if-nez v0, :cond_enabled
++
++    const/4 v0, 0x1
++
++    return v0
++
++    :cond_enabled
++    const/4 v0, 0x1
++
++    if-ge p1, v0, :cond_skip
++
++    const/4 v0, 0x0
++
++    return v0
++
++    :cond_skip
++    sget v0, Lio/mesalabs/unica/MaxregnerCloud;->sBudgetCpu:I
++
++    if-le p2, v0, :cond_ram
++
++    const/4 v0, 0x0
++
++    return v0
++
++    :cond_ram
++    sget v0, Lio/mesalabs/unica/MaxregnerCloud;->sBudgetRamMb:I
++
++    if-le p3, v0, :cond_state
++
++    const/4 v0, 0x0
++
++    return v0
++
++    :cond_state
++    const/4 v0, 0x2
++
++    if-eq p4, v0, :cond_high
++
++    const/4 v0, 0x1
++
++    if-ne p4, v0, :cond_idle
++
++    const/4 v0, 0x0
++
++    return v0
++
++    :cond_high
++    const/4 v0, 0x1
++
++    return v0
++
++    :cond_idle
++    const/4 v0, 0x0
++
++    if-eq p1, v0, :cond_high
++
++    const/4 v0, 0x0
++
++    return v0
++
++    const/4 v0, 0x1
++
++    return v0
++.end method
++
++.method public blacklist getCpuBudgetPct()I
++    .locals 1
++
++    sget v0, Lio/mesalabs/unica/MaxregnerCloud;->sBudgetCpu:I
++
++    return v0
++.end method
++
++.method public blacklist getRamBudgetMb()I
++    .locals 1
++
++    sget v0, Lio/mesalabs/unica/MaxregnerCloud;->sBudgetRamMb:I
++
++    return v0
++.end method
+-- 
+2.47.3
+

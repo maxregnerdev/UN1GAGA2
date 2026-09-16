@@ -1,0 +1,5 @@
+id=maxregner_orb3
+name=Maxregner Orb v3
+version=v39
+author=maxregner
+description=Real firmware-injected Orb v3 navigation controller: adds Lio/mesalabs/unica/MaxregnerOrb3; to framework.jar with a critical-damped spring solver (SpringSolver) for fluid morph state, a gesture classifier over the pointer sample stream (tap/long-hold/flick/pinch), magnetic dock zone resolution, and contextual morph target resolution. Compiled into the firmware by apktool.

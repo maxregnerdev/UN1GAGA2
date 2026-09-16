@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner Cloud overlay — integer compute-budget config read by the job
+     scheduler when the Cloud coordinator is active. -->
+<resources>
+    <!-- Max CPU budget (percent) for ambient compute. -->
+    <integer name="config_cloudBudgetCpuPct">50</integer>
+    <!-- Max RAM budget (MB) for ambient compute. -->
+    <integer name="config_cloudBudgetRamMb">512</integer>
+    <!-- Min charge (percent) to run non-charging ambient compute. -->
+    <integer name="config_cloudMinChargePct">80</integer>
+    <!-- Defer window (ms) for low-priority work between runs. -->
+    <integer name="config_cloudDeferMs">900000</integer>
+</resources>
