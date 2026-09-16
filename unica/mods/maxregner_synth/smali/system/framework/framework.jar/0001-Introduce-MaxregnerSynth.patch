@@ -1,19 +1,19 @@
-From c2e15d019491c1d0617738a1e7d9c99219d4fb35 Mon Sep 17 00:00:00 2001
+From 5b962bf913649fcab026031d7cbeed334a054729 Mon Sep 17 00:00:00 2001
 From: maxregner <maxregner@mesalabs.io>
-Date: Wed, 16 Sep 2026 19:45:47 +0000
+Date: Wed, 16 Sep 2026 20:06:24 +0000
 Subject: [PATCH] Introduce MaxregnerSynth
 
 ---
- .../io/mesalabs/unica/MaxregnerSynth.smali    | 236 ++++++++++++++++++
- 1 file changed, 236 insertions(+)
+ .../io/mesalabs/unica/MaxregnerSynth.smali    | 226 ++++++++++++++++++
+ 1 file changed, 226 insertions(+)
  create mode 100644 smali_classes6/io/mesalabs/unica/MaxregnerSynth.smali
 
 diff --git a/smali_classes6/io/mesalabs/unica/MaxregnerSynth.smali b/smali_classes6/io/mesalabs/unica/MaxregnerSynth.smali
 new file mode 100644
-index 0000000..0dd8333
+index 0000000..f51ff93
 --- /dev/null
 +++ b/smali_classes6/io/mesalabs/unica/MaxregnerSynth.smali
-@@ -0,0 +1,236 @@
+@@ -0,0 +1,226 @@
 +.class public final Lio/mesalabs/unica/MaxregnerSynth;
 +.super Ljava/lang/Object;
 +.source "MaxregnerSynth.java"
@@ -122,19 +122,11 @@ index 0000000..0dd8333
 +
 +    sput v0, Lio/mesalabs/unica/MaxregnerSynth;->sPhase:F
 +
-+    if-nez p1, :cond_square
++    const/4 v1, 0x2
 +
-+    float-to-double v0, v0
++    if-eq p1, v1, :cond_square
 +
-+    const-wide v2, 0x400921fb54442d18L
-+
-+    invoke-static {v0, v1, v2, v3}, Ljava/lang/Math;->sin(DD)D
-+
-+    move-result-wide v0
-+
-+    double-to-float v0, v0
-+
-+    goto :goto_done
++    goto :cond_triangle
 +
 +    :cond_square
 +    const/4 v1, 0x1
@@ -165,34 +157,32 @@ index 0000000..0dd8333
 +    goto :goto_done
 +
 +    :cond_triangle
-+    const v1, 0x400921fb54442d18L
++    const v1, 0x40c90fdb
 +
 +    rem-float/2addr v0, v1
 +
-+    const v1, 0x3f000000
-+
-+    div-float/2addr v0, v1
-+
-+    const/high16 v1, 0x3f800000
-+
-+    cmpl-float v1, v0, v1
-+
-+    if-lez v1, :cond_tri_lo
-+
-+    const/high16 v1, 0x40000000
-+
-+    sub-float/2addr v0, v1
-+
-+    :cond_tri_lo
 +    const v1, 0x3f800000
 +
++    cmpl-float v2, v0, v1
++
++    if-lez v2, :cond_tri_hi
++
++    const v2, 0x40c90fdb
++
++    sub-float/2addr v0, v2
++
++    :cond_tri_hi
 +    invoke-static {v0}, Ljava/lang/Math;->abs(F)F
 +
 +    move-result v0
 +
-+    const/high16 v1, 0x3f800000
++    const v1, 0x3f800000
 +
 +    sub-float/2addr v0, v1
++
++    const/high16 v1, 0x40000000
++
++    mul-float/2addr v0, v1
 +
 +    :goto_done
 +    mul-float/2addr v0, p2
@@ -205,7 +195,7 @@ index 0000000..0dd8333
 +.end method
 +
 +.method public blacklist hapticEnvelope(FF)F
-+    .locals 2
++    .locals 4
 +
 +    sget-boolean v0, Lio/mesalabs/unica/MaxregnerSynth;->sEnabled:Z
 +

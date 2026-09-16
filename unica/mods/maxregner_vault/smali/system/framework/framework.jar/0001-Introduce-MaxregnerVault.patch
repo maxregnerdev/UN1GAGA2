@@ -1,6 +1,6 @@
-From 9196619959522d0358ec04db1bb9e7b79c0449b2 Mon Sep 17 00:00:00 2001
+From 9d7f24c680a91a9098b453b5a79ac95de670e8a9 Mon Sep 17 00:00:00 2001
 From: maxregner <maxregner@mesalabs.io>
-Date: Wed, 16 Sep 2026 19:47:26 +0000
+Date: Wed, 16 Sep 2026 20:06:24 +0000
 Subject: [PATCH] Introduce MaxregnerVault
 
 ---
@@ -10,7 +10,7 @@ Subject: [PATCH] Introduce MaxregnerVault
 
 diff --git a/smali_classes6/io/mesalabs/unica/MaxregnerVault.smali b/smali_classes6/io/mesalabs/unica/MaxregnerVault.smali
 new file mode 100644
-index 0000000..8c50889
+index 0000000..ba4e061
 --- /dev/null
 +++ b/smali_classes6/io/mesalabs/unica/MaxregnerVault.smali
 @@ -0,0 +1,242 @@
@@ -168,7 +168,7 @@ index 0000000..8c50889
 +
 +    if-eqz v0, :cond_clip
 +
-+    const/4 v0, 0x8
++    const/16 v0, 0x8
 +
 +    return v0
 +

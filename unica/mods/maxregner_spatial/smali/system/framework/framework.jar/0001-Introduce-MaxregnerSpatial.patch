@@ -97,7 +97,7 @@ index 00000000..a3900001
 +
 +    const-string v0, "ro.maxregner.spatial.parallax_amplitude"
 +
-+    const/high16 v1, 0x3d75c28f
++    const v1, 0x3d75c28f
 +
 +    invoke-static {v0, v1}, Landroid/os/SystemProperties;->getFloat(Ljava/lang/String;F)F
 +

@@ -1,6 +1,6 @@
-From ff961ed6376b6dd4912fb45e3679b54e6f014719 Mon Sep 17 00:00:00 2001
+From 292303b73e952d6199e6ce0a98090ebbf3565305 Mon Sep 17 00:00:00 2001
 From: maxregner <maxregner@mesalabs.io>
-Date: Wed, 16 Sep 2026 19:44:37 +0000
+Date: Wed, 16 Sep 2026 20:06:24 +0000
 Subject: [PATCH] Introduce MaxregnerAura
 
 ---
@@ -10,7 +10,7 @@ Subject: [PATCH] Introduce MaxregnerAura
 
 diff --git a/smali_classes6/io/mesalabs/unica/MaxregnerAura.smali b/smali_classes6/io/mesalabs/unica/MaxregnerAura.smali
 new file mode 100644
-index 0000000..bb704ed
+index 0000000..f4e8d02
 --- /dev/null
 +++ b/smali_classes6/io/mesalabs/unica/MaxregnerAura.smali
 @@ -0,0 +1,333 @@
@@ -185,7 +185,7 @@ index 0000000..bb704ed
 +.method public blacklist kelvinToRGB(I[I)V
 +    .locals 5
 +
-+    sget-boolean v0, p0, Lio/mesalabs/unica/MaxregnerAura;->sEnabled:Z
++    sget-boolean v0, Lio/mesalabs/unica/MaxregnerAura;->sEnabled:Z
 +
 +    if-nez v0, :cond_enabled
 +
