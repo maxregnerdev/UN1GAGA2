@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner Glass overlay — integer tunables for the blur pipeline. -->
+<resources>
+    <!-- Max concurrent blurred surfaces the renderer will composite. -->
+    <integer name="config_maxBlurredWindows">8</integer>
+    <!-- Blur render quality: 0 = low, 1 = standard, 2 = high. -->
+    <integer name="config_windowBlurQuality">2</integer>
+</resources>

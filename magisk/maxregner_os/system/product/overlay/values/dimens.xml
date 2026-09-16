@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner Glass overlay — blur and corner radii read by the framework
+     blur renderer and the rounded-corner painter when the glass layer is on. -->
+<resources>
+    <!-- Window blur radius (px). MaxregnerGlass.getBlurRadius() reads the
+         prop; this is the resource fallback the SurfaceFlinger path uses. -->
+    <dimen name="config_windowBlurRadius">32.0px</dimen>
+    <!-- Rounded window corner radius (dp) for the top/bottom corner paths. -->
+    <dimen name="config_roundedCornerTopRadius">28.0dp</dimen>
+    <dimen name="config_roundedCornerBottomRadius">28.0dp</dimen>
+    <!-- Dialog/tooltip corner radius override to match the glass surface. -->
+    <dimen name="tooltip_corner_radius">16.0dp</dimen>
+</resources>

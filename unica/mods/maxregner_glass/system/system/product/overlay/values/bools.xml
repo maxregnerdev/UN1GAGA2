@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner Glass overlay — feature flags read by the framework. -->
+<resources>
+    <!-- Force the system blur renderer on regardless of device config. -->
+    <bool name="config_windowBlurEnabled">true</bool>
+    <!-- Render rounded corners on all top-level windows. -->
+    <bool name="config_roundedCornerEnabled">true</bool>
+</resources>

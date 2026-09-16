@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner Glass runtime overlay. Targets android (framework-res) at high
+     priority to override the window blur radius and rounded-corner radius
+     resource defaults that the framework reads when the glass layer is on. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.maxregner.glass.overlay"
+    android:versionCode="39"
+    android:versionName="39.0">
+    <overlay android:targetPackage="android" android:priority="9999" android:category="theme" />
+    <application android:label="Maxregner Glass" android:hasCode="false" android:allowBackup="false" />
+</manifest>

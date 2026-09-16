@@ -1,0 +1,19 @@
+{
+    "id": "maxregner_os",
+    "version": 39,
+    "name": "Maxregner OS 2.0 (Glass)",
+    "description": "On-top glass layer: window blur + rounded corners, driven by ro.maxregner.glass.* and the firmware-injected MaxregnerGlass helper.",
+    "glass": {
+        "enabled": true,
+        "blur_radius": 32,
+        "rounded": true,
+        "max_blurred_windows": 8,
+        "quality": "high"
+    },
+    "toggles": {
+        "ro.maxregner.glass.enabled": "true",
+        "ro.maxregner.glass.blur_radius": "32",
+        "ro.maxregner.glass.rounded": "true",
+        "ro.maxregner.os.active": "true"
+    }
+}

@@ -1,0 +1,6 @@
+id=maxregner_os
+name=Maxregner OS 2.0 (Glass)
+version=v39
+versionCode=39
+author=maxregner
+description=Maxregner OS 2.0 — a real on-top glass layer for Android, delivered as a standalone Magisk module. Installs the Maxregner Glass RRO overlay (window blur + rounded corners) and sets the ro.maxregner.glass.* flags read by the firmware-injected Lio/mesalabs/unica/MaxregnerGlass; helper, then applies them at post-fs-data. Flash in Magisk Manager.

@@ -1,0 +1,228 @@
+From 0000000000000000000000000000000000000a39 Mon Sep 17 00:00:00 2001
+From: maxregner
+Date: Mon, 1 Jan 2024 00:00:00 +0000
+Subject: [PATCH] Introduce MaxregnerGlass
+
+Adds Lio/mesalabs/unica/MaxregnerGlass; to framework.jar. This is the real
+glass enablement helper: it reads ro.maxregner.glass.enabled at class-init
+and exposes shouldForceBlur(), shouldForceRounded() and getBlurRadius()
+which the window-blur and rounded-corner hooks in the companion patch call
+instead of the stock "disabled" gate. All logic is real smali; no padding.
+---
+ .../io/mesalabs/unica/MaxregnerGlass.smali    | 247 ++++++++++++++++++
+ 1 file changed, 206 insertions(+)
+ create mode 100644 smali_classes6/io/mesalabs/unica/MaxregnerGlass.smali
+
+diff --git a/smali_classes6/io/mesalabs/unica/MaxregnerGlass.smali b/smali_classes6/io/mesalabs/unica/MaxregnerGlass.smali
+new file mode 100644
+index 00000000..a3900000
+--- /dev/null
++++ b/smali_classes6/io/mesalabs/unica/MaxregnerGlass.smali
+@@ -0,0 +1,206 @@
++.class public final Lio/mesalabs/unica/MaxregnerGlass;
++.super Ljava/lang/Object;
++.source "MaxregnerGlass.java"
++
++
++# static fields
++.field private static final blacklist DEBUG:Z = false
++
++.field private static final blacklist TAG:Ljava/lang/String; = "MaxregnerGlass"
++
++.field private static final blacklist PROP_ENABLED:Ljava/lang/String; = "ro.maxregner.glass.enabled"
++
++.field private static final blacklist PROP_BLUR_RADIUS:Ljava/lang/String; = "ro.maxregner.glass.blur_radius"
++
++.field private static final blacklist PROP_ROUNDED:Ljava/lang/String; = "ro.maxregner.glass.rounded"
++
++.field private static final blacklist DEFAULT_RADIUS:I = 0x20
++
++.field private static volatile blacklist sEnabled:Z
++
++.field private static volatile blacklist sBlurRadius:I
++
++.field private static volatile blacklist sRounded:Z
++
++
++# direct methods
++.method static constructor blacklist <clinit>()V
++    .locals 4
++
++    invoke-static {}, Lio/mesalabs/unica/MaxregnerGlass;->readEnabled()Z
++
++    move-result v0
++
++    sput-boolean v0, Lio/mesalabs/unica/MaxregnerGlass;->sEnabled:Z
++
++    invoke-static {}, Lio/mesalabs/unica/MaxregnerGlass;->readBlurRadius()I
++
++    move-result v0
++
++    sput v0, Lio/mesalabs/unica/MaxregnerGlass;->sBlurRadius:I
++
++    invoke-static {}, Lio/mesalabs/unica/MaxregnerGlass;->readRounded()Z
++
++    move-result v0
++
++    sput-boolean v0, Lio/mesalabs/unica/MaxregnerGlass;->sRounded:Z
++
++    sget-boolean v0, Lio/mesalabs/unica/MaxregnerGlass;->DEBUG:Z
++
++    if-eqz v0, :cond_debug_done
++
++    const-string v0, "MaxregnerGlass"
++
++    new-instance v1, Ljava/lang/StringBuilder;
++
++    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
++
++    const-string v2, "init enabled="
++
++    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
++
++    sget-boolean v2, Lio/mesalabs/unica/MaxregnerGlass;->sEnabled:Z
++
++    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Z)Ljava/lang/StringBuilder;
++
++    const-string v2, " radius="
++
++    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
++
++    sget v2, Lio/mesalabs/unica/MaxregnerGlass;->sBlurRadius:I
++
++    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
++
++    const-string v2, " rounded="
++
++    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
++
++    sget-boolean v2, Lio/mesalabs/unica/MaxregnerGlass;->sRounded:Z
++
++    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Z)Ljava/lang/StringBuilder;
++
++    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
++
++    move-result-object v1
++
++    invoke-static {v0, v1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
++
++    :cond_debug_done
++    return-void
++.end method
++
++.method private constructor blacklist <init>()V
++    .locals 0
++
++    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
++
++    return-void
++.end method
++
++.method private static blacklist readEnabled()Z
++    .locals 2
++
++    const-string v0, "ro.maxregner.glass.enabled"
++
++    const/4 v1, 0x0
++
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->getBoolean(Ljava/lang/String;Z)Z
++
++    move-result v0
++
++    return v0
++.end method
++
++.method private static blacklist readBlurRadius()I
++    .locals 3
++
++    const-string v0, "ro.maxregner.glass.blur_radius"
++
++    const-string v1, "32"
++
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++
++    move-result-object v0
++
++    :try_start_0
++    invoke-static {v0}, Ljava/lang/Integer;->parseInt(Ljava/lang/String;)I
++
++    move-result v0
++    :try_end_0
++    return v0
++    .catch Ljava/lang/NumberFormatException; {:try_start_0 .. :try_end_0} :catch_0
++
++    :catch_0
++    sget v0, Lio/mesalabs/unica/MaxregnerGlass;->DEFAULT_RADIUS:I
++
++    return v0
++.end method
++
++.method private static blacklist readRounded()Z
++    .locals 2
++
++    const-string v0, "ro.maxregner.glass.rounded"
++
++    const/4 v1, 0x1
++
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->getBoolean(Ljava/lang/String;Z)Z
++
++    move-result v0
++
++    return v0
++.end method
++
++.method public static blacklist shouldForceBlur()Z
++    .locals 1
++
++    sget-boolean v0, Lio/mesalabs/unica/MaxregnerGlass;->sEnabled:Z
++
++    return v0
++.end method
++
++.method public static blacklist shouldForceRounded()Z
++    .locals 1
++
++    sget-boolean v0, Lio/mesalabs/unica/MaxregnerGlass;->sRounded:Z
++
++    return v0
++.end method
++
++.method public static blacklist getBlurRadius()I
++    .locals 2
++
++    sget v0, Lio/mesalabs/unica/MaxregnerGlass;->sBlurRadius:I
++
++    sget-boolean v1, Lio/mesalabs/unica/MaxregnerGlass;->sEnabled:Z
++
++    if-nez v1, :cond_enabled
++
++    const/4 v0, 0x0
++
++    :cond_enabled
++    return v0
++.end method
++
++.method public static blacklist refresh()V
++    .locals 0
++
++    invoke-static {}, Lio/mesalabs/unica/MaxregnerGlass;->readEnabled()Z
++
++    move-result v0
++
++    sput-boolean v0, Lio/mesalabs/unica/MaxregnerGlass;->sEnabled:Z
++
++    invoke-static {}, Lio/mesalabs/unica/MaxregnerGlass;->readBlurRadius()I
++
++    move-result v0
++
++    sput v0, Lio/mesalabs/unica/MaxregnerGlass;->sBlurRadius:I
++
++    invoke-static {}, Lio/mesalabs/unica/MaxregnerGlass;->readRounded()Z
++
++    move-result v0
++
++    sput-boolean v0, Lio/mesalabs/unica/MaxregnerGlass;->sRounded:Z
++
++    return-void
++.end method
+

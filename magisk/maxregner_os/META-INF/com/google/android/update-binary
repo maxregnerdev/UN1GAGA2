@@ -1,0 +1,11 @@
+#!/sbin/sh
+# Magisk module installer bootstrap stub.
+# Magisk replaces this with its own module install flow when the zip is
+# flashed. We keep the canonical 3-line stub that calls into the bundled
+# process.sh so the zip is a valid Magisk module.
+OUTFD=/proc/self/fd/$2
+ZIPFILE=$3
+mount /data 2>/dev/null
+. /data/adb/magisk/util_functions.sh
+install_module
+exit 0
