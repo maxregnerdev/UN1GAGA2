@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Privileged permissions for the Maxregner Orb navigation service.
+<!-- Privileged permissions for the Maxregner Orb v2 navigation service.
      These allow it to inject system navigation actions and draw a persistent
-     overlay window over other applications. -->
+     overlay window over other applications, manage split-screen and capture
+     screenshots from the radial menu. -->
 <permissions>
     <privapp-permissions package="com.maxregner.nav">
         <permission name="android.permission.STATUS_BAR" />
@@ -11,5 +12,7 @@
         <permission name="android.permission.HIDE_NAVIGATION_BAR" />
         <permission name="android.permission.INJECT_EVENTS" />
         <permission name="android.permission.RECEIVE_INPUT_EVENTS" />
+        <permission name="android.permission.MANAGE_ACTIVITY_TASKS" />
+        <permission name="android.permission.CAPTURE_SCREENSHOT" />
     </privapp-permissions>
 </permissions>

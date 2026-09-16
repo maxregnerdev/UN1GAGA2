@@ -70,4 +70,24 @@
     <string name="maxregner_orb_sensitivity_title">Чувствительность жестов орба</string>
     <string name="maxregner_aod_title">Always-on display Maxregner</string>
     <string name="maxregner_aod_summary">Показывать стиль часов ADB Orb Maxregner.</string>
+    <string name="maxregner_nav_radial_title">Радиальное меню орба</string>
+    <string name="maxregner_nav_radial_summary">Долгое нажатие на орб для радиального меню (Назад/Домой/Недавние).</string>
+    <string name="maxregner_nav_split_title">Жесты щипка разделённого экрана</string>
+    <string name="maxregner_nav_split_summary">Щипок для входа, разведение для выхода из разделённого экрана.</string>
+    <string name="maxregner_nav_dock_title">Магнитная стыковка</string>
+    <string name="maxregner_nav_dock_summary">Стыковка орба к краевым зонам при перетаскивании.</string>
+    <string name="maxregner_nav_breath_title">Анимация дыхания в покое</string>
+    <string name="maxregner_nav_breath_summary">Лёгкая пульсация, когда орб неактивен.</string>
+    <string name="maxregner_orb_sensitivity_gentle">Мягкая</string>
+    <string name="maxregner_orb_sensitivity_standard">Стандарт</string>
+    <string name="maxregner_orb_sensitivity_firm">Твёрдая</string>
+    <string name="maxregner_ui_dynamic_title">Динамическая тональная тема</string>
+    <string name="maxregner_ui_dynamic_summary">Получать палитру из обоев.</string>
+    <string name="maxregner_ui_glass_title">Стеклянные поверхности</string>
+    <string name="maxregner_ui_glass_summary">Панели с полупрозрачным стеклянным размытием.</string>
+    <string name="maxregner_ui_overshoot_title">Движение с перелётом</string>
+    <string name="maxregner_ui_overshoot_summary">Компоненты останавливаются с лёгкой пружиной перелёта.</string>
+    <string name="maxregner_ui_blur_title">Сила размытия</string>
+    <string name="maxregner_extras_title">Дополнения Maxregner</string>
+    <string name="maxregner_extras_summary">Шрифт, тема AOD/экрана блокировки, жесты лаунчера и функции системы.</string>
 </resources>

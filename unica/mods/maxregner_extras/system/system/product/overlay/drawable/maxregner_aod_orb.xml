@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Maxregner AOD orb: a dim indigo ring for the always-on display clock -->
-<vector android:height="120.0dp" android:width="120.0dp" android:viewportWidth="120.0" android:viewportHeight="120.0"
+<!-- Maxregner AOD orb v2: a glassmorphic indigo ring for the always-on display clock -->
+<vector android:height="128.0dp" android:width="128.0dp" android:viewportWidth="128.0" android:viewportHeight="128.0"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <path android:fillColor="@color/maxregner_aod_ring" android:fillAlpha="0.18"
-        android:pathData="M60,8 m-52,0 a52,52 0 1,0 104,0 a52,52 0 1,0 -104,0" android:fillType="evenOdd" />
-    <path android:fillColor="@color/maxregner_aod_ring"
-        android:pathData="M60,20 m-38,0 a38,38 0 1,0 76,0 a38,38 0 1,0 -76,0" android:fillType="evenOdd" />
+
+    <!-- Soft outer glow -->
+    <path android:fillColor="@color/maxregner_aod_glow" android:fillAlpha="0.22"
+        android:pathData="M64,8 m-56,0 a56,56 0 1,0 112,0 a56,56 0 1,0 -112,0" android:fillType="evenOdd" />
+
+    <!-- Ring stroke -->
+    <path android:fillColor="@color/maxregner_aod_ring" android:fillAlpha="0.55"
+        android:pathData="M64,14 m-48,0 a48,48 0 1,0 96,0 a48,48 0 1,0 -96,0" android:fillType="evenOdd" />
+
+    <!-- Core fill -->
+    <path android:fillColor="@color/maxregner_aod_core" android:fillAlpha="0.85"
+        android:pathData="M64,22 m-38,0 a38,38 0 1,0 76,0 a38,38 0 1,0 -76,0" android:fillType="evenOdd" />
+
+    <!-- Inner rim highlight -->
+    <path android:fillColor="@color/maxregner_aod_glow" android:fillAlpha="0.5"
+        android:pathData="M64,28 m-30,0 a30,30 0 1,0 60,0 a30,30 0 1,0 -60,0" android:fillType="evenOdd" />
+
+    <!-- Center spark -->
     <path android:fillColor="#FFFFFF" android:fillAlpha="0.85"
-        android:pathData="M60,60 m-3,0 a3,3 0 1,0 6,0 a3,3 0 1,0 -6,0" android:fillType="evenOdd" />
+        android:pathData="M64,64 m-3,0 a3,3 0 1,0 6,0 a3,3 0 1,0 -6,0" android:fillType="evenOdd" />
 </vector>

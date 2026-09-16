@@ -48,4 +48,24 @@
     <string name="maxregner_orb_sensitivity_title">Sensibilidade de gestos do orb</string>
     <string name="maxregner_aod_title">Always-on display do Maxregner</string>
     <string name="maxregner_aod_summary">Mostrar o estilo de relógio AOD Orb do Maxregner.</string>
+    <string name="maxregner_nav_radial_title">Menu radial do orb</string>
+    <string name="maxregner_nav_radial_summary">Pressione e segure o orb para um menu radial (Voltar/Início/Recentes).</string>
+    <string name="maxregner_nav_split_title">Gestos de pinça tela dividida</string>
+    <string name="maxregner_nav_split_summary">Pinça para entrar, afasta para sair da tela dividida.</string>
+    <string name="maxregner_nav_dock_title">Ancoragem magnética</string>
+    <string name="maxregner_nav_dock_summary">Ancorar o orb às zonas de borda ao arrastar.</string>
+    <string name="maxregner_nav_breath_title">Animação de respiração em repouso</string>
+    <string name="maxregner_nav_breath_summary">Pulsação sutil quando o orb está inativo.</string>
+    <string name="maxregner_orb_sensitivity_gentle">Suave</string>
+    <string name="maxregner_orb_sensitivity_standard">Padrão</string>
+    <string name="maxregner_orb_sensitivity_firm">Firme</string>
+    <string name="maxregner_ui_dynamic_title">Tema tonal dinâmico</string>
+    <string name="maxregner_ui_dynamic_summary">Derivar a paleta do papel de parede.</string>
+    <string name="maxregner_ui_glass_title">Superfícies de vidro</string>
+    <string name="maxregner_ui_glass_summary">Renderizar painéis com desfoque de vidro translúcido.</string>
+    <string name="maxregner_ui_overshoot_title">Movimento com overshoot</string>
+    <string name="maxregner_ui_overshoot_summary">Os componentes se assentam com uma leve mola de overshoot.</string>
+    <string name="maxregner_ui_blur_title">Intensidade do desfoque</string>
+    <string name="maxregner_extras_title">Extras do Maxregner</string>
+    <string name="maxregner_extras_summary">Fonte, tema AOD/tela de bloqueio, gestos do launcher e funções do sistema.</string>
 </resources>

@@ -25,7 +25,6 @@ BUILD_APKS()
 
     if [ -d "$APKTOOL_DIR" ]; then
         LOG_STEP_IN true "Building APKs/JARs"
-
         # shellcheck disable=SC2016
         find "$APKTOOL_DIR" -type d \( -name "*.apk" -o -name "*.jar" \) -print0 | xargs -0 -I "{}" -P "$MAX_JOBS" \
             bash -c '
@@ -34,7 +33,6 @@ BUILD_APKS()
                 [[ "$PARTITION" != "system" ]] && FILE="$(cut -d "/" -f 2- -s <<< "$FILE")"
                 "$SRC_DIR/scripts/apktool.sh" b -j "$2" "$PARTITION" "$FILE"
             ' "bash" "{}" "$MAX_JOBS" || exit 1
-
         LOG_STEP_OUT
     fi
 }
@@ -68,9 +66,110 @@ PREPARE_SCRIPT()
             PRINT_USAGE
             exit 1
         fi
-
         shift
     done
+}
+
+# Build stage: decide whether a ROM build is required, then run all stages
+# (download → extract → work dir → platform/device/ROM patches → ROM mods →
+# APKs) in order. Each stage is a guarded, logged, abort-on-failure block.
+RUN_ROM_BUILD_STAGES()
+{
+    [ -d "$APKTOOL_DIR" ] && rm -rf "$APKTOOL_DIR"
+    [ -f "$WORK_DIR/.completed" ] && rm -f "$WORK_DIR/.completed"
+
+    # Stage 1 — firmware acquisition
+    if [ ! -f "$FW_DIR/$SOURCE_FIRMWARE_PATH/.extracted" ] || [ ! -f "$FW_DIR/$TARGET_FIRMWARE_PATH/.extracted" ]; then
+        if [ ! -f "$ODIN_DIR/$SOURCE_FIRMWARE_PATH/.downloaded" ] || [ ! -f "$ODIN_DIR/$TARGET_FIRMWARE_PATH/.downloaded" ]; then
+            LOG_STEP_IN true "Downloading required firmwares"
+            "$SRC_DIR/scripts/download_fw.sh" || exit 1
+            LOG_STEP_OUT
+        fi
+        LOG_STEP_IN true "Extracting required firmwares"
+        "$SRC_DIR/scripts/extract_fw.sh" || exit 1
+        LOG_STEP_OUT
+    fi
+
+    # Stage 2 — work directory
+    LOG_STEP_IN true "Creating work dir"
+    "$SRC_DIR/scripts/internal/create_work_dir.sh" || exit 1
+    LOG_STEP_OUT
+
+    # Stage 3 — patch layers (platform → device → ROM)
+    if [ -d "$SRC_DIR/platform/$TARGET_PLATFORM/patches" ]; then
+        LOG_STEP_IN true "Applying platform patches"
+        "$SRC_DIR/scripts/internal/apply_modules.sh" "$SRC_DIR/platform/$TARGET_PLATFORM/patches" || exit 1
+        LOG_STEP_OUT
+    fi
+    if [ -d "$SRC_DIR/target/$TARGET_CODENAME/patches" ]; then
+        LOG_STEP_IN true "Applying device patches"
+        "$SRC_DIR/scripts/internal/apply_modules.sh" "$SRC_DIR/target/$TARGET_CODENAME/patches" || exit 1
+        LOG_STEP_OUT
+    fi
+    if [ -d "$SRC_DIR/unica/patches" ]; then
+        LOG_STEP_IN true "Applying ROM patches"
+        "$SRC_DIR/scripts/internal/apply_modules.sh" "$SRC_DIR/unica/patches" || exit 1
+        LOG_STEP_OUT
+    fi
+
+    # Stage 4 — mod layers (ROM mods, incl. Maxregner v2 subsystems)
+    if [ -d "$SRC_DIR/unica/mods" ]; then
+        LOG_STEP_IN true "Applying ROM mods"
+        "$SRC_DIR/scripts/internal/apply_modules.sh" "$SRC_DIR/unica/mods" || exit 1
+        LOG_STEP_OUT
+    fi
+
+    # Stage 5 — APK/JAR rebuild
+    BUILD_APKS
+
+    echo -n "$(GET_WORK_DIR_HASH)" > "$WORK_DIR/.completed"
+}
+
+# Build stage: produce the OS partition images from the populated work dir.
+BUILD_OS_PARTITIONS()
+{
+    LOG_STEP_IN true "Building OS partitions"
+    while IFS= read -r f; do
+        PARTITION=$(basename "$f")
+        IS_VALID_PARTITION_NAME "$PARTITION" || continue
+        if $TARGET_USE_DYNAMIC_PARTITIONS; then
+            "$SRC_DIR/scripts/build_fs_image.sh" "$TARGET_OS_FILE_SYSTEM_TYPE" \
+                -o "$TMP_DIR/$PARTITION.img" -m -S \
+                "$WORK_DIR/$PARTITION" "$WORK_DIR/configs/file_context-$PARTITION" "$WORK_DIR/configs/fs_config-$PARTITION" || exit 1
+        else
+            _GET_PARTITION_SIZE "$PARTITION" > /dev/null || exit 1
+            "$SRC_DIR/scripts/build_fs_image.sh" "$TARGET_OS_FILE_SYSTEM_TYPE" \
+                -o "$TMP_DIR/$PARTITION.img" -m -S -s "$(_GET_PARTITION_SIZE "$PARTITION")" \
+                "$WORK_DIR/$PARTITION" "$WORK_DIR/configs/file_context-$PARTITION" "$WORK_DIR/configs/fs_config-$PARTITION" || exit 1
+        fi
+    done < <(find "$WORK_DIR" -maxdepth 1 -type d)
+    LOG_STEP_OUT
+}
+
+# Build stage: produce the target-files zip and (optionally) the flashable zip.
+BUILD_PACKAGES()
+{
+    ZIP_FILE_NAME="${TARGET_CODENAME}_"
+    if [ "$(GET_PROP "system" "ro.unica.version")" ]; then
+        ZIP_FILE_NAME+="$(GET_PROP "system" "ro.unica.version")"
+    else
+        ZIP_FILE_NAME+="$ROM_VERSION"
+    fi
+    ZIP_FILE_NAME+="-target_files.zip"
+
+    if [ ! -f "$OUT_DIR/$ZIP_FILE_NAME" ]; then
+        LOG_STEP_IN true "Creating target-files zip"
+        "$SRC_DIR/scripts/internal/create_target_files_zip.sh" "$OUT_DIR/$ZIP_FILE_NAME" || exit 1
+        LOG_STEP_OUT
+    else
+        LOGW "File already exists: ${OUT_DIR//$SRC_DIR\//}/$ZIP_FILE_NAME"
+    fi
+
+    if $BUILD_FLASHABLE_ZIP; then
+        LOG_STEP_IN true "Creating flashable zip"
+        "$SRC_DIR/scripts/build_flashable_zip.sh" "$OUT_DIR/$ZIP_FILE_NAME" || exit 1
+        LOG_STEP_OUT
+    fi
 }
 
 # shellcheck disable=SC2317,SC2329
@@ -79,10 +178,8 @@ PRINT_BUILD_OUTCOME()
     local EXIT_CODE="$?"
     local END_TIME
     local ESTIMATED
-
     END_TIME="$(date +%s)"
     ESTIMATED="$((END_TIME - START_TIME))"
-
     if [[ "$EXIT_CODE" != "0" ]]; then
         echo -n -e '\n\033[1;31m'"Build failed "
     else
@@ -94,10 +191,19 @@ PRINT_BUILD_OUTCOME()
 PRINT_USAGE()
 {
     echo "Usage: make_rom [options]" >&2
-    echo " -f, --force : Force ROM build" >&2
-    echo " -x, --images-only : Build images only" >&2
-    echo " -z, --build-rom-zip : Build flashable zip" >&2
+    echo " -f, --force           : Force ROM build" >&2
+    echo " -x, --images-only     : Build images only" >&2
+    echo " -z, --build-rom-zip   : Build flashable zip" >&2
+    echo "Stages:" >&2
+    echo " 1. firmware download/extract (if needed)" >&2
+    echo " 2. work dir creation" >&2
+    echo " 3. patch layers: platform -> device -> ROM" >&2
+    echo " 4. mod layers:  ROM mods" >&2
+    echo " 5. APK/JAR rebuild" >&2
+    echo " 6. OS partition images" >&2
+    echo " 7. target-files zip + flashable zip" >&2
 }
+
 # ]
 
 PREPARE_SCRIPT "$@"
@@ -122,95 +228,16 @@ trap 'PRINT_BUILD_OUTCOME' EXIT
 trap 'echo' INT
 
 if $BUILD_ROM; then
-    [ -d "$APKTOOL_DIR" ] && rm -rf "$APKTOOL_DIR"
-    [ -f "$WORK_DIR/.completed" ] && rm -f "$WORK_DIR/.completed"
-
-    if [ ! -f "$FW_DIR/$SOURCE_FIRMWARE_PATH/.extracted" ] || [ ! -f "$FW_DIR/$TARGET_FIRMWARE_PATH/.extracted" ]; then
-        if [ ! -f "$ODIN_DIR/$SOURCE_FIRMWARE_PATH/.downloaded" ] || [ ! -f "$ODIN_DIR/$TARGET_FIRMWARE_PATH/.downloaded" ]; then
-            LOG_STEP_IN true "Downloading required firmwares"
-            "$SRC_DIR/scripts/download_fw.sh" || exit 1
-            LOG_STEP_OUT
-        fi
-        LOG_STEP_IN true "Extracting required firmwares"
-        "$SRC_DIR/scripts/extract_fw.sh" || exit 1
-        LOG_STEP_OUT
-    fi
-
-    LOG_STEP_IN true "Creating work dir"
-    "$SRC_DIR/scripts/internal/create_work_dir.sh" || exit 1
-    LOG_STEP_OUT
-
-    if [ -d "$SRC_DIR/platform/$TARGET_PLATFORM/patches" ]; then
-        LOG_STEP_IN true "Applying platform patches"
-        "$SRC_DIR/scripts/internal/apply_modules.sh" "$SRC_DIR/platform/$TARGET_PLATFORM/patches" || exit 1
-        LOG_STEP_OUT
-    fi
-    if [ -d "$SRC_DIR/target/$TARGET_CODENAME/patches" ]; then
-        LOG_STEP_IN true "Applying device patches"
-        "$SRC_DIR/scripts/internal/apply_modules.sh" "$SRC_DIR/target/$TARGET_CODENAME/patches" || exit 1
-        LOG_STEP_OUT
-    fi
-    if [ -d "$SRC_DIR/unica/patches" ]; then
-        LOG_STEP_IN true "Applying ROM patches"
-        "$SRC_DIR/scripts/internal/apply_modules.sh" "$SRC_DIR/unica/patches" || exit 1
-        LOG_STEP_OUT
-    fi
-
-    if [ -d "$SRC_DIR/unica/mods" ]; then
-        LOG_STEP_IN true "Applying ROM mods"
-        "$SRC_DIR/scripts/internal/apply_modules.sh" "$SRC_DIR/unica/mods" || exit 1
-        LOG_STEP_OUT
-    fi
-
-    BUILD_APKS
-
-    echo -n "$(GET_WORK_DIR_HASH)" > "$WORK_DIR/.completed"
+    RUN_ROM_BUILD_STAGES
 fi
 
 [ -d "$TMP_DIR" ] && rm -rf "$TMP_DIR"
 mkdir -p "$TMP_DIR"
 
-LOG_STEP_IN true "Building OS partitions"
-while IFS= read -r f; do
-    PARTITION=$(basename "$f")
-    IS_VALID_PARTITION_NAME "$PARTITION" || continue
-
-    if $TARGET_USE_DYNAMIC_PARTITIONS; then
-        "$SRC_DIR/scripts/build_fs_image.sh" "$TARGET_OS_FILE_SYSTEM_TYPE" \
-            -o "$TMP_DIR/$PARTITION.img" -m -S \
-            "$WORK_DIR/$PARTITION" "$WORK_DIR/configs/file_context-$PARTITION" "$WORK_DIR/configs/fs_config-$PARTITION" || exit 1
-    else
-        _GET_PARTITION_SIZE "$PARTITION" > /dev/null || exit 1
-
-        "$SRC_DIR/scripts/build_fs_image.sh" "$TARGET_OS_FILE_SYSTEM_TYPE" \
-            -o "$TMP_DIR/$PARTITION.img" -m -S -s "$(_GET_PARTITION_SIZE "$PARTITION")" \
-            "$WORK_DIR/$PARTITION" "$WORK_DIR/configs/file_context-$PARTITION" "$WORK_DIR/configs/fs_config-$PARTITION" || exit 1
-    fi
-done < <(find "$WORK_DIR" -maxdepth 1 -type d)
-LOG_STEP_OUT
+BUILD_OS_PARTITIONS
 
 if $BUILD_TARGET_FILES || $BUILD_FLASHABLE_ZIP; then
-    ZIP_FILE_NAME="${TARGET_CODENAME}_"
-    if [ "$(GET_PROP "system" "ro.unica.version")" ]; then
-        ZIP_FILE_NAME+="$(GET_PROP "system" "ro.unica.version")"
-    else
-        ZIP_FILE_NAME+="$ROM_VERSION"
-    fi
-    ZIP_FILE_NAME+="-target_files.zip"
-
-    if [ ! -f "$OUT_DIR/$ZIP_FILE_NAME" ]; then
-        LOG_STEP_IN true "Creating target-files zip"
-        "$SRC_DIR/scripts/internal/create_target_files_zip.sh" "$OUT_DIR/$ZIP_FILE_NAME" || exit 1
-        LOG_STEP_OUT
-    else
-        LOGW "File already exists: ${OUT_DIR//$SRC_DIR\//}/$ZIP_FILE_NAME"
-    fi
-
-    if $BUILD_FLASHABLE_ZIP; then
-        LOG_STEP_IN true "Creating flashable zip"
-        "$SRC_DIR/scripts/build_flashable_zip.sh" "$OUT_DIR/$ZIP_FILE_NAME" || exit 1
-        LOG_STEP_OUT
-    fi
+    BUILD_PACKAGES
 fi
 
 exit 0

@@ -1,9 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Maxregner top-level settings icon: the Orb on a brand disc -->
+<!-- Maxregner v2 top-level settings icon: glass orb on a brand disc -->
 <vector android:height="28.0dp" android:width="28.0dp" android:viewportWidth="28.0" android:viewportHeight="28.0"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <path android:fillColor="@color/sec_dashboard_maxregner_color" android:pathData="M14,14m-14,0a14,14 0,1 1,28 0a14,14 0,1 1,-28 0" android:strokeColor="#00000000" android:strokeWidth="1.0" android:fillType="evenOdd" />
-    <path android:fillColor="#ffffff" android:pathData="M14,5 m-5,0 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0" android:fillType="evenOdd" />
-    <path android:fillColor="#ffffff" android:fillAlpha="0.6" android:pathData="M11.5,3.5 m-1.2,0 a1.2,1.2 0 1,0 2.4,0 a1.2,1.2 0 1,0 -2.4,0" android:fillType="evenOdd" />
-    <path android:fillColor="@color/sec_dashboard_layer_color" android:pathData="M14,14m-14,0a14,14 0,1 1,28 0a14,14 0,1 1,-28 0" android:strokeColor="#00000000" android:strokeWidth="1.0" android:fillType="evenOdd" />
+
+    <!-- Brand disc -->
+    <path android:fillColor="@color/sec_dashboard_maxregner_color"
+        android:pathData="M14,14m-14,0a14,14 0,1 1,28 0a14,14 0,1 1,-28 0"
+        android:strokeColor="#00000000" android:strokeWidth="1.0" android:fillType="evenOdd" />
+
+    <!-- Orb outer glow -->
+    <path android:fillColor="#ffffff" android:fillAlpha="0.30"
+        android:pathData="M14,5 m-6,0 a6,6 0 1,0 12,0 a6,6 0 1,0 -12,0" android:fillType="evenOdd" />
+
+    <!-- Orb core -->
+    <path android:fillColor="#ffffff"
+        android:pathData="M14,5 m-4,0 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0" android:fillType="evenOdd" />
+
+    <!-- Orb rim highlight -->
+    <path android:fillColor="#ffffff" android:fillAlpha="0.6"
+        android:pathData="M14,6.5 m-2.5,0 a2.5,2.5 0 1,0 5,0 a2.5,2.5 0 1,0 -5,0" android:fillType="evenOdd" />
+
+    <!-- Top-left spark -->
+    <path android:fillColor="#ffffff" android:fillAlpha="0.85"
+        android:pathData="M12,4 m-1,0 a1,1 0 1,0 2,0 a1,1 0 1,0 -2,0" android:fillType="evenOdd" />
+
+    <!-- Layer tint overlay -->
+    <path android:fillColor="@color/sec_dashboard_layer_color"
+        android:pathData="M14,14m-14,0a14,14 0,1 1,28 0a14,14 0,1 1,-28 0"
+        android:strokeColor="#00000000" android:strokeWidth="1.0" android:fillType="evenOdd" />
 </vector>

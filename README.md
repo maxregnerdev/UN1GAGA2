@@ -82,14 +82,49 @@ Any form of contribution, suggestions, bug report or feature request for the pro
 - Unlimited backup storage on Google Photos
 - Games FPS unlock toggle
 
-### Maxregner system:
-- Maxregner Orb navigation — replaces 3-button nav and gestures with a single adaptive floating orb (with adjustable gesture sensitivity)
-- Maxregner sound scheme — system-wide replacement sound set (ringtones, notifications, alarms, boot/power, UI effects)
-- Maxregner UI design system — palette, shape scale, motion tokens and overlays recoded to the Maxregner design language
-- Maxregner extras — Maxregner Sans font, Maxregner AOD/lockscreen Orb theme, launcher gestures routed through the orb
-- Maxregner settings panel in Settings → UN1CA → Maxregner to toggle and tune each subsystem
+### Maxregner v2 system (rebuilt):
+The Maxregner layer has been completely rebuilt to a v2 design language and architecture.
+
+- **Maxregner UI v2 design system** — a tonal, wallpaper‑driven semantic color system (light + dark, full surface‑container set), a unified shape scale (none → xxl + full), an elevation level system, glass blur radii, and a motion token set with standard / emphasized / overshoot easings. Ships as an overlay resource package plus a JSON token file at `/system/etc/maxregner/tokens.json`.
+  - Dynamic tonal theme — derive the whole palette from the wallpaper
+  - Glass surfaces — render panels with translucent glass blur
+  - Overshoot motion — components settle with a light overshoot spring
+- **Maxregner Orb v2 navigation** — replaces 3‑button nav and gestures with a single glassmorphic adaptive floating orb (recoded).
+  - Radial menu (long‑hold) — Back / Home / Recents / Notifications / Screenshot / Assistant
+  - Magnetic docking — snap to bottom/left/right edge dock zones (start/center/end slots)
+  - Split‑screen pinch gestures — pinch to enter, spread to exit split‑screen
+  - Contextual morphing — typing → back glyph, recents → recents glyph
+  - Idle "breath" animation that fades on interaction
+  - Adjustable gesture sensitivity (Gentle / Standard / Firm)
+- **Maxregner Sound Scheme v2** — layered spatial sound set (UI effects / navigation orb / system feedback) plus secondary notification, ringtone and alarm variants. Ships the full `ro.config.*` mapping plus per‑effect props.
+- **Maxregner Extras v2** — Maxregner Sans font (variable weight 400–800), glassmorphic AOD/lockscreen Orb clock, launcher gestures routed through the Orb (swipe‑up/left/right, long‑press home), and advanced system feature flags (glass surfaces, overshoot motion, rounded corners, smooth scroll).
+- **Maxregner Battery Intelligence** — adaptive charging beyond One UI:
+  - Learned usage‑pattern charge curves (adaptive charge)
+  - Thermal‑aware charge caps (limit current when the cell exceeds a threshold)
+  - Idle discharge hold (hold the pack in a 40–60% band overnight instead of sitting at 100%)
+  - User‑tunable charge ceiling
+- **Maxregner Privacy Guard** — system‑wide privacy hardening beyond One UI:
+  - Clipboard read protection (block background clipboard reads)
+  - Clipboard auto‑clear after a timeout
+  - Sensor gate (deny sensors to apps that do not need them)
+  - Per‑app network audit log
+  - Hide network state (strip per‑app NET capability disclosure)
+- **Maxregner settings panel** in Settings → UN1CA → Maxregner to toggle and tune each subsystem (nav, radial menu, split gestures, docking, breath, sensitivity, sound, UI, dynamic theme, glass, overshoot, AOD).
 
 \* Requires a valid keybox
+
+# Build system (rebuilt)
+The build pipeline (`scripts/make_rom.sh`) was rebuilt into a clear, staged flow. Each stage is a guarded, logged, abort‑on‑failure block:
+
+1. Firmware acquisition — download + extract (only if needed)
+2. Work directory creation
+3. Patch layers — platform → device → ROM
+4. Mod layers — ROM mods (incl. all Maxregner v2 subsystems)
+5. APK/JAR rebuild
+6. OS partition images
+7. Target‑files zip + flashable zip
+
+Run with `source buildenv.sh <target>` then `unica make_rom [-f|-x|-z]`.
 
 # Licensing
 This project is licensed under the terms of the [GNU General Public License v3.0](LICENSE). External dependencies might be distributed under a different license, such as:
@@ -110,6 +145,6 @@ A special thanks goes to the following for their invaluable contributions in no 
 - **[Simon1511](https://github.com/Simon1511)** for his support and some of the device-specific patches
 - **[ananjaser1211](https://github.com/ananjaser1211)** for troubleshooting and his time
 - **[Fede2782](https://github.com/Fede2782)** for his contributions and help with Exynos/MTK support
-- **[iDrinkCoffee](https://github.com/iDrinkCoffee-TG)** and **[RisenID](https://github.com/RisenID)** for their support
+- **[iDrinkcoffee](https://github.com/iDrinkcoffee-TG)** and **[RisenID](https://github.com/RisenID)** for their support
 - **[LineageOS Team](https://www.lineageos.org/)** for their original [OTA updater implementation](https://github.com/LineageOS/android_packages_apps_Updater)
 - *All the UN1CA project forks, contributors, testers and users ❤️*

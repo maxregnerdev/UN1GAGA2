@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Maxregner Orb logomark -->
+<!-- Maxregner v2 Orb logomark: glass orb with glow, ring, core and spark -->
 <vector android:height="80.0dp" android:width="80.0dp" android:viewportWidth="80.0" android:viewportHeight="80.0"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <path android:fillColor="@color/maxregner_settings_ic_ui_color" android:fillAlpha="0.25"
-        android:pathData="M40,6 m-34,0 a34,34 0 1,0 68,0 a34,34 0 1,0 -68,0" android:fillType="evenOdd" />
+
+    <!-- Outer glow -->
+    <path android:fillColor="@color/maxregner_settings_ic_ui_color" android:fillAlpha="0.28"
+        android:pathData="M40,6 m-36,0 a36,36 0 1,0 72,0 a36,36 0 1,0 -72,0" android:fillType="evenOdd" />
+
+    <!-- Ring -->
+    <path android:fillColor="@color/maxregner_settings_ic_ui_color" android:fillAlpha="0.22"
+        android:pathData="M40,12 m-26,0 a26,26 0 1,0 52,0 a26,26 0 1,0 -52,0" android:fillType="evenOdd" />
+
+    <!-- Core -->
     <path android:fillColor="@color/maxregner_settings_ic_ui_color"
-        android:pathData="M40,16 m-22,0 a22,22 0 1,0 44,0 a22,22 0 1,0 -44,0" android:fillType="evenOdd" />
-    <path android:fillColor="#FFFFFF" android:fillAlpha="0.6"
-        android:pathData="M31,22 m-5,0 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0" android:fillType="evenOdd" />
+        android:pathData="M40,18 m-20,0 a20,20 0 1,0 40,0 a20,20 0 1,0 -40,0" android:fillType="evenOdd" />
+
+    <!-- Rim highlight -->
+    <path android:fillColor="#FFFFFF" android:fillAlpha="0.55"
+        android:pathData="M40,24 m-14,0 a14,14 0 1,0 28,0 a14,14 0 1,0 -28,0" android:fillType="evenOdd" />
+
+    <!-- Spark -->
+    <path android:fillColor="#FFFFFF" android:fillAlpha="0.75"
+        android:pathData="M33,24 m-5,0 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0" android:fillType="evenOdd" />
 </vector>

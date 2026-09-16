@@ -70,4 +70,24 @@
     <string name="maxregner_orb_sensitivity_title">Sensibilità gesti Orb</string>
     <string name="maxregner_aod_title">Always-on display Maxregner</string>
     <string name="maxregner_aod_summary">Mostra lo stile orologio AOD Orb Maxregner.</string>
+    <string name="maxregner_nav_radial_title">Menu radiale dell'orb</string>
+    <string name="maxregner_nav_radial_summary">Tieni premuto l'orb per un menu radiale (Indietro/Home/Recenti).</string>
+    <string name="maxregner_nav_split_title">Gesti di pizzicamento schermo diviso</string>
+    <string name="maxregner_nav_split_summary">Pizzica per entrare, allontana per uscire dallo schermo diviso.</string>
+    <string name="maxregner_nav_dock_title">Ancoraggio magnetico</string>
+    <string name="maxregner_nav_dock_summary">Ancora l'orb alle zone del bordo durante il trascinamento.</string>
+    <string name="maxregner_nav_breath_title">Animazione di respirazione a riposo</string>
+    <string name="maxregner_nav_breath_summary">Pulsazione leggera quando l'orb è inattivo.</string>
+    <string name="maxregner_orb_sensitivity_gentle">Delicato</string>
+    <string name="maxregner_orb_sensitivity_standard">Standard</string>
+    <string name="maxregner_orb_sensitivity_firm">Deciso</string>
+    <string name="maxregner_ui_dynamic_title">Tema tonale dinamico</string>
+    <string name="maxregner_ui_dynamic_summary">Deriva la palette dallo sfondo.</string>
+    <string name="maxregner_ui_glass_title">Superfici in vetro</string>
+    <string name="maxregner_ui_glass_summary">Renderizza i pannelli con sfocatura a vetro traslucido.</string>
+    <string name="maxregner_ui_overshoot_title">Movimento con overshoot</string>
+    <string name="maxregner_ui_overshoot_summary">I componenti si assestano con una leggera molla di overshoot.</string>
+    <string name="maxregner_ui_blur_title">Intensità sfocatura</string>
+    <string name="maxregner_extras_title">Extra di Maxregner</string>
+    <string name="maxregner_extras_summary">Carattere, tema AOD/schermata di blocco, gesti del launcher e funzioni di sistema.</string>
 </resources>

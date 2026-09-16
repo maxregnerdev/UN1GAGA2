@@ -1,0 +1,5 @@
+id=maxregner_battery
+name=Maxregner Battery Intelligence
+version=v1
+author=maxregner
+description=Adaptive charging intelligence beyond One UI: learned usage-pattern charge curves, thermal-aware charge caps and idle discharge hold to extend battery lifespan.

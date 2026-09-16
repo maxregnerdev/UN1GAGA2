@@ -1,17 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Maxregner UI overlay — color palette (light) -->
+<!-- Maxregner UI v2 overlay — semantic color palette (light) -->
 <resources>
-    <!-- Brand / accent -->
+    <!-- One UI dialog button overrides mapped to the Maxregner primary/error -->
     <color name="sec_color_dialog_blue_button">#3B82F6</color>
-    <color name="sec_color_dialog_red_button">#EF4444</color>
+    <color name="sec_color_dialog_red_button">#BA1A1A</color>
 
-    <!-- Maxregner Orb navigation accent -->
+    <!-- Maxregner semantic surface system (light) -->
+    <color name="maxregner_primary">#3B82F6</color>
+    <color name="maxregner_on_primary">#FFFFFF</color>
+    <color name="maxregner_primary_container">#DBE7FF</color>
+    <color name="maxregner_on_primary_container">#001A44</color>
+    <color name="maxregner_secondary">#5B5F71</color>
+    <color name="maxregner_secondary_container">#E0E1F9</color>
+    <color name="maxregner_tertiary">#7A5260</color>
+    <color name="maxregner_tertiary_container">#FFD9E2</color>
+    <color name="maxregner_surface">#FBF9FF</color>
+    <color name="maxregner_on_surface">#1B1B21</color>
+    <color name="maxregner_surface_variant">#E3E1E9</color>
+    <color name="maxregner_on_surface_variant">#46464F</color>
+    <color name="maxregner_surface_dim">#DBD9DF</color>
+    <color name="maxregner_surface_bright">#FBF9FF</color>
+    <color name="maxregner_surface_container_lowest">#FFFFFF</color>
+    <color name="maxregner_surface_container_low">#F5F3F9</color>
+    <color name="maxregner_surface_container">#EFEDEF</color>
+    <color name="maxregner_surface_container_high">#E9E7EA</color>
+    <color name="maxregner_surface_container_highest">#E3E1E5</color>
+    <color name="maxregner_outline">#777680</color>
+    <color name="maxregner_outline_variant">#C7C5D0</color>
+    <color name="maxregner_error">#BA1A1A</color>
+    <color name="maxregner_on_error">#FFFFFF</color>
+    <color name="maxregner_error_container">#FFDAD6</color>
+    <color name="maxregner_scrim">#000000</color>
+    <color name="maxregner_shadow">#000000</color>
+    <color name="maxregner_inverse_surface">#2F3036</color>
+    <color name="maxregner_inverse_on_surface">#F1F0F7</color>
+
+    <!-- Maxregner glass orb accents -->
     <color name="maxregner_orb_color">#6366F1</color>
+    <color name="maxregner_orb_core">#818CF8</color>
+    <color name="maxregner_orb_ring">#6366F1</color>
     <color name="maxregner_orb_glow">#A5B4FC</color>
+    <color name="maxregner_orb_rim">#C7D2FE</color>
+    <color name="maxregner_orb_spark">#FFFFFF</color>
 
-    <!-- Surfaces -->
-    <color name="maxregner_surface">#FFFFFF</color>
-    <color name="maxregner_on_surface">#0B1220</color>
+    <!-- Legacy aliases retained for components referencing the old names -->
+    <color name="maxregner_surface_legacy">#FFFFFF</color>
+    <color name="maxregner_on_surface_legacy">#0B1220</color>
     <color name="maxregner_accent">#8B5CF6</color>
     <color name="maxregner_brand">#3B82F6</color>
 </resources>

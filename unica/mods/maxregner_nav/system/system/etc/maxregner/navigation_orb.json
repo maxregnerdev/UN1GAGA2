@@ -1,34 +1,77 @@
 {
     "id": "maxregner_orb",
     "name": "Maxregner Orb",
-    "version": 1,
-    "description": "Adaptive floating navigation orb replacing buttons and gesture pills.",
+    "version": 2,
+    "description": "Glassmorphic adaptive navigation orb replacing buttons and gesture pills, with radial menus, split-screen pinch, magnetic docking and contextual morphing.",
     "anchor": {
         "default_edge": "bottom",
-        "default_margin_dp": 24,
+        "default_margin_dp": 20,
         "snap_edges": ["bottom", "left", "right"],
-        "movable": true
+        "docking_zones": [
+            { "edge": "bottom", "slots": ["start", "center", "end"] },
+            { "edge": "left",   "slots": ["center"] },
+            { "edge": "right",  "slots": ["center"] }
+        ],
+        "magnetic_snap": true,
+        "snap_radius_dp": 16,
+        "movable": true,
+        "remember_position": true
     },
     "appearance": {
-        "base_diameter_dp": 56,
+        "base_diameter_dp": 60,
+        "glow_diameter_dp": 80,
         "scale_min": 0.78,
         "scale_max": 1.30,
         "adaptive_scale": true,
-        "morph_on_context": true
+        "morph_on_context": true,
+        "glass_effect": true,
+        "blur_radius_px": 16
+    },
+    "idle": {
+        "animation": "breath",
+        "period_ms": 4200,
+        "amplitude": 0.04,
+        "fade_on_interaction": true
     },
     "gestures": {
         "tap":            { "action": "home" },
-        "hold":          { "action": "recents", "dwell_ms": 180 },
-        "flick_left":    { "action": "back" },
-        "flick_right":   { "action": "back", "mirror": true },
-        "flick_up":      { "action": "notifications" },
-        "flick_down":    { "action": "quick_settings" },
+        "hold":           { "action": "recents", "dwell_ms": 180 },
+        "long_hold":      { "action": "radial_menu", "dwell_ms": 450 },
+        "flick_left":      { "action": "back" },
+        "flick_right":     { "action": "back", "mirror": true },
+        "flick_up":       { "action": "notifications" },
+        "flick_down":     { "action": "quick_settings" },
+        "flick_up_left":  { "action": "one_handed_mode" },
+        "flick_up_right": { "action": "splitscreen" },
+        "swipe_from_edge_left":  { "action": "back" },
+        "swipe_from_edge_right": { "action": "back", "mirror": true },
         "drag":          { "action": "reposition" },
-        "double_tap":    { "action": "one_handed_mode" }
+        "double_tap":    { "action": "one_handed_mode" },
+        "pinch_two_finger":  { "action": "splitscreen" },
+        "spread_two_finger": { "action": "splitscreen_exit" }
+    },
+    "radial_menu": {
+        "trigger": "long_hold",
+        "radius_dp": 96,
+        "items": [
+            { "label": "Back",        "angle": 180, "action": "back" },
+            { "label": "Home",        "angle": 270, "action": "home" },
+            { "label": "Recents",      "angle": 0,   "action": "recents" },
+            { "label": "Notifications", "angle": 90, "action": "notifications" },
+            { "label": "Screenshot",  "angle": 135, "action": "screenshot" },
+            { "label": "Assistant",    "angle": 225, "action": "assistant" }
+        ]
+    },
+    "morphs": {
+        "default":  { "glyph": "orb",     "label": null },
+        "typing":    { "glyph": "back",    "label": "Back" },
+        "fullscreen":{ "glyph": "orb",     "label": null },
+        "recents":   { "glyph": "recents", "label": "Recents" }
     },
     "feedback": {
         "haptic_on_morph": true,
         "haptic_on_action": true,
+        "sound_on_morph": true,
         "sound_scheme_ref": "maxregner_sound"
     },
     "fallback": {

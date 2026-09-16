@@ -70,4 +70,24 @@
     <string name="maxregner_orb_sensitivity_title">Orb-Gestenempfindlichkeit</string>
     <string name="maxregner_aod_title">Maxregner Always-On-Display</string>
     <string name="maxregner_aod_summary">Maxregner-Orb-AOD-Uhrstil anzeigen.</string>
+    <string name="maxregner_nav_radial_title">Orb-Radialmenü</string>
+    <string name="maxregner_nav_radial_summary">Orb lange gedrückt halten für ein Radialmenü (Zurück/Home/Recents).</string>
+    <string name="maxregner_nav_split_title">Split-Bildschirm-Pinch-Gesten</string>
+    <string name="maxregner_nav_split_summary">Pinch zum Starten, Spread zum Beenden des Split-Bildschirms.</string>
+    <string name="maxregner_nav_dock_title">Magnetisches Andocken</string>
+    <string name="maxregner_nav_dock_summary">Orb beim Ziehen an Rand-Dockzonen einrasten lassen.</string>
+    <string name="maxregner_nav_breath_title">Leerlauf-Atemanimation</string>
+    <string name="maxregner_nav_breath_summary">Sanftes Pulsieren im Leerlauf.</string>
+    <string name="maxregner_orb_sensitivity_gentle">Sanft</string>
+    <string name="maxregner_orb_sensitivity_standard">Standard</string>
+    <string name="maxregner_orb_sensitivity_firm">Fest</string>
+    <string name="maxregner_ui_dynamic_title">Dynamisches Tonal-Theme</string>
+    <string name="maxregner_ui_dynamic_summary">Palette vom Hintergrundbild ableiten.</string>
+    <string name="maxregner_ui_glass_title">Glasoberflächen</string>
+    <string name="maxregner_ui_glass_summary">Panels mit transparenter Glasunschärfe rendern.</string>
+    <string name="maxregner_ui_overshoot_title">Overshoot-Bewegung</string>
+    <string name="maxregner_ui_overshoot_summary">Komponenten mit leichtem Overshoot-Federn settleln.</string>
+    <string name="maxregner_ui_blur_title">Unschärfestärke</string>
+    <string name="maxregner_extras_title">Maxregner Extras</string>
+    <string name="maxregner_extras_summary">Schriftart, AOD/Sperrbildschirm-Theme, Launcher-Gesten und Systemfunktionen.</string>
 </resources>

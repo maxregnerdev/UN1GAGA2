@@ -1,4 +1,5 @@
 id=maxregner_nav
 name=Maxregner Navigation
+version=v2
 author=maxregner
-description=Replaces stock navigation buttons and gesture options with the Maxregner Orb navigation system.
+description=Maxregner Orb v2 navigation: glassmorphic adaptive orb with radial menu, magnetic docking, split-screen pinch gestures, contextual morphing and idle breath animation.

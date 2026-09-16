@@ -1,24 +1,38 @@
 {
     "id": "maxregner_sound",
+    "version": 2,
     "name": "Maxregner Sound Scheme",
-    "version": 1,
-    "description": "System-wide replacement sound scheme for the Maxregner UI.",
+    "description": "Maxregner v2 system-wide sound replacement: ringtones, notifications, alarms, boot/power, UI effects and orb morph cues, layered spatial effects.",
+    "layers": [
+        "ui_effects",
+        "navigation_orb",
+        "system_feedback"
+    ],
     "assets": {
         "ui": {
-            "Maxregner_PowerOn.ogg":    { "use": "power_on",    "replace": "PowerOn.ogg" },
-            "Maxregner_PowerOff.ogg":   { "use": "power_off",   "replace": "PowerOff.ogg" },
-            "Maxregner_Tick.ogg":       { "use": "selection_tick" },
-            "Maxregner_Swoosh.ogg":     { "use": "transition" },
-            "Maxregner_OrbMorph.ogg":    { "use": "orb_morph" }
+            "Maxregner_PowerOn.ogg":     { "use": "power_on",       "replace": "PowerOn.ogg" },
+            "Maxregner_PowerOff.ogg":    { "use": "power_off",      "replace": "PowerOff.ogg" },
+            "Maxregner_Tick.ogg":        { "use": "selection_tick" },
+            "Maxregner_Swoosh.ogg":      { "use": "transition" },
+            "Maxregner_OrbMorph.ogg":    { "use": "orb_morph",      "layer": "navigation_orb" },
+            "Maxregner_OrbRadial.ogg":   { "use": "orb_radial_open", "layer": "navigation_orb" },
+            "Maxregner_OrbDock.ogg":     { "use": "orb_dock",        "layer": "navigation_orb" },
+            "Maxregner_GlassTick.ogg":   { "use": "glass_tick",     "layer": "ui_effects" },
+            "Maxregner_Charge.ogg":      { "use": "charging",       "layer": "system_feedback" },
+            "Maxregner_Lock.ogg":        { "use": "lock",          "layer": "system_feedback" },
+            "Maxregner_Unlock.ogg":      { "use": "unlock",        "layer": "system_feedback" }
         },
         "notifications": {
-            "Maxregner_Notice.ogg":     { "use": "default_notification" }
+            "Maxregner_Notice.ogg":      { "use": "default_notification" },
+            "Maxregner_Pulse.ogg":       { "use": "secondary_notification" }
         },
         "ringtones": {
-            "Maxregner_Resonance.ogg":  { "use": "default_ringtone" }
+            "Maxregner_Resonance.ogg":   { "use": "default_ringtone" },
+            "Maxregner_Echo.ogg":        { "use": "secondary_ringtone" }
         },
         "alarms": {
-            "Maxregner_Alarm.ogg":      { "use": "default_alarm" }
+            "Maxregner_Alarm.ogg":       { "use": "default_alarm" },
+            "Maxregner_Horizon.ogg":     { "use": "secondary_alarm" }
         }
     },
     "props": {

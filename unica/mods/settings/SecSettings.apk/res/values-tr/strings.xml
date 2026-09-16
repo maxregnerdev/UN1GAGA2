@@ -70,4 +70,24 @@
     <string name="maxregner_orb_sensitivity_title">Orb hareket hassasiyeti</string>
     <string name="maxregner_aod_title">Maxregner her zaman açık ekran</string>
     <string name="maxregner_aod_summary">Maxregner Orb AOD saat stilini göster.</string>
+    <string name="maxregner_nav_radial_title">Orb radyal menüsü</string>
+    <string name="maxregner_nav_radial_summary">Radyal menü için orba uzun bas (Geri/Ana Ekran/Son uygulamalar).</string>
+    <string name="maxregner_nav_split_title">Bölünmüş ekran kısık hareketleri</string>
+    <string name="maxregner_nav_split_summary">Girmek için kıs, çıkmak için aç.</string>
+    <string name="maxregner_nav_dock_title">Manyetik sabitleme</string>
+    <string name="maxregner_nav_dock_summary">Sürüklerken orbu kenar bölgelerine sabitle.</string>
+    <string name="maxregner_nav_breath_title">Boşta nefes animasyonu</string>
+    <string name="maxregner_nav_breath_summary">Orb boştayken hafif nabız.</string>
+    <string name="maxregner_orb_sensitivity_gentle">Hafif</string>
+    <string name="maxregner_orb_sensitivity_standard">Standart</string>
+    <string name="maxregner_orb_sensitivity_firm">Sert</string>
+    <string name="maxregner_ui_dynamic_title">Dinamik tonal tema</string>
+    <string name="maxregner_ui_dynamic_summary">Paleti duvar kağıdından türet.</string>
+    <string name="maxregner_ui_glass_title">Cam yüzeyler</string>
+    <string name="maxregner_ui_glass_summary">Panelleri yarı saydam cam bulanıklığıyla işle.</string>
+    <string name="maxregner_ui_overshoot_title">Aşma hareketi</string>
+    <string name="maxregner_ui_overshoot_summary">Bileşenler hafif aşma yayıyla yerleşir.</string>
+    <string name="maxregner_ui_blur_title">Bulanıklık gücü</string>
+    <string name="maxregner_extras_title">Maxregner ekstraları</string>
+    <string name="maxregner_extras_summary">Yazı tipi, AOD/kilit ekranı teması, launcher hareketleri ve sistem işlevleri.</string>
 </resources>

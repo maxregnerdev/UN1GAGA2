@@ -1,22 +1,33 @@
-# Maxregner Sound Scheme — Audio Assets
+# Maxregner Sound Scheme v2 — Audio Assets
 
-The Maxregner sound scheme replaces the default One UI sound set system-wide.
+The Maxregner v2 sound scheme replaces the default One UI sound set system-wide.
 The sound selection itself is driven entirely by `customize.sh` (which sets
 `ro.config.*` props), so it is functional as soon as the mod is applied.
 
-The actual `.ogg` audio samples are **binary assets** and are not checked in
-here. Drop them into the matching folders under `system/system/media/audio/`:
+v2 organizes sounds into three layers: `ui_effects`, `navigation_orb` and
+`system_feedback`. The actual `.ogg` audio samples are **binary assets** and are
+not checked in here. Drop them into the matching folders under
+`system/system/media/audio/`:
 
-| File | Folder | Replaces |
-|------|--------|----------|
-| `Maxregner_PowerOn.ogg`  | `ui/` | boot / power-on sound |
-| `Maxregner_PowerOff.ogg` | `ui/` | shutdown sound |
-| `Maxregner_Tick.ogg`     | `ui/` | selection tick |
-| `Maxregner_Swoosh.ogg`   | `ui/` | transition effect |
-| `Maxregner_OrbMorph.ogg` | `ui/` | Maxregner Orb morph (used by `maxregner_nav`) |
-| `Maxregner_Notice.ogg`   | `notifications/` | default notification |
-| `Maxregner_Resonance.ogg`| `ringtones/` | default ringtone |
-| `Maxregner_Alarm.ogg`    | `alarms/` | default alarm |
+| File | Folder | Layer | Replaces |
+|------|--------|-------|----------|
+| `Maxregner_PowerOn.ogg`  | `ui/` | system_feedback | boot / power-on sound |
+| `Maxregner_PowerOff.ogg` | `ui/` | system_feedback | shutdown sound |
+| `Maxregner_Tick.ogg`     | `ui/` | ui_effects      | selection tick |
+| `Maxregner_Swoosh.ogg`   | `ui/` | ui_effects      | transition effect |
+| `Maxregner_GlassTick.ogg`| `ui/` | ui_effects      | glass UI tick |
+| `Maxregner_OrbMorph.ogg` | `ui/` | navigation_orb  | Maxregner Orb morph |
+| `Maxregner_OrbRadial.ogg`| `ui/` | navigation_orb  | orb radial menu open |
+| `Maxregner_OrbDock.ogg`  | `ui/` | navigation_orb  | orb magnetic dock snap |
+| `Maxregner_Charge.ogg`   | `ui/` | system_feedback | charging feedback |
+| `Maxregner_Lock.ogg`     | `ui/` | system_feedback | device lock |
+| `Maxregner_Unlock.ogg`   | `ui/` | system_feedback | device unlock |
+| `Maxregner_Notice.ogg`   | `notifications/` | — | default notification |
+| `Maxregner_Pulse.ogg`    | `notifications/` | — | secondary notification |
+| `Maxregner_Resonance.ogg`| `ringtones/` | — | default ringtone |
+| `Maxregner_Echo.ogg`     | `ringtones/` | — | secondary ringtone |
+| `Maxregner_Alarm.ogg`    | `alarms/` | — | default alarm |
+| `Maxregner_Horizon.ogg`  | `alarms/` | — | secondary alarm |
 
 Recommended format: Ogg/Vorbis, 44.1 kHz, mono, normalized to ~ -14 LUFS so it
 matches One UI's reference loudness. Each file referenced by a prop above must

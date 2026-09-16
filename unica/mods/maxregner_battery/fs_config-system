@@ -1,0 +1,4 @@
+system 0 0 755 capabilities=0x0
+system/etc 0 0 755 capabilities=0x0
+system/etc/maxregner 0 0 755 capabilities=0x0
+system/etc/maxregner/battery.json 0 0 644 capabilities=0x0
