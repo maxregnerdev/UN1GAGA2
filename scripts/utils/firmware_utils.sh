@@ -5,15 +5,13 @@
 source "$SRC_DIR/scripts/utils/build_utils.sh" || return 1
 # ]
 
-# COMPARE_SEC_BUILD_VERSION <string1> <string2>
-# Returns whether or not `string1` build number is older than `string2`.
-COMPARE_SEC_BUILD_VERSION()
+# _DECODE_BUILD_VERSION <string>
+# Extracts the OS major/year/month/incremental version segments from a Samsung build string.
+_DECODE_BUILD_VERSION()
 {
-    local STRING1="$1"
-    local STRING2="$2"
+    local STRING="$1"
 
-    STRING1="$(cut -d "/" -f 1 -s <<< "$STRING1")"
-    STRING2="$(cut -d "/" -f 1 -s <<< "$STRING2")"
+    STRING="$(cut -d "/" -f 1 -s <<< "$STRING")"
 
     # Samsung Android OS build version scheme works as follows (eg. A528BXXU1DWA4):
     # - A528B: Model number
@@ -24,15 +22,44 @@ COMPARE_SEC_BUILD_VERSION()
     # - W: Year (W = 2023)
     # - A: Month (A = january)
     # - 4: Incremental version
-    local STRING1_MAJOR="${STRING1:${#STRING1}-4:1}"
-    local STRING1_YEAR="${STRING1:${#STRING1}-3:1}"
-    local STRING1_MONTH="${STRING1:${#STRING1}-2:1}"
-    local STRING1_INCREMENTAL="${STRING1:${#STRING1}-1:1}"
+    DECODE_MAJOR="${STRING:${#STRING}-4:1}"
+    DECODE_YEAR="${STRING:${#STRING}-3:1}"
+    DECODE_MONTH="${STRING:${#STRING}-2:1}"
+    DECODE_INCREMENTAL="${STRING:${#STRING}-1:1}"
+}
 
-    local STRING2_MAJOR="${STRING2:${#STRING2}-4:1}"
-    local STRING2_YEAR="${STRING2:${#STRING2}-3:1}"
-    local STRING2_MONTH="${STRING2:${#STRING2}-2:1}"
-    local STRING2_INCREMENTAL="${STRING2:${#STRING2}-1:1}"
+# COMPARE_SEC_BUILD_VERSION <string1> <string2>
+# Returns whether or not `string1` build number is older than `string2`.
+COMPARE_SEC_BUILD_VERSION()
+{
+    local STRING1="$1"
+    local STRING2="$2"
+
+    local DECODE_MAJOR
+    local DECODE_YEAR
+    local DECODE_MONTH
+    local DECODE_INCREMENTAL
+    local STRING1_MAJOR
+    local STRING1_YEAR
+    local STRING1_MONTH
+    local STRING1_INCREMENTAL
+
+    _DECODE_BUILD_VERSION "$STRING1"
+    STRING1_MAJOR="$DECODE_MAJOR"
+    STRING1_YEAR="$DECODE_YEAR"
+    STRING1_MONTH="$DECODE_MONTH"
+    STRING1_INCREMENTAL="$DECODE_INCREMENTAL"
+
+    local STRING2_MAJOR
+    local STRING2_YEAR
+    local STRING2_MONTH
+    local STRING2_INCREMENTAL
+
+    _DECODE_BUILD_VERSION "$STRING2"
+    STRING2_MAJOR="$DECODE_MAJOR"
+    STRING2_YEAR="$DECODE_YEAR"
+    STRING2_MONTH="$DECODE_MONTH"
+    STRING2_INCREMENTAL="$DECODE_INCREMENTAL"
 
     [[ "$STRING1_MAJOR" > "$STRING2_MAJOR" ]] && return 0
     [[ "$STRING1_MAJOR" < "$STRING2_MAJOR" ]] && return 1
@@ -57,28 +84,27 @@ EXTRACT_FILE_FROM_TAR()
 
     local TAR="$1"
     local FILE="$2"
+    local OUT_DIR="$FW_DIR/${MODEL}_${CSC}"
 
     if [ ! -f "$TAR" ]; then
         LOGE "File not found: ${TAR//$SRC_DIR\//}"
         return 1
     fi
 
-    [ -f "$FW_DIR/${MODEL}_${CSC}/$FILE" ] && rm -rf "$FW_DIR/${MODEL}_${CSC}/$FILE"
-    [ -f "$FW_DIR/${MODEL}_${CSC}/$FILE.ext4" ] && rm -rf "$FW_DIR/${MODEL}_${CSC}/$FILE.ext4"
-    [ -f "$FW_DIR/${MODEL}_${CSC}/$FILE.lz4" ] && rm -rf "$FW_DIR/${MODEL}_${CSC}/$FILE.lz4"
+    rm -f "$OUT_DIR/$FILE" "$OUT_DIR/$FILE.ext4" "$OUT_DIR/$FILE.lz4"
 
     if FILE_EXISTS_IN_TAR "$TAR" "$FILE"; then
         LOG "- Extracting $FILE..."
-        EVAL "tar xf \"$TAR\" -C \"$FW_DIR/${MODEL}_${CSC}\" \"$FILE\"" || return 1
+        EVAL "tar xf \"$TAR\" -C \"$OUT_DIR\" \"$FILE\"" || return 1
     elif FILE_EXISTS_IN_TAR "$TAR" "$FILE.ext4"; then
         LOG "- Extracting $FILE.ext4..."
-        EVAL "tar xf \"$TAR\" -C \"$FW_DIR/${MODEL}_${CSC}\" \"$FILE.ext4\"" || return 1
-        EVAL "mv -f \"$FW_DIR/${MODEL}_${CSC}/$FILE.ext4\" \"$FW_DIR/${MODEL}_${CSC}/$FILE\"" || return 1
+        EVAL "tar xf \"$TAR\" -C \"$OUT_DIR\" \"$FILE.ext4\"" || return 1
+        EVAL "mv -f \"$OUT_DIR/$FILE.ext4\" \"$OUT_DIR/$FILE\"" || return 1
     elif FILE_EXISTS_IN_TAR "$TAR" "$FILE.lz4"; then
         LOG "- Extracting $FILE.lz4..."
-        EVAL "tar xf \"$TAR\" -C \"$FW_DIR/${MODEL}_${CSC}\" \"$FILE.lz4\"" || return 1
+        EVAL "tar xf \"$TAR\" -C \"$OUT_DIR\" \"$FILE.lz4\"" || return 1
         LOG "- Decompressing $FILE.lz4..."
-        EVAL "lz4 -d --rm \"$FW_DIR/${MODEL}_${CSC}/$FILE.lz4\" \"$FW_DIR/${MODEL}_${CSC}/$FILE\"" || return 1
+        EVAL "lz4 -d --rm \"$OUT_DIR/$FILE.lz4\" \"$OUT_DIR/$FILE\"" || return 1
     fi
 
     return 0

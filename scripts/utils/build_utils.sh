@@ -51,32 +51,45 @@ GET_IMAGE_SIZE()
 }
 
 # [
-DEPENDENCIES=(
-    "7z" "awk" "basename" "bc" "brotli" "cat" "clang" "cmake"
-    "cp" "cpio" "curl" "cut" "cwebp" "dd" "dirname" "du" "ffmpeg"
-    "file" "getfattr" "git" "grep" "head" "java" "ln"
-    "lz4" "make" "md5sum" "mkdir" "mount" "mv" "perl" "protoc"
-    "python3" "rm" "rsync" "sed" "sha1sum" "sort" "split" "stat"
-    "sudo" "tail" "tar" "touch" "tr" "truncate" "umount" "unzip"
-    "wc" "whoami" "xargs" "xxd" "zip" "zstd"
-)
-MISSING=()
-for d in "${DEPENDENCIES[@]}"; do
-    if ! type "$d" &> /dev/null; then
-        MISSING+=("$d")
-    fi
-done
-if [ "${#MISSING[@]}" -ne 0 ]; then
-    echo -e '\033[1;31m'"The following dependencies are missing from your system:"'\033[0;31m' >&2
-    printf '%s ' "${MISSING[@]}" >&2
-    echo -e '\033[0m' >&2
-    return 1
-fi
-unset DEPENDENCIES MISSING
+_CHECK_BUILD_DEPENDENCIES()
+{
+    local DEPENDENCIES=(
+        "7z" "awk" "basename" "bc" "brotli" "cat" "clang" "cmake"
+        "cp" "cpio" "curl" "cut" "cwebp" "dd" "dirname" "du" "ffmpeg"
+        "file" "getfattr" "git" "grep" "head" "java" "ln"
+        "lz4" "make" "md5sum" "mkdir" "mount" "mv" "perl" "protoc"
+        "python3" "rm" "rsync" "sed" "sha1sum" "sort" "split" "stat"
+        "sudo" "tail" "tar" "touch" "tr" "truncate" "umount" "unzip"
+        "wc" "whoami" "xargs" "xxd" "zip" "zstd"
+    )
+    local MISSING=()
+    local d
 
-if ! "$SRC_DIR/external/make.sh" --check-tools; then
-    LOG_STEP_IN true "Building required tools..."
-    "$SRC_DIR/external/make.sh" || return 1
-    LOG_STEP_OUT
-fi
+    for d in "${DEPENDENCIES[@]}"; do
+        if ! type "$d" &> /dev/null; then
+            MISSING+=("$d")
+        fi
+    done
+
+    if [ "${#MISSING[@]}" -ne 0 ]; then
+        echo -e '\033[1;31m'"The following dependencies are missing from your system:"'\033[0;31m' >&2
+        printf '%s ' "${MISSING[@]}" >&2
+        echo -e '\033[0m' >&2
+        return 1
+    fi
+
+    return 0
+}
+
+_ENSURE_BUILD_TOOLS()
+{
+    if ! "$SRC_DIR/external/make.sh" --check-tools; then
+        LOG_STEP_IN true "Building required tools..."
+        "$SRC_DIR/external/make.sh" || return 1
+        LOG_STEP_OUT
+    fi
+}
+
+_CHECK_BUILD_DEPENDENCIES || return 1
+_ENSURE_BUILD_TOOLS
 # ]

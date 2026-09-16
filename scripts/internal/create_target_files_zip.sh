@@ -1,14 +1,32 @@
 #!/usr/bin/env bash
-# Copyright (c) 2026 Salvo Giangreco
+# Copyright (c) 2025 Salvo Giangreco
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 # [
 source "$SRC_DIR/scripts/utils/install_utils.sh" || exit 1
 
 if ! $BUILD_FLASHABLE_ZIP; then
-	trap 'rm -rf "$TMP_DIR"' EXIT
+    trap 'rm -rf "$TMP_DIR"' EXIT
 fi
 
+# GET_SUPER_GROUP_SIZE
+# Returns the size in bytes of the target super partition group.
+# https://android.googlesource.com/platform/build/+/refs/tags/android-15.0.0_r1/tools/releasetools/build_super_image.py#72
+GET_SUPER_GROUP_SIZE()
+{
+    local GROUP_NAME="$TARGET_SUPER_GROUP_NAME"
+    GROUP_NAME="$(tr "[:lower:]" "[:upper:]" <<< "$TARGET_SUPER_GROUP_NAME")"
+
+    local VAR="TARGET_${GROUP_NAME}_SIZE"
+
+    _CHECK_NON_EMPTY_PARAM "$VAR" "${!VAR}" || exit 1
+
+    echo "${!VAR}"
+}
+
+# BUILD_SUPER_EMPTY
+# Builds an unsparse super_empty.img via lpmake containing every partition
+# image currently present in $TMP_DIR.
 # https://android.googlesource.com/platform/build/+/refs/tags/android-15.0.0_r1/tools/releasetools/build_super_image.py#72
 BUILD_SUPER_EMPTY()
 {
@@ -23,35 +41,18 @@ BUILD_SUPER_EMPTY()
     CMD+=" --metadata-slots \"2\""
     CMD+=" --device \"super:$TARGET_SUPER_PARTITION_SIZE\""
     CMD+=" --group \"$TARGET_SUPER_GROUP_NAME:$(GET_SUPER_GROUP_SIZE)\""
-    if [ -f "$TMP_DIR/system.img" ]; then
-        CMD+=" --partition \"system:readonly:0:$TARGET_SUPER_GROUP_NAME\""
-    fi
-    if [ -f "$TMP_DIR/vendor.img" ]; then
-        CMD+=" --partition \"vendor:readonly:0:$TARGET_SUPER_GROUP_NAME\""
-    fi
-    if [ -f "$TMP_DIR/product.img" ]; then
-        CMD+=" --partition \"product:readonly:0:$TARGET_SUPER_GROUP_NAME\""
-    fi
-    if [ -f "$TMP_DIR/system_ext.img" ]; then
-        CMD+=" --partition \"system_ext:readonly:0:$TARGET_SUPER_GROUP_NAME\""
-    fi
-    if [ -f "$TMP_DIR/odm.img" ]; then
-        CMD+=" --partition \"odm:readonly:0:$TARGET_SUPER_GROUP_NAME\""
-    fi
-    if [ -f "$TMP_DIR/vendor_dlkm.img" ]; then
-        CMD+=" --partition \"vendor_dlkm:readonly:0:$TARGET_SUPER_GROUP_NAME\""
-    fi
-    if [ -f "$TMP_DIR/odm_dlkm.img" ]; then
-        CMD+=" --partition \"odm_dlkm:readonly:0:$TARGET_SUPER_GROUP_NAME\""
-    fi
-    if [ -f "$TMP_DIR/system_dlkm.img" ]; then
-        CMD+=" --partition \"system_dlkm:readonly:0:$TARGET_SUPER_GROUP_NAME\""
-    fi
+    for p in $PARTITIONS_LIST; do
+        if [ -f "$TMP_DIR/$p.img" ]; then
+            CMD+=" --partition \"$p:readonly:0:$TARGET_SUPER_GROUP_NAME\""
+        fi
+    done
     CMD+=" --output \"$TMP_DIR/unsparse_super_empty.img\""
 
     EVAL "$CMD" || exit 1
 }
 
+# GENERATE_BUILD_INFO
+# Writes the build_info.txt descriptor used by the OTA packaging scripts.
 GENERATE_BUILD_INFO()
 {
     local BUILD_INFO_FILE="$TMP_DIR/build_info.txt"
@@ -64,10 +65,8 @@ GENERATE_BUILD_INFO()
     SOURCE_FIRMWARE_PATH="$(cut -d "/" -f 1 -s <<< "$SOURCE_FIRMWARE")_$(cut -d "/" -f 2 -s <<< "$SOURCE_FIRMWARE")"
     TARGET_FIRMWARE_PATH="$(cut -d "/" -f 1 -s <<< "$TARGET_FIRMWARE")_$(cut -d "/" -f 2 -s <<< "$TARGET_FIRMWARE")"
 
-    SOURCE_FINGERPRINT="$(GET_PROP "$FW_DIR/$SOURCE_FIRMWARE_PATH/system/system/build.prop" "ro.system.build.fingerprint")"
-    SOURCE_FINGERPRINT="${SOURCE_FINGERPRINT//$(GET_PROP "$FW_DIR/$SOURCE_FIRMWARE_PATH/system/system/build.prop" "ro.build.product")/$(GET_PROP "$FW_DIR/$SOURCE_FIRMWARE_PATH/vendor/build.prop" "ro.product.vendor.device")}"
-    TARGET_FINGERPRINT="$(GET_PROP "$FW_DIR/$TARGET_FIRMWARE_PATH/system/system/build.prop" "ro.system.build.fingerprint")"
-    TARGET_FINGERPRINT="${TARGET_FINGERPRINT//$(GET_PROP "$FW_DIR/$TARGET_FIRMWARE_PATH/system/system/build.prop" "ro.build.product")/$(GET_PROP "$FW_DIR/$TARGET_FIRMWARE_PATH/vendor/build.prop" "ro.product.vendor.device")}"
+    SOURCE_FINGERPRINT="$(_COMPUTE_FINGERPRINT "$FW_DIR/$SOURCE_FIRMWARE_PATH")"
+    TARGET_FINGERPRINT="$(_COMPUTE_FINGERPRINT "$FW_DIR/$TARGET_FIRMWARE_PATH")"
 
     {
         echo -n "device="
@@ -94,16 +93,16 @@ GENERATE_BUILD_INFO()
     } > "$BUILD_INFO_FILE"
 }
 
-GET_SUPER_GROUP_SIZE()
+_COMPUTE_FINGERPRINT()
 {
-    local GROUP_NAME="$TARGET_SUPER_GROUP_NAME"
-    GROUP_NAME="$(tr "[:lower:]" "[:upper:]" <<< "$TARGET_SUPER_GROUP_NAME")"
+    local FW_PATH="$1"
+    local SYSTEM_PROP="$FW_PATH/system/system/build.prop"
+    local VENDOR_PROP="$FW_PATH/vendor/build.prop"
 
-    local VAR="TARGET_${GROUP_NAME}_SIZE"
-
-    _CHECK_NON_EMPTY_PARAM "$VAR" "${!VAR}" || exit 1
-
-    echo "${!VAR}"
+    local FINGERPRINT
+    FINGERPRINT="$(GET_PROP "$SYSTEM_PROP" "ro.system.build.fingerprint")"
+    FINGERPRINT="${FINGERPRINT//$(GET_PROP "$SYSTEM_PROP" "ro.build.product")/$(GET_PROP "$VENDOR_PROP" "ro.product.vendor.device")}"
+    echo "$FINGERPRINT"
 }
 # ]
 

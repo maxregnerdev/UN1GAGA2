@@ -8,13 +8,9 @@ _GET_SRC_DIR()
 {
     local TOPFILE="unica/configs/version.sh"
     if [ -n "$SRC_DIR" ] && [ -f "$SRC_DIR/$TOPFILE" ]; then
-        # The following circumlocution ensures we remove symlinks from SRC_DIR.
         (cd "$SRC_DIR"; PWD= /bin/pwd)
     else
         if [ -f "$TOPFILE" ]; then
-            # The following circumlocution (repeated below as well) ensures
-            # that we record the true directory name and not one that is
-            # faked up with symlink names.
             PWD= /bin/pwd
         else
             local HERE="$PWD"
@@ -31,11 +27,104 @@ _GET_SRC_DIR()
     fi
 }
 
+_PRINT_AVAILABLE_TARGETS()
+{
+    echo "Available devices:" >&2
+    printf '%s\n' "${TARGETS[@]}" >&2
+}
+
 _PRINT_USAGE()
 {
     echo "Usage: source buildenv.sh [--debug] <target>" >&2
-    echo "Available devices:" >&2
-    printf '%s\n' "${TARGETS[@]}" >&2
+    _PRINT_AVAILABLE_TARGETS
+}
+
+_PARSE_BUILD_OPTIONS()
+{
+    while [[ "$1" == "-"* ]]; do
+        case "$1" in
+            "--debug")
+                export DEBUG=true
+                ;;
+            "--help"|"-h")
+                _PRINT_USAGE
+                return 0
+                ;;
+            *)
+                echo "Unknown option: $1" >&2
+                _PRINT_USAGE
+                return 1
+                ;;
+        esac
+        shift
+    done
+
+    if [ "$#" -ne 1 ]; then
+        echo "No target specified. Please choose from the available devices below:"
+        select SELECTED_TARGET in "${TARGETS[@]}"; do
+            if [ -n "$SELECTED_TARGET" ]; then
+                break
+            else
+                echo "Invalid selection. Please try again."
+            fi
+        done
+    else
+        SELECTED_TARGET="$1"
+    fi
+
+    return 0
+}
+
+_VALIDATE_TARGET()
+{
+    if [ ! -d "$SRC_DIR/target/$SELECTED_TARGET" ]; then
+        echo "\"$SELECTED_TARGET\" is not a valid device." >&2
+        _PRINT_USAGE
+        return 1
+    fi
+    return 0
+}
+
+_EXPORT_BUILD_DIRECTORIES()
+{
+    export OUT_DIR="$SRC_DIR/out"
+    export ODIN_DIR="$OUT_DIR/odin"
+    export FW_DIR="$OUT_DIR/fw"
+    export TOOLS_DIR="$OUT_DIR/tools"
+    if [[ ":$PATH:" != *":$TOOLS_DIR/bin:"* ]]; then
+        export PATH="$TOOLS_DIR/bin:$PATH"
+    fi
+}
+
+_EXPORT_TARGET_DIRECTORIES()
+{
+    export APKTOOL_DIR="$OUT_DIR/target/$SELECTED_TARGET/apktool"
+    export WORK_DIR="$OUT_DIR/target/$SELECTED_TARGET/work_dir"
+    export TMP_DIR="$OUT_DIR/target/$SELECTED_TARGET/tmp"
+    mkdir -p "$OUT_DIR/target/$SELECTED_TARGET"
+}
+
+_DISCOVER_TARGETS()
+{
+    TARGETS=()
+    while IFS= read -r t; do
+        TARGETS+=("$t")
+    done < <(find "$SRC_DIR/target" -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | sort)
+}
+
+_LOAD_TARGET_CONFIG()
+{
+    # shellcheck disable=SC2046
+    [ -f "$OUT_DIR/config.sh" ] && unset $(sed "/Automatically/d" "$OUT_DIR/config.sh" | cut -d "=" -f 1)
+    "$SRC_DIR/scripts/internal/gen_config_file.sh" "$SELECTED_TARGET" || return 1
+    set -o allexport; source "$OUT_DIR/config.sh"; set +o allexport
+}
+
+_PRINT_BUILD_HEADER()
+{
+    echo "=============================="
+    sed "/Automatically/d" "$OUT_DIR/config.sh"
+    echo "=============================="
 }
 
 # https://android.googlesource.com/platform/build/+/refs/tags/android-15.0.0_r1/envsetup.sh#806
@@ -53,6 +142,15 @@ croot()
     fi
 }
 
+_DISCOVER_SCRIPTS()
+{
+    local CMDS=()
+    while IFS= read -r f; do
+        CMDS+=("$f")
+    done < <(find "$SRC_DIR/scripts" -maxdepth 1 ! -type d -printf '%f\n' | sort | sed "s/\.sh//")
+    printf '%s\n' "${CMDS[@]}"
+}
+
 run_cmd()
 {
     local CMD="$1"
@@ -64,26 +162,21 @@ run_cmd()
             >(sed -r -e "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g" -e "/#/d" > "$(dirname "$WORK_DIR")/$CMD-$(date +%Y%m%d_%H%M%S).log"))
         return $?
     else
-        local CMDS=()
-        while IFS= read -r f; do
-            CMDS+=("$f")
-        done < <(find "$SRC_DIR/scripts" -maxdepth 1 ! -type d -printf '%f\n' | sort | sed "s/\.sh//")
-
         if [ "$CMD" ]; then
             if [[ "$CMD" == "--help" ]] || [[ "$CMD" == "-h" ]]; then
                 echo "Available cmds:" >&2
-                for c in "${CMDS[@]}"; do
+                for c in $(_DISCOVER_SCRIPTS); do
                     echo -e '\n\033[1;37m'"$c:"'\033[0m'
                     "$SRC_DIR/scripts/$c.sh" --help
                 done
                 return 0
             else
-                echo -e '\033[0;31m'"\"$CMD\" is not a valid cmd."'\033[0m' >&2
+                echo -e '\033[0;31m'"\"$CMD\" is not a valid cmd."'\\033[0m' >&2
             fi
         fi
 
         echo "Available cmds:" >&2
-        printf '%s\n' "${CMDS[@]}" >&2
+        _DISCOVER_SCRIPTS >&2
         return 1
     fi
 }
@@ -101,69 +194,24 @@ unset -f _GET_SRC_DIR
 
 export DEBUG=false
 export SRC_DIR
-export OUT_DIR="$SRC_DIR/out"
-export ODIN_DIR="$OUT_DIR/odin"
-export FW_DIR="$OUT_DIR/fw"
-export TOOLS_DIR="$OUT_DIR/tools"
-if [[ ":$PATH:" != *":$TOOLS_DIR/bin:"* ]]; then
-    export PATH="$TOOLS_DIR/bin:$PATH"
-fi
+_EXPORT_BUILD_DIRECTORIES
 
-TARGETS=()
-while IFS= read -r t; do
-    TARGETS+=("$t")
-done < <(find "$SRC_DIR/target" -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | sort)
+_DISCOVER_TARGETS
 
-while [[ "$1" == "-"* ]]; do
-    if [[ "$1" == "--debug" ]]; then
-        export DEBUG=true
-    elif [[ "$1" == "--help" ]] || [[ "$1" == "-h" ]]; then
-        _PRINT_USAGE
-        return 0
-    else
-        echo "Unknown option: $1" >&2
-        _PRINT_USAGE
-        return 1
-    fi
-    shift
-done
+_PARSE_BUILD_OPTIONS "$@" || return 1
+_VALIDATE_TARGET || return 1
 
-if [ "$#" -ne 1 ]; then
-    echo "No target specified. Please choose from the available devices below:"
+unset -f _PRINT_USAGE _PRINT_AVAILABLE_TARGETS
 
-    select SELECTED_TARGET in "${TARGETS[@]}"; do
-        if [ -n "$SELECTED_TARGET" ]; then
-            break
-        else
-            echo "Invalid selection. Please try again."
-        fi
-    done
-else
-    SELECTED_TARGET="$1"
-fi
-
-if [ ! -d "$SRC_DIR/target/$SELECTED_TARGET" ]; then
-    echo "\"$SELECTED_TARGET\" is not a valid device." >&2
-    _PRINT_USAGE
-    return 1
-fi
-
-unset -f _PRINT_USAGE
-
-export APKTOOL_DIR="$OUT_DIR/target/$SELECTED_TARGET/apktool"
-export WORK_DIR="$OUT_DIR/target/$SELECTED_TARGET/work_dir"
-export TMP_DIR="$OUT_DIR/target/$SELECTED_TARGET/tmp"
-
-mkdir -p "$OUT_DIR/target/$SELECTED_TARGET"
-# shellcheck disable=SC2046
-[ -f "$OUT_DIR/config.sh" ] && unset $(sed "/Automatically/d" "$OUT_DIR/config.sh" | cut -d "=" -f 1)
-"$SRC_DIR/scripts/internal/gen_config_file.sh" "$SELECTED_TARGET" || return 1
-set -o allexport; source "$OUT_DIR/config.sh"; set +o allexport
+_EXPORT_TARGET_DIRECTORIES
+_LOAD_TARGET_CONFIG || return 1
 
 unset TARGETS SELECTED_TARGET
 
-echo "=============================="
-sed "/Automatically/d" "$OUT_DIR/config.sh"
-echo "=============================="
+_PRINT_BUILD_HEADER
+
+unset -f _EXPORT_BUILD_DIRECTORIES _EXPORT_TARGET_DIRECTORIES _DISCOVER_TARGETS \
+    _LOAD_TARGET_CONFIG _PRINT_BUILD_HEADER _PARSE_BUILD_OPTIONS _VALIDATE_TARGET \
+    _DISCOVER_SCRIPTS
 
 return 0

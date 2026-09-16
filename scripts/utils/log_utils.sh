@@ -4,35 +4,37 @@
 # [
 _GET_CALLER_INFO()
 {
+    local SRC_FILE=""
+    local LINE_NO=""
+    local FUNC=""
+
     if [[ "${FUNCNAME[2]}" != "main" ]]; then
-        echo -n "("
-        if [ "${BASH_SOURCE[3]}" ]; then
-            echo -n "${BASH_SOURCE[3]//$SRC_DIR\//}:"
-        fi
-        if [ "${BASH_LINENO[2]}" ]; then
-            echo -n "${BASH_LINENO[2]}:"
-        fi
-        echo -n "${FUNCNAME[2]}) "
+        FUNC="${FUNCNAME[2]}"
+        SRC_FILE="${BASH_SOURCE[3]//$SRC_DIR//}"
+        LINE_NO="${BASH_LINENO[2]}"
     else
-        echo -n "("
-        if [ "${BASH_SOURCE[2]}" ]; then
-            echo -n "${BASH_SOURCE[2]//$SRC_DIR\//}:"
-        fi
-        if [ "${BASH_LINENO[1]}" ]; then
-            echo -n "${BASH_LINENO[1]}"
-        fi
-        echo -n ") "
+        FUNC="${FUNCNAME[1]}"
+        SRC_FILE="${BASH_SOURCE[2]//$SRC_DIR//}"
+        LINE_NO="${BASH_LINENO[1]}"
     fi
+
+    echo -n "("
+    [ "$SRC_FILE" ] && echo -n "${SRC_FILE}:"
+    [ "$LINE_NO" ] && echo -n "${LINE_NO}:"
+    echo -n "${FUNC}) "
 }
-# ]
+
+_FORMAT_INDENT()
+{
+    local INDENT="${INDENT_LEVEL:=0}"
+    printf "%*s%s" "$INDENT" "" "$1"
+}
 
 # LOG <message>
 # Prints a log message in the build output.
 LOG()
 {
-    local INDENT="${INDENT_LEVEL:=0}"
-
-    echo -e "$(printf "%*s%s" "$INDENT" "" "$1")"
+    echo -e "$(_FORMAT_INDENT "$1")"
 }
 
 # LOGE <message>
@@ -59,7 +61,7 @@ LOGW()
 # Increments the output indentation, additionally prints a log message if supplied.
 LOG_STEP_IN()
 {
-    local BOLD
+    local BOLD=""
     local RESET="\033[0m"
 
     if [[ "$1" == "true" ]]; then
@@ -84,3 +86,4 @@ LOG_STEP_OUT()
         export INDENT_LEVEL=$((INDENT - 2))
     fi
 }
+# ]

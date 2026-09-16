@@ -13,7 +13,7 @@ _CHECK_NON_EMPTY_PARAM()
         if [[ "$STACK_SIZE" -gt "1" ]]; then
             echo -n "(" >&2
             if [[ "$STACK_SIZE" -gt "2" ]]; then
-                echo -n "${BASH_SOURCE[2]//$SRC_DIR\//}:${BASH_LINENO[1]}:" >&2
+                echo -n "${BASH_SOURCE[2]//$SRC_DIR//}:${BASH_LINENO[1]}:" >&2
             fi
             echo -n "${FUNCNAME[1]}) " >&2
         fi
@@ -176,30 +176,10 @@ _HANDLE_SPECIAL_CHARS()
 
     echo "$STRING"
 }
-# ]
 
-# ADD_TO_WORK_DIR <source> <partition> <file/dir> <user> <group> <mode> <label>
-# Adds the supplied file/directory in work dir along with its entries in fs_config/file_context.
-#
-# `source` argument can be:
-# - a full path
-# - a string in the following format: "MODEL/CSC" (the folder MUST exist under `out/fw`)
-# - a string with the product name of the desired device's prebuilt blobs (the folder MUST exist under `prebuilts/samsung`)
-#
-# `user`/`group`/`mode`/`label`/ arguments can be omitted as long as the respective entry is present in `source`/fs_config and `source`/file_context.
-ADD_TO_WORK_DIR()
+_RESOLVE_SOURCE_PATH()
 {
-    _CHECK_NON_EMPTY_PARAM "SOURCE" "$1" || return 1
-    _CHECK_NON_EMPTY_PARAM "PARTITION" "$2" || return 1
-    _CHECK_NON_EMPTY_PARAM "FILE" "$3" || return 1
-
     local SOURCE="$1"
-    local PARTITION="$2"
-    local FILE="$3"
-    local USER="$4"
-    local GROUP="$5"
-    local MODE="$6"
-    local LABEL="$7"
 
     if [ ! -d "$SOURCE" ]; then
         if [ "$(cut -d "/" -f 2 -s <<< "$SOURCE")" ]; then
@@ -209,22 +189,18 @@ ADD_TO_WORK_DIR()
         fi
     fi
 
-    if [ ! -d "$SOURCE" ]; then
-        LOGE "Folder not found: ${SOURCE//$SRC_DIR\//}"
-        return 1
-    fi
+    echo "$SOURCE"
+}
 
-    if ! IS_VALID_PARTITION_NAME "$PARTITION"; then
-        LOGE "\"$PARTITION\" is not a valid partition name"
-        return 1
-    fi
-
-    while [[ "${FILE:0:1}" == "/" ]]; do
-        FILE="${FILE:1}"
-    done
+_RESOLVE_PARTITION_TARGET_PATHS()
+{
+    local SOURCE="$1"
+    local PARTITION="$2"
+    local FILE="$3"
 
     local SOURCE_FILE="$SOURCE"
     local TARGET_FILE="$WORK_DIR"
+
     if [[ "$PARTITION" == "system_ext" ]]; then
         if [ -d "$SOURCE/system_ext" ]; then
             SOURCE_FILE+="/system_ext/$FILE"
@@ -254,28 +230,18 @@ ADD_TO_WORK_DIR()
         TARGET_FILE+="/$PARTITION/$FILE"
     fi
 
-    if [ ! -e "$SOURCE_FILE" ] && [ ! -L "$SOURCE_FILE" ]; then
-        if [ -e "$SOURCE_FILE.00" ]; then
-            LOG "- Adding $(sed -e "s|$WORK_DIR||" -e "s|/\.||" <<< "$TARGET_FILE") from ${SOURCE//$SRC_DIR\//}"
-            mkdir -p "$(dirname "$TARGET_FILE")"
-            EVAL "cat \"$SOURCE_FILE.\"[0-9][0-9] > \"$TARGET_FILE\"" || exit 1
-        else
-            LOGE "File not found: ${SOURCE_FILE//$SRC_DIR\//}"
-            return 1
-        fi
-    else
-        LOG "- Adding $(sed -e "s|$WORK_DIR||" -e "s|/\.||" <<< "$TARGET_FILE") from ${SOURCE//$SRC_DIR\//}"
-        if [ ! -d "$SOURCE_FILE" ]; then
-            mkdir -p "$(dirname "$TARGET_FILE")"
-        else
-            mkdir -p "$TARGET_FILE"
-        fi
-        EVAL "cp -a -T \"$SOURCE_FILE\" \"$TARGET_FILE\"" || exit 1
-    fi
+    echo "$SOURCE_FILE"$'\n'"$TARGET_FILE"$'\n'"$PARTITION"$'\n'"$FILE"
+}
 
-    local ENTRY="${TARGET_FILE//$WORK_DIR\//}"
-    [[ "$PARTITION" == "system" ]] && ENTRY="${ENTRY//system\/system\//system/}"
-    ENTRY="${ENTRY%/.}"
+_ADD_FS_CONFIG_ENTRY()
+{
+    local ENTRY="$1"
+    local PARTITION="$2"
+    local SOURCE="$3"
+    local TARGET_FILE="$4"
+    local USER="$5"
+    local GROUP="$6"
+    local MODE="$7"
 
     if ! grep -q -F "$ENTRY " "$WORK_DIR/configs/fs_config-$PARTITION" 2> /dev/null; then
         if [ "$USER" ] && [ "$GROUP" ] && [ "$MODE" ]; then
@@ -283,7 +249,7 @@ ADD_TO_WORK_DIR()
         elif grep -q -F "$ENTRY " "$SOURCE/fs_config-$PARTITION" 2> /dev/null; then
             grep -F "$ENTRY " "$SOURCE/fs_config-$PARTITION" >> "$WORK_DIR/configs/fs_config-$PARTITION"
         else
-            LOGW "No fs_config entry found for \"$ENTRY\" in \"${SOURCE//$SRC_DIR\//}\". Using default values"
+            LOGW "No fs_config entry found for \"$ENTRY\" in \"${SOURCE//$SRC_DIR//}\". Using default values"
 
             USER=0
             GROUP=0
@@ -296,6 +262,14 @@ ADD_TO_WORK_DIR()
             echo "$ENTRY $USER $GROUP $MODE capabilities=0x0" >> "$WORK_DIR/configs/fs_config-$PARTITION"
         fi
     fi
+}
+
+_ADD_FILE_CONTEXT_ENTRY()
+{
+    local ENTRY="$1"
+    local PARTITION="$2"
+    local SOURCE="$3"
+    local LABEL="$4"
 
     if ! grep -q -F "/$(_HANDLE_SPECIAL_CHARS "$ENTRY") " "$WORK_DIR/configs/file_context-$PARTITION" 2> /dev/null; then
         if [ "$LABEL" ]; then
@@ -303,13 +277,130 @@ ADD_TO_WORK_DIR()
         elif grep -q -F "/$(_HANDLE_SPECIAL_CHARS "$ENTRY") " "$SOURCE/file_context-$PARTITION" 2> /dev/null; then
             grep -F "/$(_HANDLE_SPECIAL_CHARS "$ENTRY") " "$SOURCE/file_context-$PARTITION" >> "$WORK_DIR/configs/file_context-$PARTITION"
         else
-            LOGW "No file_context entry found for \"$ENTRY\" in \"${SOURCE//$SRC_DIR\//}\". Using default value"
+            LOGW "No file_context entry found for \"$ENTRY\" in \"${SOURCE//$SRC_DIR//}\". Using default value"
 
             LABEL="$(_GET_SELINUX_LABEL "$PARTITION" "/$ENTRY")"
 
             echo "/$(_HANDLE_SPECIAL_CHARS "$ENTRY") $LABEL" >> "$WORK_DIR/configs/file_context-$PARTITION"
         fi
     fi
+}
+
+_ENSURE_PARENT_METADATA()
+{
+    local TMP="$1"
+    local PARTITION="$2"
+    local SOURCE="$3"
+
+    while [[ "$TMP" != "." ]]; do
+        IS_VALID_PARTITION_NAME "$TMP" && break
+
+        if ! grep -q -F "$TMP " "$WORK_DIR/configs/fs_config-$PARTITION" 2> /dev/null; then
+            if grep -q -F "$TMP " "$SOURCE/fs_config-$PARTITION" 2> /dev/null; then
+                grep -F "$TMP " "$SOURCE/fs_config-$PARTITION" >> "$WORK_DIR/configs/fs_config-$PARTITION"
+            else
+                LOGW "No fs_config entry found for \"$TMP\" in \"${SOURCE//$SRC_DIR//}\". Using default values"
+
+                local USER=0
+                local GROUP=0
+                local MODE=755
+                [[ "$PARTITION" == "vendor" ]] && GROUP=2000
+
+                echo "$TMP $USER $GROUP $MODE capabilities=0x0" >> "$WORK_DIR/configs/fs_config-$PARTITION"
+            fi
+        fi
+
+        if ! grep -q -F "/$(_HANDLE_SPECIAL_CHARS "$TMP") " "$WORK_DIR/configs/file_context-$PARTITION" 2> /dev/null; then
+            if grep -q -F "/$(_HANDLE_SPECIAL_CHARS "$TMP") " "$SOURCE/file_context-$PARTITION" 2> /dev/null; then
+                grep -F "/$(_HANDLE_SPECIAL_CHARS "$TMP") " "$SOURCE/file_context-$PARTITION" >> "$WORK_DIR/configs/file_context-$PARTITION"
+            else
+                LOGW "No file_context entry found for \"$TMP\" in \"${SOURCE//$SRC_DIR//}\". Using default value"
+
+                local LABEL
+                LABEL="$(_GET_SELINUX_LABEL "$PARTITION" "/$TMP")"
+
+                echo "/$(_HANDLE_SPECIAL_CHARS "$TMP") $LABEL" >> "$WORK_DIR/configs/file_context-$PARTITION"
+            fi
+        fi
+
+        TMP="$(dirname "$TMP")"
+    done
+}
+# ]
+
+# ADD_TO_WORK_DIR <source> <partition> <file/dir> <user> <group> <mode> <label>
+# Adds the supplied file/directory in work dir along with its entries in fs_config/file_context.
+#
+# `source` argument can be:
+# - a full path
+# - a string in the following format: "MODEL/CSC" (the folder MUST exist under `out/fw`)
+# - a string with the product name of the desired device's prebuilt blobs (the folder MUST exist under `prebuilts/samsung`)
+#
+# `user`/`group`/`mode`/`label`/ arguments can be omitted as long as the respective entry is present in `source`/fs_config and `source`/file_context.
+ADD_TO_WORK_DIR()
+{
+    _CHECK_NON_EMPTY_PARAM "SOURCE" "$1" || return 1
+    _CHECK_NON_EMPTY_PARAM "PARTITION" "$2" || return 1
+    _CHECK_NON_EMPTY_PARAM "FILE" "$3" || return 1
+
+    local SOURCE="$1"
+    local PARTITION="$2"
+    local FILE="$3"
+    local USER="$4"
+    local GROUP="$5"
+    local MODE="$6"
+    local LABEL="$7"
+
+    SOURCE="$(_RESOLVE_SOURCE_PATH "$SOURCE")"
+
+    if [ ! -d "$SOURCE" ]; then
+        LOGE "Folder not found: ${SOURCE//$SRC_DIR//}"
+        return 1
+    fi
+
+    if ! IS_VALID_PARTITION_NAME "$PARTITION"; then
+        LOGE "\"$PARTITION\" is not a valid partition name"
+        return 1
+    fi
+
+    while [[ "${FILE:0:1}" == "/" ]]; do
+        FILE="${FILE:1}"
+    done
+
+    local RESOLVED
+    RESOLVED="$(_RESOLVE_PARTITION_TARGET_PATHS "$SOURCE" "$PARTITION" "$FILE")"
+    local SOURCE_FILE
+    local TARGET_FILE
+    SOURCE_FILE="$(sed -n "1p" <<< "$RESOLVED")"
+    TARGET_FILE="$(sed -n "2p" <<< "$RESOLVED")"
+    PARTITION="$(sed -n "3p" <<< "$RESOLVED")"
+    FILE="$(sed -n "4p" <<< "$RESOLVED")"
+
+    if [ ! -e "$SOURCE_FILE" ] && [ ! -L "$SOURCE_FILE" ]; then
+        if [ -e "$SOURCE_FILE.00" ]; then
+            LOG "- Adding $(sed -e "s|$WORK_DIR||" -e "s|/\.||" <<< "$TARGET_FILE") from ${SOURCE//$SRC_DIR//}"
+            mkdir -p "$(dirname "$TARGET_FILE")"
+            EVAL "cat \"$SOURCE_FILE.\"[0-9][0-9] > \"$TARGET_FILE\"" || exit 1
+        else
+            LOGE "File not found: ${SOURCE_FILE//$SRC_DIR//}"
+            return 1
+        fi
+    else
+        LOG "- Adding $(sed -e "s|$WORK_DIR||" -e "s|/\.||" <<< "$TARGET_FILE") from ${SOURCE//$SRC_DIR//}"
+        if [ ! -d "$SOURCE_FILE" ]; then
+            mkdir -p "$(dirname "$TARGET_FILE")"
+        else
+            mkdir -p "$TARGET_FILE"
+        fi
+        EVAL "cp -a -T \"$SOURCE_FILE\" \"$TARGET_FILE\"" || exit 1
+    fi
+
+    local ENTRY="${TARGET_FILE//$WORK_DIR\//}"
+    [[ "$PARTITION" == "system" ]] && ENTRY="${ENTRY//system\/system\//system/}"
+    ENTRY="${ENTRY%/.}"
+
+    _ADD_FS_CONFIG_ENTRY "$ENTRY" "$PARTITION" "$SOURCE" "$TARGET_FILE" "$USER" "$GROUP" "$MODE"
+    _ADD_FILE_CONTEXT_ENTRY "$ENTRY" "$PARTITION" "$SOURCE" "$LABEL"
 
     if [ -d "$TARGET_FILE" ]; then
         local FILES
@@ -321,73 +412,15 @@ ADD_TO_WORK_DIR()
         while IFS= read -r f; do
             IS_VALID_PARTITION_NAME "$f" && continue
 
-            if ! grep -q -F "$f " "$WORK_DIR/configs/fs_config-$PARTITION" 2> /dev/null; then
-                if grep -q -F "$f " "$SOURCE/fs_config-$PARTITION" 2> /dev/null; then
-                    grep -F "$f " "$SOURCE/fs_config-$PARTITION" >> "$WORK_DIR/configs/fs_config-$PARTITION"
-                else
-                    LOGW "No fs_config entry found for \"$f\" in \"${SOURCE//$SRC_DIR\//}\". Using default values"
-
-                    USER=0
-                    GROUP=0
-                    MODE=644
-                    if [ -d "$SOURCE/$f" ] || [ -d "$SOURCE/system/$f" ] || [ -d "$SOURCE/${f//system\//}" ]; then
-                        [[ "$PARTITION" == "vendor" ]] && GROUP=2000
-                        MODE=755
-                    fi
-
-                    echo "$f $USER $GROUP $MODE capabilities=0x0" >> "$WORK_DIR/configs/fs_config-$PARTITION"
-                fi
-            fi
-
-            if ! grep -q -F "/$(_HANDLE_SPECIAL_CHARS "$f") " "$WORK_DIR/configs/file_context-$PARTITION" 2> /dev/null; then
-                if grep -q -F "/$(_HANDLE_SPECIAL_CHARS "$f") " "$SOURCE/file_context-$PARTITION" 2> /dev/null; then
-                    grep -F "/$(_HANDLE_SPECIAL_CHARS "$f") " "$SOURCE/file_context-$PARTITION" >> "$WORK_DIR/configs/file_context-$PARTITION"
-                else
-                    LOGW "No file_context entry found for \"$f\" in \"${SOURCE//$SRC_DIR\//}\". Using default value"
-
-                    LABEL="$(_GET_SELINUX_LABEL "$PARTITION" "/$f")"
-
-                    echo "/$(_HANDLE_SPECIAL_CHARS "$f") $LABEL" >> "$WORK_DIR/configs/file_context-$PARTITION"
-                fi
-            fi
+            _ADD_FS_CONFIG_ENTRY "$f" "$PARTITION" "$SOURCE" "$SOURCE/$f" "" "" ""
+            _ADD_FILE_CONTEXT_ENTRY "$f" "$PARTITION" "$SOURCE" ""
         done <<< "$FILES"
     else
         local TMP="${TARGET_FILE%/.}"
         TMP="$(dirname "${TMP//$WORK_DIR\//}")"
         [[ "$PARTITION" == "system" ]] && TMP="${TMP//system\/system\//system/}"
 
-        while [[ "$TMP" != "." ]]; do
-            IS_VALID_PARTITION_NAME "$TMP" && break
-
-            if ! grep -q -F "$TMP " "$WORK_DIR/configs/fs_config-$PARTITION" 2> /dev/null; then
-                if grep -q -F "$TMP " "$SOURCE/fs_config-$PARTITION" 2> /dev/null; then
-                    grep -F "$TMP " "$SOURCE/fs_config-$PARTITION" >> "$WORK_DIR/configs/fs_config-$PARTITION"
-                else
-                    LOGW "No fs_config entry found for \"$TMP\" in \"${SOURCE//$SRC_DIR\//}\". Using default values"
-
-                    USER=0
-                    GROUP=0
-                    MODE=755
-                    [[ "$PARTITION" == "vendor" ]] && GROUP=2000
-
-                    echo "$TMP $USER $GROUP $MODE capabilities=0x0" >> "$WORK_DIR/configs/fs_config-$PARTITION"
-                fi
-            fi
-
-            if ! grep -q -F "/$(_HANDLE_SPECIAL_CHARS "$TMP") " "$WORK_DIR/configs/file_context-$PARTITION" 2> /dev/null; then
-                if grep -q -F "/$(_HANDLE_SPECIAL_CHARS "$TMP") " "$SOURCE/file_context-$PARTITION" 2> /dev/null; then
-                    grep -F "/$(_HANDLE_SPECIAL_CHARS "$TMP") " "$SOURCE/file_context-$PARTITION" >> "$WORK_DIR/configs/file_context-$PARTITION"
-                else
-                    LOGW "No file_context entry found for \"$TMP\" in \"${SOURCE//$SRC_DIR\//}\". Using default value"
-
-                    LABEL="$(_GET_SELINUX_LABEL "$PARTITION" "/$TMP")"
-
-                    echo "/$(_HANDLE_SPECIAL_CHARS "$TMP") $LABEL" >> "$WORK_DIR/configs/file_context-$PARTITION"
-                fi
-            fi
-
-            TMP="$(dirname "$TMP")"
-        done
+        _ENSURE_PARENT_METADATA "$TMP" "$PARTITION" "$SOURCE"
     fi
 
     return 0
@@ -537,7 +570,7 @@ IS_SPARSE_IMAGE()
     local FILE="$1"
 
     if [ ! -f "$FILE" ]; then
-        LOGE "File not found: ${FILE//$SRC_DIR\//}"
+        LOGE "File not found: ${FILE//$SRC_DIR//}"
         return 1
     fi
 
@@ -569,7 +602,7 @@ READ_BYTES_AT()
     local BYTES="$3"
 
     if [ ! -f "$FILE" ]; then
-        LOGE "File not found: ${FILE//$SRC_DIR\//}"
+        LOGE "File not found: ${FILE//$SRC_DIR//}"
         return 1
     fi
 
