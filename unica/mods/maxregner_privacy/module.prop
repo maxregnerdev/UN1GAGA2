@@ -1,0 +1,5 @@
+id=maxregner_privacy
+name=Maxregner Privacy Guard
+version=v1
+author=maxregner
+description=System-wide privacy hardening beyond One UI: clipboard read protection, sensor gate, network-per-app audit and clipboard auto-clear.

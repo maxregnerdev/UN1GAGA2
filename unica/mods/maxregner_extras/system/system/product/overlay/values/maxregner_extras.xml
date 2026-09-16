@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Maxregner Extras v2 overlay — AOD orb values (light) -->
 <resources>
-    <color name="maxregner_aod_ring">#6366F1</color>
-    <color name="maxregner_aod_text">#E5E7EB</color>
-    <dimen name="maxregner_aod_orb_size">120.0dp</dimen>
+    <color name="maxregner_aod_ring">#818CF8</color>
+    <color name="maxregner_aod_core">#A5B4FC</color>
+    <color name="maxregner_aod_glow">#C7D2FE</color>
+    <color name="maxregner_aod_text">#1B1B21</color>
+    <dimen name="maxregner_aod_orb_size">128.0dp</dimen>
+    <dimen name="maxregner_aod_ring_stroke">2.0dp</dimen>
+    <dimen name="maxregner_aod_glow_radius">16.0dp</dimen>
 </resources>

@@ -1,4 +1,5 @@
 id=maxregner_extras
 name=Maxregner Extras
+version=v2
 author=maxregner
-description=Maxregner font, AOD/lockscreen theme, launcher gestures and advanced system features.
+description=Maxregner v2 extras: Maxregner Sans font, AOD/lockscreen Orb theme, launcher gestures routed through the Orb, glassmorphic overlay and advanced system feature flags.

@@ -1,19 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Maxregner UI overlay — shape & motion dimensions -->
+<!-- Maxregner UI v2 overlay — shape scale, motion, elevation, blur -->
 <resources>
-    <!-- Maxregner shape scale (dp) -->
-    <dimen name="maxregner_corner_xs">8.0dp</dimen>
-    <dimen name="maxregner_corner_s">12.0dp</dimen>
-    <dimen name="maxregner_corner_m">16.0dp</dimen>
-    <dimen name="maxregner_corner_l">20.0dp</dimen>
-    <dimen name="maxregner_corner_xl">28.0dp</dimen>
+    <!-- Maxregner v2 shape scale (dp) -->
+    <dimen name="maxregner_corner_none">0.0dp</dimen>
+    <dimen name="maxregner_corner_xs">4.0dp</dimen>
+    <dimen name="maxregner_corner_s">8.0dp</dimen>
+    <dimen name="maxregner_corner_m">12.0dp</dimen>
+    <dimen name="maxregner_corner_l">16.0dp</dimen>
+    <dimen name="maxregner_corner_xl">24.0dp</dimen>
+    <dimen name="maxregner_corner_xxl">32.0dp</dimen>
+    <dimen name="maxregner_corner_full">9999.0dp</dimen>
 
-    <!-- Maxregner Orb sizing -->
-    <dimen name="maxregner_orb_diameter">56.0dp</dimen>
-    <dimen name="maxregner_orb_margin">24.0dp</dimen>
+    <!-- Maxregner glass orb sizing -->
+    <dimen name="maxregner_orb_diameter">60.0dp</dimen>
+    <dimen name="maxregner_orb_margin">20.0dp</dimen>
+    <dimen name="maxregner_orb_glow_diameter">80.0dp</dimen>
+    <dimen name="maxregner_orb_ring_stroke">2.0dp</dimen>
+    <dimen name="maxregner_orb_rim_stroke">1.0dp</dimen>
 
     <!-- Motion durations (ms) -->
+    <integer name="maxregner_motion_instant">50</integer>
     <integer name="maxregner_motion_short">150</integer>
     <integer name="maxregner_motion_medium">280</integer>
     <integer name="maxregner_motion_long">450</integer>
+    <integer name="maxregner_motion_xlong">600</integer>
+
+    <!-- Elevation levels (dp) -->
+    <dimen name="maxregner_elevation_none">0.0dp</dimen>
+    <dimen name="maxregner_elevation_level1">1.0dp</dimen>
+    <dimen name="maxregner_elevation_level2">3.0dp</dimen>
+    <dimen name="maxregner_elevation_level3">6.0dp</dimen>
+    <dimen name="maxregner_elevation_level4">8.0dp</dimen>
+    <dimen name="maxregner_elevation_level5">12.0dp</dimen>
+
+    <!-- Glass blur radii (px) -->
+    <integer name="maxregner_blur_subtle">8</integer>
+    <integer name="maxregner_blur_standard">16</integer>
+    <integer name="maxregner_blur_strong">24</integer>
+    <integer name="maxregner_blur_glass">32</integer>
 </resources>

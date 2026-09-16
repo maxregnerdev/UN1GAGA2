@@ -1,4 +1,5 @@
 id=maxregner_sound
 name=Maxregner Sound Scheme
+version=v2
 author=maxregner
-description=Replaces default system sounds with the Maxregner sound scheme, system-wide.
+description=Maxregner v2 system-wide sound replacement: layered spatial sound set with UI effects, navigation orb cues, system feedback and secondary notification/ringtone/alarm variants.

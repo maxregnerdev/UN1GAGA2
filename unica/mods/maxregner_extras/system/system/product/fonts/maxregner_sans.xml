@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Maxregner Sans custom font family registration.
+<!-- Maxregner Sans v2 custom font family registration.
      OneUI reads families under /system/product/fonts/ to populate the
-     FlipFont picker when the monotype mod unlocks custom fonts. -->
+     FlipFont picker when the monotype mod unlocks custom fonts. v2 adds the
+     variable-weight axis so the family covers 400..700 from a single source. -->
 <familyset>
     <family name="maxregner_sans">
         <font weight="400" style="normal">maxregner_sans.ttf</font>
         <font weight="500" style="normal">maxregner_sans.ttf</font>
         <font weight="600" style="normal">maxregner_sans.ttf</font>
         <font weight="700" style="normal">maxregner_sans.ttf</font>
+        <font weight="800" style="normal">maxregner_sans.ttf</font>
     </family>
 </familyset>

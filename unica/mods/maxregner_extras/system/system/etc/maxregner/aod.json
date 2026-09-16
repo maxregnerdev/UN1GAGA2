@@ -1,14 +1,21 @@
 {
     "id": "maxregner_aod",
     "name": "Maxregner AOD / Lockscreen",
-    "version": 1,
-    "theme": "orb",
-    "clock_style": "orb_minimal",
-    "accent": "#6366F1",
+    "version": 2,
+    "theme": "orb_glass",
+    "clock_style": "orb_minimal_glass",
+    "accent": "#818CF8",
     "features": {
         "always_show_time": true,
         "orb_glow_pulse": true,
         "adaptive_color": true,
-        "tap_to_wake": true
+        "tap_to_wake": true,
+        "glass_blur": true,
+        "ambient_music": true
+    },
+    "animation": {
+        "idle": "pulse",
+        "period_ms": 3600,
+        "amplitude": 0.06
     }
 }

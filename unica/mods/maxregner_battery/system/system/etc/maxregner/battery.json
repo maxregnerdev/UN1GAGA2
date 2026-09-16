@@ -1,0 +1,35 @@
+{
+    "id": "maxregner_battery",
+    "name": "Maxregner Battery Intelligence",
+    "version": 1,
+    "description": "Adaptive charging intelligence beyond One UI.",
+    "modules": [
+        {
+            "id": "adaptive_charge",
+            "label": "Adaptive charge curve",
+            "description": "Learn daily plug/unplug patterns and reshape the charge curve."
+        },
+        {
+            "id": "thermal_cap",
+            "label": "Thermal charge cap",
+            "description": "Limit charge current when the cell exceeds the thermal threshold."
+        },
+        {
+            "id": "idle_hold",
+            "label": "Idle discharge hold",
+            "description": "Hold the pack in a mid SoC band while on charger overnight."
+        }
+    ],
+    "defaults": {
+        "adaptive_charge": true,
+        "learn_pattern": true,
+        "pattern_window_hours": 24,
+        "thermal_cap": true,
+        "thermal_threshold_c": 38,
+        "thermal_max_current_ma": 1500,
+        "idle_hold": true,
+        "idle_hold_min": 40,
+        "idle_hold_max": 60,
+        "charge_ceiling": 85
+    }
+}

@@ -1,10 +1,11 @@
-# Maxregner Sans — Font Assets
+# Maxregner Sans v2 — Font Assets
 
 The Maxregner Sans typeface is a binary asset and is not checked in here.
 Drop the TrueType binary into this folder:
 
     system/system/product/fonts/maxregner_sans.ttf
 
-Recommended: a geometric sans-serif with a full Latin + extended set,
-hinted, weights 400/500/600/700 normalized. The `maxregner_sans.xml`
-family entry next to it points OneUI's font picker at this file.
+Recommended: a geometric sans-serif variable font with a full Latin + extended
+set, hinted, with a variable weight axis covering 400..800 so the
+`maxregner_sans.xml` family entry (400/500/600/700/800) resolves to a single
+source file.

@@ -1,0 +1,43 @@
+{
+    "id": "maxregner_privacy",
+    "name": "Maxregner Privacy Guard",
+    "version": 1,
+    "description": "System-wide privacy hardening beyond One UI.",
+    "modules": [
+        {
+            "id": "clipboard_guard",
+            "label": "Clipboard read protection",
+            "description": "Block background clipboard reads."
+        },
+        {
+            "id": "clipboard_auto_clear",
+            "label": "Clipboard auto-clear",
+            "description": "Clear the clipboard after a timeout."
+        },
+        {
+            "id": "sensor_gate",
+            "label": "Sensor gate",
+            "description": "Deny sensor access to apps that do not need it."
+        },
+        {
+            "id": "network_audit",
+            "label": "Per-app network audit",
+            "description": "Log outbound connections per package."
+        },
+        {
+            "id": "hide_net_state",
+            "label": "Hide network state",
+            "description": "Strip per-app NET capability disclosure."
+        }
+    ],
+    "defaults": {
+        "clipboard_guard": true,
+        "clipboard_auto_clear": true,
+        "clipboard_clear_seconds": 30,
+        "sensor_gate": true,
+        "sensor_gate_default": "deny",
+        "network_audit": true,
+        "network_audit_log_size": 256,
+        "hide_net_state": true
+    }
+}
