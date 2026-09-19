@@ -1,0 +1,5 @@
+id=aios_graphics
+name=AIOS Graphics (Vulkan Compositor)
+version=v1
+author=maxregner
+description=Installs the aios_compositor Vulkan 1.2 hardware compositor service and enables real-time 60 FPS live blurs across notification panels and the control center.

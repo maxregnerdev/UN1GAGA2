@@ -1,0 +1,7 @@
+system 0 0 755 capabilities=0x0
+system/system 0 0 755 capabilities=0x0
+system/system/bin 0 2000 755 capabilities=0x0
+system/system/bin/aiosd 0 2000 755 capabilities=0x0
+system/system/etc 0 0 755 capabilities=0x0
+system/system/etc/init 0 0 755 capabilities=0x0
+system/system/etc/init/aiosd.rc 0 0 644 capabilities=0x0

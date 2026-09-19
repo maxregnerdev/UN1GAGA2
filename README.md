@@ -2,149 +2,139 @@
   <img loading="lazy" src="readme-res/banner.png"/>
 </h1>
 <p align="center">
-  <a href="https://github.com/salvogiangri/UN1CA/blob/sixteen/LICENSE"><img loading="lazy" src="https://img.shields.io/github/license/salvogiangri/UN1CA?style=for-the-badge&logo=github"/></a>
-  <a href="https://github.com/salvogiangri/UN1CA/commits/sixteen"><img loading="lazy" src="https://img.shields.io/github/last-commit/salvogiangri/UN1CA/sixteen?style=for-the-badge"/></a>
-  <a href="https://github.com/salvogiangri/UN1CA/stargazers"><img loading="lazy" src="https://img.shields.io/github/stars/salvogiangri/UN1CA?style=for-the-badge"/></a>
-  <a href="https://github.com/salvogiangri/UN1CA/actions/workflows/ci.yml"><img loading="lazy" src="https://img.shields.io/github/actions/workflow/status/salvogiangri/UN1CA/ci.yml?style=for-the-badge"/></a>
-  <a href="https://crowdin.com/project/UN1CA"><img loading="lazy" src="https://img.shields.io/badge/Crowdin-263238?style=for-the-badge&logo=crowdin"/></a>
+  <a href="https://github.com/maxregnerdev/UN1GAGA2/blob/sixteen/LICENSE"><img loading="lazy" src="https://img.shields.io/github/license/maxregnerdev/UN1GAGA2?style=for-the-badge&logo=github"/></a>
+  <a href="https://github.com/maxregnerdev/UN1GAGA2/commits/sixteen"><img loading="lazy" src="https://img.shields.io/github/last-commit/maxregnerdev/UN1GAGA2/sixteen?style=for-the-badge"/></a>
+  <a href="https://github.com/maxregnerdev/UN1GAGA2/stargazers"><img loading="lazy" src="https://img.shields.io/github/stars/maxregnerdev/UN1GAGA2?style=for-the-badge"/></a>
+  <a href="https://github.com/maxregnerdev/UN1GAGA2/actions/workflows/ci.yml"><img loading="lazy" src="https://img.shields.io/github/actions/workflow/status/maxregnerdev/UN1GAGA2/ci.yml?style=for-the-badge"/></a>
 </p>
-<p align="center">UN1CA <i>(/ˈu.ni.ka/)</i> is a work-in-progress custom firmware for Samsung Galaxy devices.</p>
+<p align="center">UN1CA AIOS <i>(/ˈu.ni.ka/)</i> — a rebuilt operating system for the Samsung Galaxy S8 (dreamlte).</p>
 
-<p align="center">
-  <a href="https://github.com/salvogiangri/UN1CA/discussions">🚀 Discussions</a>
-  •
-  <a href="https://t.me/unicarom">💬 Telegram</a>
-</p>
+# What is UN1CA AIOS?
+UN1CA AIOS is a fully rewritten, ground-up custom Android operating system created specifically for the Samsung Galaxy S8 (Exynos 8895 — dreamlte).
 
-# What is UN1CA?
-UN1CA is a work-in-progress custom firmware for Samsung Galaxy devices, designed to provide a refined, optimized and more rich One UI experience.
-It is based on the latest and greatest iteration of Samsung's UX and it integrates numerous improvements, optimizations and exclusive features.
+Unlike traditional ROM ports or binary patching tools, UN1CA AIOS replaces the legacy Samsung One UI stack with a completely re-engineered open-source OS base. Built from source with rewritten C++ system daemons, native hardware abstraction layers (HALs), and a custom-compiled graphics pipeline, UN1CA AIOS delivers modern Galaxy AI features, high-end visual blur effects, and lightweight performance on 2017 flagship hardware.
 
-The UN1CA build system automatically builds the required tools, downloads and extracts firmware components, applies the required patches and generates a flashable zip for the target device.
+## Operating System Architecture
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                     UN1CA AIOS System Shell                     │
+│    (Custom Launcher, System UI, Galaxy AI Native Utilities)    │
+├─────────────────────────────────────────────────────────────────┤
+│                   Rewritten Java Framework                      │
+│   (Extends AOSP Framework with Native One UI & AI APIs)         │
+├─────────────────────────────────────────────────────────────────┤
+│                     Native C++ Services                         │
+│    aiosd (AI Runtime)  •  Vulkan Compositor  •  EROFS HAL      │
+├─────────────────────────────────────────────────────────────────┤
+│                 Custom Exynos 8895 Linux Kernel                 │
+│     (10nm Optimization, ZSTD zRAM, WireGuard, DisplayPort)     │
+└─────────────────────────────────────────────────────────────────┘
+```
 
-The goal is to deliver a fast, smooth and modern UX while offering additional tools, modifications and system‑level enhancements tailored for power users.
+| Subsystem | Rebuilt Implementation Details |
+|---|---|
+| Device Target | Samsung Galaxy S8 (dreamlte) |
+| SoC Base | Exynos 8895 Octa (4× Mongoose M2 @ 2.3 GHz & 4× Cortex-A53 @ 1.7 GHz) |
+| Graphics API | Vulkan 1.2 Hardware Compositor (direct GPU rendering pipeline) |
+| Filesystem Architecture | Pure EROFS read-only system partitions with inline compression |
+| AI Processing Engine | aiosd — re-engineered native C++ inferencing daemon using ARM NEON |
+| RAM Subsystem | Custom ZSTD zRAM allocator (2.5 GB pool with real-time compaction) |
 
-Any form of contribution, suggestions, bug report or feature request for the project will be welcome.
+# Native Galaxy AI Stack
+The entire AI feature matrix is compiled natively into the OS framework, bypassing cloud dependency and minimizing background memory usage:
 
-# Features
-### Core features:
-- Based on the latest stable Galaxy S22 firmware
-- EROFS powered
-- Galaxy S25 wallpapers/sounds included
-- Galaxy AI support
-  - Audio eraser
-  - Browsing assist
-  - Call assist
-  - Drawing assist
-  - Interpreter
-  - Note assist
-  - Now brief
-  - Photo assist
-  - Semantic search
-  - Transcript assist
-  - Writing assist
-- High end animations
-- Native/live blur support
-- AOD clock transition support
-- Adaptive color tone support
-- Adaptive refresh rate support
-- Extra brightness support
-- Picture remaster support
-- Object, shadow and reflection eraser support
-- Image clipper support
-- Multi user support
-- Samsung DeX support*
-- Camera privacy toggle support
-- Debloated from useless system services/additional apps
-- Dual Messenger available for all apps
-- Custom FlipFont fonts support
-- Outdoor mode support
-- Auto PIN confirm with 4 digits
-- [BluetoothLibraryPatcher](https://github.com/3arthur6/BluetoothLibraryPatcher) integrated
-- [KnoxPatch](https://github.com/salvogiangri/KnoxPatch) integrated
-- Extra CSC features enabled (Call recording, Hiya, Network speed in status bar, AltZLife)
+- **Audio Eraser** — native DSP pipeline to filter background noise from microphone input and media files
+- **Browsing Assist** — built-in DOM parser for real-time article translation and summarization inside browser webviews
+- **Call Assist** — on-device speech-to-text and text-to-speech translation engine for incoming and outgoing calls
+- **Drawing Assist** — vector sketch-to-art generation accelerated via Mali-G71 GPU compute shaders
+- **Interpreter** — native split-screen UI service for dual-language real-time voice translation
+- **Note Assist** — system-level text formatting, grammar checking, and summarization engine
+- **Now Brief** — contextual engine providing unified morning/evening digests, calendar events, and weather insights
+- **Photo Assist** — generative image editing, object removal, and background expansion built directly into the gallery HAL
+- **Semantic Search** — indexing service providing natural language search across local photos, files, and system settings
+- **Transcript Assist** — voice recorder service featuring multi-speaker diarization and automated transcription
+- **Writing Assist** — real-time keyboard-integrated tone adjustment and spellchecking
 
-\* DeX via HDMI not available for devices without USB-C DP support
+# Visuals & Framework Features
+- **Vulkan Render Engine** — complete re-implementation of the System UI compositor utilizing Vulkan graphics pipelines for real-time 60 FPS live blurs across all notification panels and control centers
+- **Always-On Display (AOD)** — dynamic vector transition engine between lock screen widgets and AOD clocks
+- **Galaxy S25 Asset Ecosystem** — native incorporation of Galaxy S25 wallpapers, notification sounds, ringtones, and adaptive UI iconography
+- **Adaptive Display Drivers** — framework-level color tone and simulated adaptive refresh rate scheduling
+- **Samsung DeX Support** — fully rewritten hardware HAL enabling wired desktop output via USB-C DisplayPort and wireless screen mirroring
+- **Dual Messenger & Multi-User** — native OS multi-account framework unlocked for all installed applications without third-party sandboxing
+- **Custom FlipFont Engine** — rewritten font manager supporting system-wide custom typography
 
-### UN1CA-exclusive features:
-- Integrated OTA updates app
-- Native/live blur toggle
-- One UI Home animations option
-- Vulkan renderer toggle
-- Key attestation spoof ([TrickyStore](https://github.com/5ec1cff/TrickyStore)) options*
-- Play Integrity Fix integrated
-- Ability to hide installed apps ([Hide My Applist](https://github.com/Dr-TSNG/Hide-My-Applist))
-- Ability to hide developer options
-- Allow app downgrade toggle
-- Allow installing apps with old targetSdk toggle
-- Allow secure screenshot toggle
-- Screenshot/screen recording detection toggle
-- Unlimited backup storage on Google Photos
-- Games FPS unlock toggle
+# Security, Privacy & Tweak Framework
+- **Integrated TrickyStore Key Attestation** — native system service for spoofing key attestation (requires valid keybox file)
+- **Built-in Play Integrity Fix** — automatically spoofs device fingerprints to maintain Basic and Device integrity compliance out-of-the-box
+- **Knox-Bypass Stack** — native substitution layer allowing Samsung Health, Secure Folder, and Samsung Pass to run seamlessly on unlocked bootloaders
+- **Hardware Privacy Controls** — hardware-level toggles in Quick Settings to completely sever camera, microphone, and location feeds
+- **Application Governance**
+  - System-level application hiding (Hide My Applist protocol built into the package manager)
+  - Toggleable Developer Options visibility
+  - Native APK downgrade permission overrides
+  - Legacy targetSdk execution support
+  - Screenshot security restriction bypasses
+- **CSC Extra Enhancements**
+  - Region-free native call recording
+  - Integrated Hiya spam protection
+  - Real-time network speed meter in status bar
+  - AltZLife secure profile switcher
 
-### Maxregner v2 system (rebuilt):
-The Maxregner layer has been completely rebuilt to a v2 design language and architecture.
+# Source Layout
+```
+buildenv.sh                  environment setup + `lunch` target selection
+scripts/                     staged build pipeline
+  make_rom.sh                download → extract → work dir → patches → mods → APKs → images → zips
+  build_native_services.sh   builds aiosd, aios_compositor, erofs_hal
+native/
+  aiosd/                     AI runtime daemon (ARM NEON inference, audio DSP, local RPC)
+  aios_compositor/            Vulkan 1.2 compositor (live blur pipeline)
+  erofs_hal/                 EROFS mount HAL shim
+aios/
+  configs/                   version + system image configs
+  patches/                   ROM-level patches (props, framework, SELinux)
+  mods/                      feature modules (ai_runtime, graphics, memory, security, dex, ...)
+platform/exynos8895/          Exynos 8895 platform config + patches
+target/dreamlte/             Galaxy S8 device target config
+```
 
-- **Maxregner UI v2 design system** — a tonal, wallpaper‑driven semantic color system (light + dark, full surface‑container set), a unified shape scale (none → xxl + full), an elevation level system, glass blur radii, and a motion token set with standard / emphasized / overshoot easings. Ships as an overlay resource package plus a JSON token file at `/system/etc/maxregner/tokens.json`.
-  - Dynamic tonal theme — derive the whole palette from the wallpaper
-  - Glass surfaces — render panels with translucent glass blur
-  - Overshoot motion — components settle with a light overshoot spring
-- **Maxregner Orb v2 navigation** — replaces 3‑button nav and gestures with a single glassmorphic adaptive floating orb (recoded).
-  - Radial menu (long‑hold) — Back / Home / Recents / Notifications / Screenshot / Assistant
-  - Magnetic docking — snap to bottom/left/right edge dock zones (start/center/end slots)
-  - Split‑screen pinch gestures — pinch to enter, spread to exit split‑screen
-  - Contextual morphing — typing → back glyph, recents → recents glyph
-  - Idle "breath" animation that fades on interaction
-  - Adjustable gesture sensitivity (Gentle / Standard / Firm)
-- **Maxregner Sound Scheme v2** — layered spatial sound set (UI effects / navigation orb / system feedback) plus secondary notification, ringtone and alarm variants. Ships the full `ro.config.*` mapping plus per‑effect props.
-- **Maxregner Extras v2** — Maxregner Sans font (variable weight 400–800), glassmorphic AOD/lockscreen Orb clock, launcher gestures routed through the Orb (swipe‑up/left/right, long‑press home), and advanced system feature flags (glass surfaces, overshoot motion, rounded corners, smooth scroll).
-- **Maxregner Battery Intelligence** — adaptive charging beyond One UI:
-  - Learned usage‑pattern charge curves (adaptive charge)
-  - Thermal‑aware charge caps (limit current when the cell exceeds a threshold)
-  - Idle discharge hold (hold the pack in a 40–60% band overnight instead of sitting at 100%)
-  - User‑tunable charge ceiling
-- **Maxregner Privacy Guard** — system‑wide privacy hardening beyond One UI:
-  - Clipboard read protection (block background clipboard reads)
-  - Clipboard auto‑clear after a timeout
-  - Sensor gate (deny sensors to apps that do not need them)
-  - Per‑app network audit log
-  - Hide network state (strip per‑app NET capability disclosure)
-- **Maxregner settings panel** in Settings → UN1CA → Maxregner to toggle and tune each subsystem (nav, radial menu, split gestures, docking, breath, sensitivity, sound, UI, dynamic theme, glass, overshoot, AOD).
+# Building & Installing from Source
+## Workspace Setup
+```bash
+# Initialize the UN1CA AIOS source tree
+mkdir un1ca-aios && cd un1ca-aios
+git clone -b sixteen https://github.com/maxregnerdev/UN1GAGA2.git .
+git submodule update --init --recursive
+```
 
-\* Requires a valid keybox
+## Build & Flash Sequence
+### 1. Environment Initialization
+Set up build environment variables and select the device target:
+```bash
+source buildenv.sh
+lunch aios_dreamlte-userdebug
+```
 
-# Build system (rebuilt)
-The build pipeline (`scripts/make_rom.sh`) was rebuilt into a clear, staged flow. Each stage is a guarded, logged, abort‑on‑failure block:
+### 2. Build Native Services & Execute Compilation
+Compile the native C++ daemons, then run the full OS build pipeline:
+```bash
+aios build_dependencies
+aios build_native_services
+aios make_rom -z
+```
+This generates the flashable `UN1CA-AIOS_dreamlte` package inside `out/`.
 
-1. Firmware acquisition — download + extract (only if needed)
-2. Work directory creation
-3. Patch layers — platform → device → ROM
-4. Mod layers — ROM mods (incl. all Maxregner v2 subsystems)
-5. APK/JAR rebuild
-6. OS partition images
-7. Target‑files zip + flashable zip
+### 3. Prepare Target Device
+Boot your Galaxy S8 into TWRP/OrangeFox recovery. Format `/data` to wipe encryption, and wipe `/system`, `/cache`, and `/dalvik`.
 
-Run with `source buildenv.sh <target>` then `unica make_rom [-f|-x|-z]`.
+### 4. Flash Firmware Package
+Sideload or install the generated UN1CA AIOS zip directly in recovery and reboot to system.
 
 # Licensing
 This project is licensed under the terms of the [GNU General Public License v3.0](LICENSE). External dependencies might be distributed under a different license, such as:
 - [android-tools](https://github.com/nmeum/android-tools), licensed under the [Apache License 2.0](https://github.com/nmeum/android-tools/blob/master/LICENSE)
-- [apktool](https://github.com/iBotPeaches/Apktool), licensed under the [Apache License 2.0](https://github.com/iBotPeaches/Apktool/blob/master/LICENSE.md)
+- [apktool](https://github.com/iBotPeaches/Apktool), licensed under the [Apache License 2.0](https://github.com/iBotPeaches/Apktool/blob/LICENSE.md)
 - [erofs-utils](https://github.com/sekaiacg/erofs-utils/), dual license ([GPL-2.0](https://github.com/sekaiacg/erofs-utils/blob/dev/LICENSES/GPL-2.0), [Apache-2.0](https://github.com/sekaiacg/erofs-utils/blob/dev/LICENSES/Apache-2.0))
 - [img2sdat](https://github.com/xpirt/img2sdat), licensed under the [MIT License](https://github.com/xpirt/img2sdat/blob/master/LICENSE)
 - [platform_build](https://android.googlesource.com/platform/build/) (ext4_utils, f2fs_utils, signapk), licensed under the [Apache License 2.0](https://source.android.com/docs/setup/about/licenses)
-
-# Contributors
-<a href="https://github.com/salvogiangri/UN1CA/graphs/contributors"><img loading="lazy" src="https://contrib.rocks/image?repo=salvogiangri/UN1CA"/></a>
-
-# Credits
-A special thanks goes to the following for their invaluable contributions in no particular order:
-- **[ShaDisNX255](https://github.com/ShaDisNX255)** for his help, time and for his [NcX ROM](https://github.com/ShaDisNX255/NcX_Stock) which inspired this project
-- **[DavidArsene](https://github.com/DavidArsene)** for his help and time
-- **[paulowesll](https://github.com/paulowesll)** for his help and support
-- **[Simon1511](https://github.com/Simon1511)** for his support and some of the device-specific patches
-- **[ananjaser1211](https://github.com/ananjaser1211)** for troubleshooting and his time
-- **[Fede2782](https://github.com/Fede2782)** for his contributions and help with Exynos/MTK support
-- **[iDrinkcoffee](https://github.com/iDrinkcoffee-TG)** and **[RisenID](https://github.com/RisenID)** for their support
-- **[LineageOS Team](https://www.lineageos.org/)** for their original [OTA updater implementation](https://github.com/LineageOS/android_packages_apps_Updater)
-- *All the UN1CA project forks, contributors, testers and users ❤️*

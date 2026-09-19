@@ -1,0 +1,5 @@
+id=aios_memory
+name=AIOS Memory (ZSTD zRAM)
+version=v1
+author=maxregner
+description=Custom ZSTD zRAM allocator with a 2.5GB pool and real-time compaction for the 4GB Exynos 8895 memory subsystem.

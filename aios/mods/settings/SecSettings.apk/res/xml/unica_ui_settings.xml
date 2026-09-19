@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen android:title="@string/aios_ui_settings_title" settings:hierarchicalParentFragment="io.mesalabs.aios.settings.UnicaSettingsFragment" settings:topLevelPreferenceKey="aios_ui_settings"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:settings="http://schemas.android.com/apk/res-auto">
+    <SecSwitchPreference android:title="@string/aios_native_blur_title" android:key="aios_native_blur" settings:controller="io.mesalabs.aios.settings.ui.LiveBlurPreferenceController" />
+    <SecDropDownPreference android:title="@string/aios_launcher_anim_type_title" android:key="aios_launcher_anim_type" android:summary="%s" settings:controller="io.mesalabs.aios.settings.ui.LauncherAnimationTypePreferenceController" />
+    <com.samsung.android.settings.widget.SecInsetCategoryPreference />
+    <SecSwitchPreference android:title="@string/aios_vulkan_title" android:key="aios_vulkan" android:summary="@string/aios_vulkan_summary" settings:controller="io.mesalabs.aios.settings.ui.VulkanPreferenceController" />
+    <com.samsung.android.settings.widget.SecInsetCategoryPreference />
+    <SecSwitchPreference android:title="@string/aios_max_refresh_rate_title" android:key="aios_max_refresh_rate" settings:controller="io.mesalabs.aios.settings.ui.ForceMaxRefreshRatePreferenceController" />
+    <com.samsung.android.settings.widget.SecInsetCategoryPreference />
+    <SecSwitchPreference android:title="@string/aios_boot_sound_title" android:key="aios_boot_sound" settings:controller="io.mesalabs.aios.settings.ui.BootSoundPreferenceController" />
+</PreferenceScreen>

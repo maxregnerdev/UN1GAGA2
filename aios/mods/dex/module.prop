@@ -1,0 +1,5 @@
+id=aios_dex
+name=AIOS Samsung DeX HAL
+version=v1
+author=maxregner
+description=Rewritten Samsung DeX hardware HAL enabling wired desktop output via USB-C DisplayPort and wireless screen mirroring.

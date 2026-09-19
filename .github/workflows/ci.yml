@@ -25,7 +25,7 @@ jobs:
           CODE=0
           while IFS= read -r f; do
             shellcheck -e SC1090,SC1091 -s bash "$f" || CODE=1
-          done < <(find platform scripts target unica -name "*.sh" -not -name "*ssi.sh" -not -name "config.sh" -not -name "sff.sh")
+          done < <(find platform scripts target aios -name "*.sh" -not -name "*ssi.sh" -not -name "config.sh" -not -name "sff.sh")
           exit $CODE
 
   generate-matrix:
@@ -90,8 +90,8 @@ jobs:
           sudo modprobe erofs f2fs
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          echo -n "${{ secrets.PLATFORM_KEY_PK8 }}" | base64 --decode > security/unica_platform.pk8
-          echo -n "${{ secrets.PLATFORM_KEY_PEM }}" | base64 --decode > security/unica_platform.x509.pem
+          echo -n "${{ secrets.PLATFORM_KEY_PK8 }}" | base64 --decode > security/aios_platform.pk8
+          echo -n "${{ secrets.PLATFORM_KEY_PEM }}" | base64 --decode > security/aios_platform.x509.pem
 
       - name: Set up JDK 17
         uses: actions/setup-java@v6
@@ -119,6 +119,8 @@ jobs:
 
       - name: Build dependencies
         run: ./scripts/build_dependencies.sh
+      - name: Build native AIOS services
+        run: ./scripts/build_native_services.sh --arm64
 
       - name: Download stock firmwares
         uses: nick-fields/retry@v4

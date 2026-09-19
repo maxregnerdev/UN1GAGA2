@@ -1,0 +1,5 @@
+/system u:object_r:system_file:s0
+/system/system u:object_r:system_file:s0
+/system/system/bin u:object_r:system_file:s0
+/system/system/bin/hw u:object_r:system_file:s0
+/system/system/bin/hw/aios\.dex-hal u:object_r:hal_dex_default:s0

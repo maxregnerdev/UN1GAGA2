@@ -6,7 +6,7 @@
 # https://android.googlesource.com/platform/build/+/refs/tags/android-15.0.0_r1/envsetup.sh#18
 _GET_SRC_DIR()
 {
-    local TOPFILE="unica/configs/version.sh"
+    local TOPFILE="aios/configs/version.sh"
     if [ -n "$SRC_DIR" ] && [ -f "$SRC_DIR/$TOPFILE" ]; then
         # The following circumlocution ensures we remove symlinks from SRC_DIR.
         (cd "$SRC_DIR"; PWD= /bin/pwd)
@@ -88,7 +88,24 @@ run_cmd()
     fi
 }
 
-alias unica=run_cmd
+alias aios=run_cmd
+
+# lunch <target>
+# Select the AIOS build target, same as passing the target to buildenv.sh
+# directly: "source buildenv.sh && lunch aios_dreamlte-userdebug".
+lunch()
+{
+    local TARGET="$1"
+    TARGET="${TARGET#aios_}"
+    TARGET="${TARGET%%-*}"
+    if [ ! "$TARGET" ] || [ ! -d "$SRC_DIR/target/$TARGET" ]; then
+        echo "\"$1\" is not a valid target. Available targets:" >&2
+        find "$SRC_DIR/target" -mindepth 1 -maxdepth 1 -type d -printf "aios_%f-userdebug\n" | sort >&2
+        return 1
+    fi
+    source "$SRC_DIR/buildenv.sh" "$TARGET"
+    return $?
+}
 # ]
 
 SRC_DIR="$(_GET_SRC_DIR)"

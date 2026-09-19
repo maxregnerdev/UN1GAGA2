@@ -1,0 +1,4 @@
+system 0 0 755 capabilities=0x0
+system/system 0 0 755 capabilities=0x0
+system/system/bin 0 2000 755 capabilities=0x0
+system/system/bin/aios_compositor 0 2000 755 capabilities=0x0

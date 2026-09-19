@@ -1,0 +1,2 @@
+/TopLevelAdvancedFeatures/a
+    <com.android.settings.widget.HomepagePreference android:icon="@drawable/sec_ic_settings_aios" android:title="@string/aios_settings_title" android:key="top_level_aios" android:summary="@string/summary_placeholder" android:order="-39999" android:fragment="io.mesalabs.aios.settings.UnicaSettingsFragment" settings:controller="io.mesalabs.aios.settings.TopLevelUnicaSettingsPreferenceController" settings:highlightableMenuKey="@string/menu_key_aios_top_settings" settings:keywords="@string/keywords_aios_settings" />

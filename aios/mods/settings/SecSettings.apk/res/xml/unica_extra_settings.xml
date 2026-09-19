@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen android:title="@string/aios_extra_settings_title" settings:hierarchicalParentFragment="io.mesalabs.aios.settings.UnicaSettingsFragment" settings:topLevelPreferenceKey="aios_extra_settings"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:settings="http://schemas.android.com/apk/res-auto">
+    <SecSwitchPreference android:title="@string/aios_allow_downgrade_title" android:key="aios_allow_downgrade" settings:controller="io.mesalabs.aios.settings.pm.AppDowngradePreferenceController" />
+    <SecSwitchPreference android:title="@string/aios_allow_sdkbypass_title" android:key="aios_allow_sdkbypass" settings:controller="io.mesalabs.aios.settings.pm.AppTargetSDKBypassPreferenceController" />
+    <SecSwitchPreference android:title="@string/aios_asks_title" android:key="aios_asks" settings:controller="io.mesalabs.aios.settings.pm.ASKSPreferenceController" />
+    <com.samsung.android.settings.widget.SecInsetCategoryPreference />
+    <SecSwitchPreference android:title="@string/aios_secure_ss_title" android:key="aios_secure_ss" settings:controller="io.mesalabs.aios.settings.wm.SecureScreenshotPreferenceController" />
+    <SecSwitchPreference android:title="@string/aios_ss_detection_title" android:key="aios_ss_detection" settings:controller="io.mesalabs.aios.settings.wm.CaptureDetectionPreferenceController" />
+    <com.samsung.android.settings.widget.SecInsetCategoryPreference />
+    <SecSwitchPreference android:title="@string/aios_gphotos_title" android:key="aios_gphotos" settings:controller="io.mesalabs.aios.settings.extra.GooglePhotosPreferenceController" />
+    <SecSwitchPreference android:title="@string/aios_games_spoof_title" android:key="aios_games_spoof" settings:controller="io.mesalabs.aios.settings.extra.GamesPropsPreferenceController" />
+</PreferenceScreen>

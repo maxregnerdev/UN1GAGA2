@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="sec_dashboard_aios_color">#95b9db</color>
+    <color name="aios_settings_ic_extra_color">#848b8c</color>
+    <color name="aios_settings_ic_ui_color">#907abf</color>
+    <color name="aios_settings_ic_spoof_color">#ed524e</color>
+
+    <!-- Maxregner v2 dashboard + subsystem colors -->
+    <color name="sec_dashboard_maxregner_color">#6366f1</color>
+    <color name="maxregner_settings_ic_ui_color">#6366f1</color>
+    <color name="maxregner_settings_ic_nav_color">#818CF8</color>
+    <color name="maxregner_settings_ic_sound_color">#A5B4FC</color>
+    <color name="maxregner_settings_ic_aod_color">#C7D2FE</color>
+</resources>

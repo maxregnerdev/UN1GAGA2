@@ -1,0 +1,4 @@
+/system u:object_r:system_file:s0
+/system/system u:object_r:system_file:s0
+/system/system/bin u:object_r:system_file:s0
+/system/system/bin/aios_compositor u:object_r:aios_compositor_exec:s0

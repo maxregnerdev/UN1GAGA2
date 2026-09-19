@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="aios_allow_downgrade_title">อนุญาตให้ติดตั้งแอพที่เวอร์ชั่นเก่ากว่า</string>
+    <string name="aios_asks_title">ปิด ASKS</string>
+    <string name="aios_boot_sound_title">เล่นเสียงขณะบูตเครื่อง</string>
+    <string name="aios_device_name_title">ชื่ออุปกรณ์</string>
+    <string name="aios_dialog_reboot_msg">ต้องรีสตาร์ทเพื่อปรับใช้การตั้งค่านี้</string>
+    <string name="aios_dialog_reboot_negative">ไม่ใช่ตอนนี้</string>
+    <string name="aios_dialog_reboot_positive">รีสตาร์ท</string>
+    <string name="aios_dialog_reboot_title">จำเป็นต้องรีสตาร์ท</string>
+    <string name="aios_extra_settings_title">การตั้งค่าเพิ่มเติม</string>
+    <string name="aios_games_spoof_title">ปลดล็อค FPS ที่สูงขี้นในเกม</string>
+    <string name="aios_keybox_toast_error">มีปัญหาบางอย่างเกิดขึ้น</string>
+    <string name="aios_max_refresh_rate_title">บังคับให้รีเฟรชเรทหน้าจอสูงตลอด</string>
+    <string name="aios_native_blur_title">เปิดใช้งาน live blur</string>
+    <string name="aios_pif_toast_checking">กำลังตรวจสอบอัพเดท</string>
+    <string name="aios_pif_toast_error">มีปัญหาบางอย่างเกิดขึ้น</string>
+    <string name="aios_pif_toast_up_to_date">"คุณกำลังใช้เวอร์ชั่นล่าสุด"</string>
+    <string name="aios_pif_toast_updated">อัพเดทเสร็จสมบูรณ์</string>
+    <string name="aios_rom_version_title">เวอรชั่นรอม</string>
+    <string name="aios_secure_ss_title">อนุญาตให้ถ่ายภาพหน้าจอในแอพที่ไม่อนุญาต</string>
+    <string name="aios_settings_title">การตั้งค่า UN1CA</string>
+    <string name="aios_spoof_settings_title">การตั้งค่าสปูฟ</string>
+    <string name="aios_ui_settings_title">การตั้งค่า UI</string>
+    <string name="aios_updates_title">อัพเดท UN1CA</string>
+</resources>

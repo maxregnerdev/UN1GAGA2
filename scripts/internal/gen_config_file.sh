@@ -28,8 +28,8 @@ IS_UNICA_CERT_AVAILABLE()
     local OTA_KEY_SHA1="1f115048f1cae2cfaca67d873b14b713db738162"
 
     local USES_UNICA_CERT="false"
-    if [[ "$(sha1sum "$SRC_DIR/security/unica_platform.pk8" 2> /dev/null | cut -d " " -f 1)" == "$PLATFORM_KEY_SHA1" ]] && \
-            [[ "$(sha1sum "$SRC_DIR/security/unica_ota.pk8" 2> /dev/null | cut -d " " -f 1)" == "$OTA_KEY_SHA1" ]]; then
+    if [[ "$(sha1sum "$SRC_DIR/security/aios_platform.pk8" 2> /dev/null | cut -d " " -f 1)" == "$PLATFORM_KEY_SHA1" ]] && \
+            [[ "$(sha1sum "$SRC_DIR/security/aios_ota.pk8" 2> /dev/null | cut -d " " -f 1)" == "$OTA_KEY_SHA1" ]]; then
         USES_UNICA_CERT="true"
     fi
 
@@ -44,7 +44,7 @@ elif [ ! -f "$SRC_DIR/target/$1/config.sh" ]; then
     LOGE "File not found: target/$1/config.sh"
     exit 1
 else
-    source "$SRC_DIR/unica/configs/version.sh" || exit 1
+    source "$SRC_DIR/aios/configs/version.sh" || exit 1
     source "$SRC_DIR/target/$1/config.sh" || exit 1
     if [ -f "$SRC_DIR/platform/$TARGET_PLATFORM/config.sh" ]; then
         # HACK
@@ -56,11 +56,11 @@ fi
 if [ ! "$TARGET_OS_SINGLE_SYSTEM_IMAGE" ]; then
     LOGE "TARGET_OS_SINGLE_SYSTEM_IMAGE is not set!"
     exit 1
-elif [ ! -f "$SRC_DIR/unica/configs/$TARGET_OS_SINGLE_SYSTEM_IMAGE.sh" ]; then
+elif [ ! -f "$SRC_DIR/aios/configs/$TARGET_OS_SINGLE_SYSTEM_IMAGE.sh" ]; then
     LOGE "\"$TARGET_OS_SINGLE_SYSTEM_IMAGE\" is not a valid system image"
     exit 1
 else
-    source "$SRC_DIR/unica/configs/$TARGET_OS_SINGLE_SYSTEM_IMAGE.sh" || exit 1
+    source "$SRC_DIR/aios/configs/$TARGET_OS_SINGLE_SYSTEM_IMAGE.sh" || exit 1
 fi
 
 if [ -f "$OUT_DIR/config.sh" ]; then
@@ -72,11 +72,11 @@ fi
 #
 #   ROM_VERSION
 #     String containing the version name in the format of "x.y.z-xxxxxxxx",
-#     it is set in unica/configs/version.sh.
+#     it is set in aios/configs/version.sh.
 #
 #   ROM_CODENAME
 #     String containing the codename name in the format of "xxxxxxxx",
-#     it is set in unica/configs/version.sh.
+#     it is set in aios/configs/version.sh.
 #
 #   ROM_BUILD_TIMESTAMP
 #     Integer containing the build timestamp in seconds, this is used by the UN1CA Updates app.
@@ -515,6 +515,9 @@ fi
         GET_BUILD_VAR "TARGET_ODM_DLKM_PARTITION_SIZE" "none"
         GET_BUILD_VAR "TARGET_SYSTEM_DLKM_PARTITION_SIZE" "none"
     fi
+    GET_BUILD_VAR "AIOS_ZRAM_SIZE_BYTES" "2684354560"
+    GET_BUILD_VAR "AIOS_ZRAM_COMP_ALGORITHM" "zstd"
+    GET_BUILD_VAR "AIOS_VULKAN_COMPOSITOR" "true"
     GET_BUILD_VAR "TARGET_OS_SINGLE_SYSTEM_IMAGE"
     GET_BUILD_VAR "TARGET_OS_FILE_SYSTEM_TYPE" "erofs"
     GET_BUILD_VAR "TARGET_OS_BUILD_SYSTEM_EXT_PARTITION"

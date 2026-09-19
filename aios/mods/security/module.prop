@@ -1,0 +1,5 @@
+id=aios_security
+name=AIOS Security & Privacy
+version=v1
+author=maxregner
+description=Hardware privacy controls (camera/mic/location kill switches), TrickyStore key attestation integration, Play Integrity Fix, Knox bypass stack, app governance (Hide My Applist protocol, downgrades, legacy targetSdk) and CSC extra enhancements.

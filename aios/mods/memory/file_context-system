@@ -1,0 +1,5 @@
+/system u:object_r:system_file:s0
+/system/system u:object_r:system_file:s0
+/system/system/etc u:object_r:system_file:s0
+/system/system/etc/init u:object_r:system_file:s0
+/system/system/etc/init/aios_zram\.rc u:object_r:system_file:s0
