@@ -1,0 +1,5 @@
+id=aios_ai_runtime
+name=AIOS AI Runtime (aiosd)
+version=v1
+author=maxregner
+description=Installs the aiosd native C++ AI inferencing daemon and registers the on-device Galaxy AI stack (Audio Eraser, Browsing Assist, Call Assist, Drawing Assist, Interpreter, Note Assist, Now Brief, Photo Assist, Semantic Search, Transcript Assist, Writing Assist).

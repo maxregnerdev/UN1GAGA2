@@ -1,0 +1,1 @@
+getprop("ro.boot.em.model") == "SM-G950F" && verify_no_downgrade(getprop("ro.boot.bootloader"), "G950FXXU9DVB1") && abort("E3003: This package requires the latest stock firmware.");

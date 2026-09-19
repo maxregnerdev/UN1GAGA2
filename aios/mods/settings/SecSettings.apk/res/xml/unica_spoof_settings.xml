@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen android:title="@string/aios_spoof_settings_title" settings:hierarchicalParentFragment="io.mesalabs.aios.settings.UnicaSettingsFragment" settings:topLevelPreferenceKey="aios_spoof_settings"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:settings="http://schemas.android.com/apk/res-auto">
+    <SecSwitchPreference android:title="@string/aios_keybox_title" android:key="aios_keybox" android:summary="@string/summary_placeholder" settings:controller="io.mesalabs.aios.settings.keybox.KeyboxPreferenceController" />
+    <SecPreference android:title="@string/aios_keybox_load_title" android:key="aios_keybox_load" />
+    <SecPreference android:title="@string/aios_keybox_clear_title" android:key="aios_keybox_clear" settings:controller="io.mesalabs.aios.settings.keybox.KeyboxClearPreferenceController" />
+    <com.samsung.android.settings.widget.SecInsetCategoryPreference />
+    <SecSwitchPreference android:title="@string/aios_pif_title" android:key="aios_pif" android:summary="@string/summary_placeholder" settings:controller="io.mesalabs.aios.settings.pif.PIFPreferenceController" />
+    <SecPreference android:title="@string/aios_pif_update_title" android:key="aios_pif_update" settings:controller="io.mesalabs.aios.settings.pif.PIFUpdatePreferenceController" />
+    <SecPreference android:title="@string/aios_pif_custom_title" android:key="aios_pif_custom" />
+    <com.samsung.android.settings.widget.SecInsetCategoryPreference />
+    <SecSwitchPreferenceScreen android:title="@string/aios_hma_title" android:key="aios_hma" android:fragment="io.mesalabs.aios.settings.hma.HideMyApplistFragment" settings:controller="io.mesalabs.aios.settings.hma.HideMyApplistPreferenceController" />
+    <SecSwitchPreferenceScreen android:title="@string/aios_hide_dev_title" android:key="aios_hide_dev" android:fragment="io.mesalabs.aios.settings.spoof.HideDeveloperStatusFragment" settings:controller="io.mesalabs.aios.settings.spoof.HideDeveloperStatusPreferenceController" />
+</PreferenceScreen>

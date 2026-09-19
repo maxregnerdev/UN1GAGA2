@@ -1,0 +1,7 @@
+/system u:object_r:system_file:s0
+/system/system u:object_r:system_file:s0
+/system/system/bin u:object_r:system_file:s0
+/system/system/bin/aiosd u:object_r:aiosd_exec:s0
+/system/system/etc u:object_r:system_file:s0
+/system/system/etc/init u:object_r:system_file:s0
+/system/system/etc/init/aiosd\.rc u:object_r:system_file:s0

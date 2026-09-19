@@ -1,2 +1,2 @@
 # Disable native blur by default
-persist.sys.unica.nativeblur=false
+persist.sys.aios.nativeblur=false

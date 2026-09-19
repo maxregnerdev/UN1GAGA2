@@ -1,0 +1,5 @@
+system 0 0 755 capabilities=0x0
+system/system 0 0 755 capabilities=0x0
+system/system/bin 0 2000 755 capabilities=0x0
+system/system/bin/hw 0 2000 755 capabilities=0x0
+system/system/bin/hw/aios.dex-hal 0 2000 755 capabilities=0x0

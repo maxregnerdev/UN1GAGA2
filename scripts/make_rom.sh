@@ -40,10 +40,10 @@ BUILD_APKS()
 GET_WORK_DIR_HASH()
 {
     if [ "${TARGET_PLATFORM//none/}" ] && [ -d "$SRC_DIR/platform/$TARGET_PLATFORM" ]; then
-        find "$SRC_DIR/unica" "$SRC_DIR/platform/$TARGET_PLATFORM" "$SRC_DIR/target/$TARGET_CODENAME" -type f -print0 | \
+        find "$SRC_DIR/aios" "$SRC_DIR/platform/$TARGET_PLATFORM" "$SRC_DIR/target/$TARGET_CODENAME" -type f -print0 | \
             sort -z | xargs -0 sha1sum | sha1sum | cut -d " " -f 1
     else
-        find "$SRC_DIR/unica" "$SRC_DIR/target/$TARGET_CODENAME" -type f -print0 | \
+        find "$SRC_DIR/aios" "$SRC_DIR/target/$TARGET_CODENAME" -type f -print0 | \
             sort -z | xargs -0 sha1sum | sha1sum | cut -d " " -f 1
     fi
 }
@@ -106,16 +106,16 @@ RUN_ROM_BUILD_STAGES()
         "$SRC_DIR/scripts/internal/apply_modules.sh" "$SRC_DIR/target/$TARGET_CODENAME/patches" || exit 1
         LOG_STEP_OUT
     fi
-    if [ -d "$SRC_DIR/unica/patches" ]; then
+    if [ -d "$SRC_DIR/aios/patches" ]; then
         LOG_STEP_IN true "Applying ROM patches"
-        "$SRC_DIR/scripts/internal/apply_modules.sh" "$SRC_DIR/unica/patches" || exit 1
+        "$SRC_DIR/scripts/internal/apply_modules.sh" "$SRC_DIR/aios/patches" || exit 1
         LOG_STEP_OUT
     fi
 
     # Stage 4 — mod layers (ROM mods, incl. Maxregner v2 subsystems)
-    if [ -d "$SRC_DIR/unica/mods" ]; then
+    if [ -d "$SRC_DIR/aios/mods" ]; then
         LOG_STEP_IN true "Applying ROM mods"
-        "$SRC_DIR/scripts/internal/apply_modules.sh" "$SRC_DIR/unica/mods" || exit 1
+        "$SRC_DIR/scripts/internal/apply_modules.sh" "$SRC_DIR/aios/mods" || exit 1
         LOG_STEP_OUT
     fi
 
@@ -150,8 +150,8 @@ BUILD_OS_PARTITIONS()
 BUILD_PACKAGES()
 {
     ZIP_FILE_NAME="${TARGET_CODENAME}_"
-    if [ "$(GET_PROP "system" "ro.unica.version")" ]; then
-        ZIP_FILE_NAME+="$(GET_PROP "system" "ro.unica.version")"
+    if [ "$(GET_PROP "system" "ro.aios.version")" ]; then
+        ZIP_FILE_NAME+="$(GET_PROP "system" "ro.aios.version")"
     else
         ZIP_FILE_NAME+="$ROM_VERSION"
     fi

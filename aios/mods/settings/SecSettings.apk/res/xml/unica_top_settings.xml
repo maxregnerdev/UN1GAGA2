@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen android:title="@string/aios_settings_title" settings:hierarchicalParentFragment="com.android.settings.homepage.TopLevelSettings" settings:keywords="@string/keywords_aios_settings" settings:topLevelPreferenceKey="top_level_aios"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:settings="http://schemas.android.com/apk/res-auto">
+    <com.android.settingslib.widget.LayoutPreference android:layout="@layout/aios_settings_logo_layout" android:selectable="false" android:key="aios_logo" />
+    <com.samsung.android.settings.widget.SecInsetCategoryPreference />
+    <Preference android:title="@string/aios_rom_version_title" android:key="aios_rom_version" android:summary="@string/summary_placeholder" settings:controller="io.mesalabs.aios.settings.ROMVersionPreferenceController" />
+    <Preference android:title="@string/aios_device_name_title" android:key="aios_device_name" android:summary="@string/summary_placeholder" settings:controller="io.mesalabs.aios.settings.DeviceNamePreferenceController" />
+    <com.samsung.android.settings.widget.SecInsetCategoryPreference />
+    <io.mesalabs.aios.settings.preference.IconPreference android:icon="@drawable/ic_aios_settings_ui" android:title="@string/aios_ui_settings_title" android:key="aios_ui_settings" android:fragment="io.mesalabs.aios.settings.ui.UISettingsFragment" settings:controller="io.mesalabs.aios.settings.ui.UISettingsPreferenceController" />
+    <com.samsung.android.settings.widget.SecInsetCategoryPreference />
+    <io.mesalabs.aios.settings.preference.IconPreference android:icon="@drawable/ic_aios_settings_spoof" android:title="@string/aios_spoof_settings_title" android:key="aios_spoof_settings" android:fragment="io.mesalabs.aios.settings.spoof.SpoofSettingsFragment" settings:controller="io.mesalabs.aios.settings.spoof.SpoofSettingsPreferenceController" />
+    <io.mesalabs.aios.settings.preference.IconPreference android:icon="@drawable/ic_aios_settings_extra" android:title="@string/aios_extra_settings_title" android:key="aios_extra_settings" android:fragment="io.mesalabs.aios.settings.extra.ExtraSettingsFragment" settings:controller="io.mesalabs.aios.settings.extra.ExtraSettingsPreferenceController" />
+    <com.samsung.android.settings.widget.SecInsetCategoryPreference />
+    <io.mesalabs.aios.settings.preference.IconPreference android:icon="@drawable/sec_ic_settings_maxregner" android:title="@string/maxregner_settings_title" android:key="maxregner_settings" android:fragment="io.mesalabs.maxregner.settings.MaxregnerSettingsFragment" settings:controller="io.mesalabs.maxregner.settings.MaxregnerSettingsPreferenceController" />
+</PreferenceScreen>

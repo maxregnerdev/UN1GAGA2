@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen android:title="@string/maxregner_settings_title" settings:hierarchicalParentFragment="io.mesalabs.aios.settings.UnicaSettingsFragment" settings:topLevelPreferenceKey="top_level_maxregner"
+    xmlns:android="http://schemas.android.com/apk/res/android" xmlns:settings="http://schemas.android.com/apk/res-auto">
+
+    <com.android.settingslib.widget.LayoutPreference android:layout="@layout/maxregner_settings_logo_layout" android:selectable="false" android:key="maxregner_logo" />
+    <com.samsung.android.settings.widget.SecInsetCategoryPreference />
+
+    <!-- Orb navigation -->
+    <SecSwitchPreference android:title="@string/maxregner_nav_title" android:key="maxregner_nav" android:summary="@string/maxregner_nav_summary" settings:controller="io.mesalabs.maxregner.settings.MaxregnerNavPreferenceController" />
+    <SecSwitchPreference android:title="@string/maxregner_nav_radial_title" android:key="maxregner_nav_radial" android:summary="@string/maxregner_nav_radial_summary" settings:controller="io.mesalabs.maxregner.settings.MaxregnerNavRadialPreferenceController" />
+    <SecSwitchPreference android:title="@string/maxregner_nav_split_title" android:key="maxregner_nav_split" android:summary="@string/maxregner_nav_split_summary" settings:controller="io.mesalabs.maxregner.settings.MaxregnerNavSplitPreferenceController" />
+    <SecSwitchPreference android:title="@string/maxregner_nav_dock_title" android:key="maxregner_nav_dock" android:summary="@string/maxregner_nav_dock_summary" settings:controller="io.mesalabs.maxregner.settings.MaxregnerNavDockPreferenceController" />
+    <SecSwitchPreference android:title="@string/maxregner_nav_breath_title" android:key="maxregner_nav_breath" android:summary="@string/maxregner_nav_breath_summary" settings:controller="io.mesalabs.maxregner.settings.MaxregnerNavBreathPreferenceController" />
+    <SecDropDownPreference android:title="@string/maxregner_orb_sensitivity_title" android:key="maxregner_orb_sensitivity" android:summary="%s" settings:controller="io.mesalabs.maxregner.settings.MaxregnerOrbSensitivityPreferenceController" />
+    <com.samsung.android.settings.widget.SecInsetCategoryPreference />
+
+    <!-- Sound scheme -->
+    <SecSwitchPreference android:title="@string/maxregner_sound_title" android:key="maxregner_sound" android:summary="@string/maxregner_sound_summary" settings:controller="io.mesalabs.maxregner.settings.MaxregnerSoundPreferenceController" />
+    <com.samsung.android.settings.widget.SecInsetCategoryPreference />
+
+    <!-- UI design system -->
+    <SecSwitchPreference android:title="@string/maxregner_ui_title" android:key="maxregner_ui" android:summary="@string/maxregner_ui_summary" settings:controller="io.mesalabs.maxregner.settings.MaxregnerUIPreferenceController" />
+    <SecSwitchPreference android:title="@string/maxregner_ui_dynamic_title" android:key="maxregner_ui_dynamic" android:summary="@string/maxregner_ui_dynamic_summary" settings:controller="io.mesalabs.maxregner.settings.MaxregnerUIDynamicPreferenceController" />
+    <SecSwitchPreference android:title="@string/maxregner_ui_glass_title" android:key="maxregner_ui_glass" android:summary="@string/maxregner_ui_glass_summary" settings:controller="io.mesalabs.maxregner.settings.MaxregnerUIGlassPreferenceController" />
+    <SecSwitchPreference android:title="@string/maxregner_ui_overshoot_title" android:key="maxregner_ui_overshoot" android:summary="@string/maxregner_ui_overshoot_summary" settings:controller="io.mesalabs.maxregner.settings.MaxregnerUIOvershootPreferenceController" />
+    <com.samsung.android.settings.widget.SecInsetCategoryPreference />
+
+    <!-- AOD -->
+    <SecSwitchPreference android:title="@string/maxregner_aod_title" android:key="maxregner_aod" android:summary="@string/maxregner_aod_summary" settings:controller="io.mesalabs.maxregner.settings.MaxregnerAODPreferenceController" />
+</PreferenceScreen>
